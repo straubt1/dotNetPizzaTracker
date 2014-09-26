@@ -1,0 +1,52 @@
+﻿<!--<img src="http://placehold.it/1040x650&text=Pizza Image" alt="slide image" class="home-image">-->
+<!--<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" alt="slide image" class="home-image">-->
+
+<div class="row">
+    <div class="large-12 columns">
+        <form name="loginform" ng-submit="login(user)">
+            <fieldset>
+                <legend>Login</legend>
+
+                <div class="row">
+                    <div class="small-8 columns">
+                        <label>User Name</label>
+                        <input type="text" placeholder="UserName" name="name" ng-model="user.UserName" required />
+                        <div class="error"
+                             ng-show="loginform.name.$dirty && loginform.name.$invalid">
+                            <small class="error"
+                                   ng-show="loginform.name.$error.required">
+                                Your name is required.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="small-8 columns">
+                        <label>Password</label>
+                        <input type="password" placeholder="Password" name="password" ng-model="user.Password" required />
+                        <div class="error"
+                             ng-show="loginform.password.$dirty && loginform.password.$invalid">
+                            <small class="error"
+                                   ng-show="loginform.name.$error.required">
+                                Your password is required.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="small-8 columns">
+                        <button type="submit"
+                                ng-disabled="loginform.$invalid"
+                                class="button radius">
+                            Login
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" ng-hide="error == null">{{ error }}</div>
+            </fieldset>
+        </form>
+    </div>
+</div>

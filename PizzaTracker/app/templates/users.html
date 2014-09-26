@@ -1,0 +1,288 @@
+﻿<div class="row" ng-hide="authentication.isAuth">
+    <div class="large-12 columns">
+        Not authorized
+    </div>
+</div>
+<div class="row" ng-show="authentication.isAuth">
+    <div class="large-12 columns">
+        <h2>Users <a class="right button" ng-click='toggleNewModal()'><i class="fi-plus action-container"></i>New User</a></h2>
+        <table class="table-full">
+            <thead>
+                <tr>
+                    <th width="50">Id</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th width="100">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="u in users">
+                    <td>{{ u.Id }}</td>
+                    <td>{{ u.UserName}}</td>
+                    <td>{{ u.Email}}</td>
+                    <td>
+                        <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Edit this user"
+                              ng-click='toggleEditModal(u)'>
+                            <a><i class="fi-page-edit icon-size-30"></i></a>
+                        </span>
+                        <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Delete this user"
+                              ng-click='toggleRemoveModal(u)'>
+                            <a><i class="fi-x icon-size-30"></i></a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div pizza-modal show='removeModalShown'>
+            <h2>Are you sure you want to remove user '{{ currentUser.UserName }}'?</h2>
+            <div class="large-centered columns">
+                <button type="button"
+                        class="button radius"
+                        ng-click="removeUser(currentUser)">
+                    Remove
+                </button>
+                <button type="button"
+                        class="button radius alert"
+                        ng-click="toggleRemoveModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+        <div pizza-modal show='editModalShown'>
+            <form name="form" ng-submit="editUser(currentUser)">
+                <fieldset>
+                    <legend>Update User</legend>
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>Id</label>
+                            <input type="text" name="id" ng-model="currentUser.Id" disabled />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>User Name</label>
+                            <input type="text" placeholder="Name" name="name" ng-model="currentUser.UserName"
+                                   ng-minlength="3" ng-maxlength="20" ng-pattern="/^[a-zA-Z]+$/" required />
+                            <div class="error"
+                                 ng-show="form.name.$dirty && form.name.$invalid">
+                                <small class="error"
+                                       ng-show="form.name.$error.required">
+                                    Your name is required.
+                                </small>
+                                <small class="error"
+                                       ng-show="form.name.$error.minlength">
+                                    Your name is required to be at least 3 characters
+                                </small>
+                                <small class="error"
+                                       ng-show="form.name.$error.maxlength">
+                                    Your name cannot be longer than 20 characters
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>Email</label>
+                            <input type="email" placeholder="Email" name="email" ng-model="currentUser.Email" required />
+
+                            <div class="error"
+                                 ng-show="signup_form.email.$dirty && signup_form.email.$invalid">
+                                <small class="error"
+                                       ng-show="form.email.$error.required">
+                                    Your email is required.
+                                </small>
+                                <small class="error"
+                                       ng-show="form.email.$error.email">
+                                    That is not a valid email. Please input a valid email.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <button type="submit"
+                                    ng-disabled="form.$dirty && form.$invalid"
+                                    class="button radius">
+                                Update
+                            </button>
+                            <button type="button"
+                                    class="button radius alert"
+                                    ng-click="toggleEditModal()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+
+        <div pizza-modal show='newModalShown'>
+            <form name="newform" ng-submit="addUser(newUser)">
+                <fieldset>
+                    <legend>New User</legend>
+
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>User Name</label>
+                            <input type="text" placeholder="UserName" name="name" ng-model="newUser.UserName"
+                                   ng-minlength="3" ng-maxlength="20" ng-pattern="/^[a-zA-Z]+$/" required />
+                            <div class="error"
+                                 ng-show="newform.name.$dirty && newform.name.$invalid">
+                                <small class="error"
+                                       ng-show="form.name.$error.required">
+                                    Your name is required.
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.name.$error.minlength">
+                                    Your name is required to be at least 3 characters
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.name.$error.maxlength">
+                                    Your name cannot be longer than 20 characters
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>First Name</label>
+                            <input type="text" placeholder="First Name" name="firstname" ng-model="newUser.FirstName"
+                                   ng-minlength="3" ng-maxlength="20" ng-pattern="/^[a-zA-Z]+$/" required />
+                            <div class="error"
+                                 ng-show="newform.firstname.$dirty && newform.firstname.$invalid">
+                                <small class="error"
+                                       ng-show="form.name.$error.required">
+                                    Your first name is required.
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.firstname.$error.minlength">
+                                    Your first name is required to be at least 3 characters
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.firstname.$error.maxlength">
+                                    Your first name cannot be longer than 20 characters
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Last Name" name="lastname" ng-model="newUser.LastName"
+                                   ng-minlength="3" ng-maxlength="20" ng-pattern="/^[a-zA-Z]+$/" required />
+                            <div class="error"
+                                 ng-show="newform.lastname.$dirty && newform.lastname.$invalid">
+                                <small class="error"
+                                       ng-show="form.name.$error.required">
+                                    Your last name is required.
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.lastname.$error.minlength">
+                                    Your last name is required to be at least 3 characters
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.lastname.$error.maxlength">
+                                    Your last name cannot be longer than 20 characters
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>Email</label>
+                            <input type="email" placeholder="Email" name="email" ng-model="newUser.Email" required />
+
+                            <div class="error"
+                                 ng-show="newform.email.$dirty && newform.email.$invalid">
+                                <small class="error"
+                                       ng-show="newform.email.$error.required">
+                                    Your email is required.
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.email.$error.email">
+                                    That is not a valid email. Please input a valid email.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>Password</label>
+                            <input type="password" placeholder="Password" name="password" ng-model="newUser.Password"
+                                   ng-minlength="8" ng-maxlength="20" required />
+                            <div class="error"
+                                 ng-show="newform.password.$dirty && newform.password.$invalid">
+                                <small class="error"
+                                       ng-show="form.name.$error.required">
+                                    Your password is required.
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.password.$error.minlength">
+                                    Your password is required to be at least 8 characters
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.password.$error.maxlength">
+                                    Your password cannot be longer than 20 characters
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>Confirm Password</label>
+                            <input type="password" placeholder="Confirm Password" name="passwordconfirm" ng-model="newUser.PasswordConfirm"
+                                   data-password-verify="newUser.Password"
+                                   ng-minlength="8" ng-maxlength="20" required />
+                            <div class="error"
+                                 ng-show="newform.passwordconfirm.$dirty && newform.passwordconfirm.$invalid">
+                                <small class="error"
+                                       ng-show="form.name.$error.required">
+                                    Your password is required.
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.passwordconfirm.$error.minlength">
+                                    Your password is required to be at least 8 characters
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.passwordconfirm.$error.maxlength">
+                                    Your password cannot be longer than 20 characters
+                                </small>
+                                <small class="error"
+                                       ng-show="newform.passwordconfirm.$error.passwordVerify">
+                                    Your passwords must match
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <button type="submit"
+                                    ng-disabled="newform.$invalid"
+                                    class="button radius">
+                                Update
+                            </button>
+                            <button type="button"
+                                    class="button radius alert"
+                                    ng-click="toggleNewModal()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="row" ng-hide="error == null">{{ error }}</div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

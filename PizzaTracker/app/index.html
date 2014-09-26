@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html ng-app="pizzaApp">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="img/pizza.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <title>Pizza Tracker</title>
+    <link href="css/foundation/foundation.css" rel="stylesheet" />
+    <link href="css/foundation/foundation-icons.css" rel="stylesheet" />
+    <link href="css/vendor/loading-bar.css" rel="stylesheet" />
+    <link href="css/vendor/alertify.css" rel="stylesheet" />
+    <link href="css/main.css" rel="stylesheet" />
+</head>
+<body ng-controller="authController">
+    <div class="row">
+        <div class="large-12 columns">
+            <nav class="top-bar" data-topbar>
+                <ul class="title-area">
+                    <li class="name">
+                        <h1>
+                            <a href="#">
+                                Pizza Tracker 
+                            </a>
+                        </h1>
+                    </li>
+                    <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+                </ul>
+
+                <section class="top-bar-section">
+                    <!--<ul class="left">
+                        <li><a href="#">Some Link here?</a></li>
+                    </ul>-->
+                    <ul class="right">
+                        <li class="has-form" ng-hide="authentication.isAuth"><a class="radius button" href="#/login">Login</a></li>
+                        <li ng-show="authentication.isAuth"><a href="#">Hi {{ authentication.user.UserName }}</a></li>
+                        <li ng-show="authentication.isAuth"><a href="#/users">Users</a></li>
+                        <li ng-show="authentication.isAuth"><a ng-click="logout()">Logout</a></li>
+                        <!--<li class="has-dropdown">
+                                <a href="#">Username</a>
+                                <ul class="dropdown">
+                                    <li><a href="/">Profile</a></li>
+                                    <li><a href="#/users">Users</a></li>
+                                    <li><a href="/">Logout</a></li>
+                                </ul>
+                            </li>-->
+                    </ul>
+                </section>
+            </nav>
+        </div>
+    </div>
+
+    <div ng-view></div>
+    
+    <footer class="row">
+        <div class="large-12 columns">
+            <hr>
+            <div class="row">
+                <div class="large-6 columns">
+                    <p>© Copyright <a href="https://github.com/straubt1" target="_blank">straubt1</a></p>
+                </div>
+                <div class="large-6 columns">
+                    <ul class="inline-list right">
+                        <li><a href="#">Link 1</a></li>
+                        <li><a href="#">Link 2</a></li>
+                        <li><a href="#">Link 3</a></li>
+                        <li><a href="#">Link 4</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="js/vendor/alertify.js"></script>
+    <script src="js/foundation/foundation.js"></script>
+    <script src="js/foundation/foundation.alert.js"></script>
+    <script src="js/vendor/angular.min.js"></script>
+    <script src="js/vendor/angular-route.min.js"></script>
+    <script src="js/vendor/angular-animate.min.js"></script>
+    <script src="js/vendor/angular-cookies.min.js"></script>
+    <script src="js/services/localStorageService.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/services/userService.js"></script>
+    <script src="js/services/authService.js"></script>
+    <script src="js/services/resourceService.js"></script>
+    <script src="js/services/orderService.js"></script>
+    <script src="js/services/pushService.js"></script>
+    <script src="js/vendor/angular-local-storage.min.js"></script>
+    <script src="js/directives/pizzaModalDirective.js"></script>
+    <script src="js/directives/passwordVerifyDirective.js"></script>
+    <script src="js/controllers/homeController.js"></script>
+    <script src="js/controllers/usersController.js"></script>
+    <script src="js/controllers/authController.js"></script>
+    <script src="js/controllers/loginController.js"></script>
+    <script src="js/controllers/orderController.js"></script>
+    <script src="js/vendor/loading-bar.js"></script>
+    <!--<script src="js/vendor/live.js"></script>-->
+</body>
+</html>
