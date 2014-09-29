@@ -3,10 +3,11 @@ app.factory('orderService', ['$http', '$q', 'localStorageService', function ($ht
 
     var orderServiceFactory = {};
 
-    var _sendOrder = function (pizza) {
+    var _sendOrder = function (pizza, userId) {
         var deferred = $q.defer();
         //var local = localStorageService.get('resources');
 
+        pizza.UserToken = userId;
         $http({
             method: 'POST',
             data: pizza,
@@ -21,13 +22,13 @@ app.factory('orderService', ['$http', '$q', 'localStorageService', function ($ht
         return deferred.promise;
     };
 
-    var _getOrders = function (pizza) {
+    var _getOrders = function (userId) {
         var deferred = $q.defer();
         //var local = localStorageService.get('resources');
 
         $http({
             method: 'GET',
-            url: '/api/order'
+            url: '/api/order?id=' + encodeURIComponent(userId)
         }).success(function (response) {
             //orderServiceFactory = response;
             //localStorageService.set('resources', response);

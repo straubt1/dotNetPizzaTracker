@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Remoting.Contexts;
 using System.Web.Http;
+using Newtonsoft.Json;
 using PizzaTracker.Code;
 using PizzaTracker.Data;
 using PizzaTracker.Models;
@@ -14,7 +18,7 @@ namespace PizzaTracker.Controllers
         private PizzaContext db = new PizzaContext();
 
         // POST: api/Login
-        public IHttpActionResult Post([FromBody]UserVm userVm)
+        public object Post([FromBody]UserVm userVm)
         {
             var userDb = db.Users.FirstOrDefault(x => x.UserName == userVm.UserName);
             if (userDb == null)
@@ -40,7 +44,18 @@ namespace PizzaTracker.Controllers
                     Content = content
                 });
             }
-            return CreatedAtRoute("DefaultApi", new { id = userDb.Id }, userDb);
+
+            //if here, login successful
+            userDb.LoginToken = Crypto.GenerateSalt();
+            userDb.LoginExpiration = DateTime.UtcNow.AddMinutes(130);
+            var loginVm = new LoginVm { UserId = userDb.Id, UserToken = userDb.LoginToken };
+            db.Entry(userDb).State = EntityState.Modified;
+            db.SaveChanges();
+
+            var loginVmJson = JsonConvert.SerializeObject(loginVm);
+            var encrypted = Aes256.Encrypt(loginVmJson);
+            return new { Token = encrypted, Name = userDb.FirstName, Role = userDb.Role.Name };
+            // return CreatedAtRoute("DefaultApi", new { id = userDb.Id }, userDb);
         }
     }
 }

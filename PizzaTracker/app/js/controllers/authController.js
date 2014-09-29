@@ -16,7 +16,6 @@ angular.module('pizzaApp').controller('authController', ['$scope', '$location', 
             $scope.error = null;
             $scope.authentication = authService.authentication;
             $location.path('#/');
-            //$scope.$apply();
             pushService.start();
         },
          function (err) {
@@ -29,6 +28,7 @@ angular.module('pizzaApp').controller('authController', ['$scope', '$location', 
         console.log("logout");
         authService.logout();
         pushService.stop();
+        $location.path('#/');
         $scope.authentication = authService.authentication;
     };
    

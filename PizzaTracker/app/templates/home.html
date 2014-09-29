@@ -1,9 +1,12 @@
-﻿<div class="row">
-    <div class="large-12 columns">
-        <img src="http://placehold.it/1040x650&text=Pizza Image" alt="slide image" class="home-image">
-        <!--<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" alt="slide image" class="home-image">-->
-    </div>
-</div>
+﻿<!--<div class="row">
+    <div class="large-12 columns">-->
+<!--<img src="img/pizza3.jpg" class="home-image" />-->
+<figure class="dash-image">
+    <img src="http://placehold.it/1040x650&text=Pizza Image" alt="slide image">
+    <!--<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" alt="slide image" class="home-image">-->
+</figure>
+<!--</div>
+</div>-->
 <div class="row">
     <div class="large-12 columns">
         <h4>Recent Orders <a href="#/neworder" class="right button"><i class="fi-plus dash-neworder"></i>New Order</a></h4>
@@ -17,7 +20,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="o in orders">
+                <tr ng-hide="authentication.isAuth">
+                    <td colspan="3">You must <a href="#/login">login</a> to see past orders</td>
+                </tr>
+                <tr ng-show="authentication.isAuth && orders.length == 0">
+                    <td colspan="3">You have no past orders</td>
+                </tr>
+                <tr ng-show="authentication.isAuth && orders.length > 0" ng-repeat="o in orders">
                     <td>{{ o.Date }}</td>
                     <td>
                         <span ng-repeat="p in o.Pizzas">
@@ -42,65 +51,65 @@
                 </tr>
 
                 <!--<tr>
-                    <td>9/17/2014 4:34pm</td>
-                    <td>Supreme Pizza</td>
-                    <td class="right">
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
-                            <a href="#"><i class="fi-annotate size-logo"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
-                            <a href="#"><i class="fi-share size-logo"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
-                            <a href="#"><i class="fi-x size-logo"></i></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>9/13/2014 2:32pm</td>
-                    <td>Meat Topper Pizza</td>
-                    <td class="right">
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
-                            <a href="#"><i class="fi-annotate size-logo"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
-                            <a href="#"><i class="fi-share size-logo"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
-                            <a href="#"><i class="fi-x size-logo"></i></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>9/12/2014 9:45pm</td>
-                    <td>Veggie Pizza</td>
-                    <td class="right">
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
-                            <a href="#"><i class="fi-annotate size-logo"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
-                            <a href="#"><i class="fi-share size-logo"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
-                            <a href="#"><i class="fi-x size-logo"></i></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>9/10/2014 3:33pm</td>
-                    <td>Supreme Pizza</td>
-                    <td class="right">
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
-                            <a href="#"><i class="fi-annotate size-logo"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
-                            <a href="#"><i class="fi-share size-logo"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
-                            <a href="#"><i class="fi-x size-logo"></i></a>
-                        </span>
-                    </td>
-                </tr>-->
+                        <td>9/17/2014 4:34pm</td>
+                        <td>Supreme Pizza</td>
+                        <td class="right">
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
+                                <a href="#"><i class="fi-annotate size-logo"></i></a>
+                            </span>
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
+                                <a href="#"><i class="fi-share size-logo"></i></a>
+                            </span>
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
+                                <a href="#"><i class="fi-x size-logo"></i></a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>9/13/2014 2:32pm</td>
+                        <td>Meat Topper Pizza</td>
+                        <td class="right">
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
+                                <a href="#"><i class="fi-annotate size-logo"></i></a>
+                            </span>
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
+                                <a href="#"><i class="fi-share size-logo"></i></a>
+                            </span>
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
+                                <a href="#"><i class="fi-x size-logo"></i></a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>9/12/2014 9:45pm</td>
+                        <td>Veggie Pizza</td>
+                        <td class="right">
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
+                                <a href="#"><i class="fi-annotate size-logo"></i></a>
+                            </span>
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
+                                <a href="#"><i class="fi-share size-logo"></i></a>
+                            </span>
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
+                                <a href="#"><i class="fi-x size-logo"></i></a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>9/10/2014 3:33pm</td>
+                        <td>Supreme Pizza</td>
+                        <td class="right">
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
+                                <a href="#"><i class="fi-annotate size-logo"></i></a>
+                            </span>
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
+                                <a href="#"><i class="fi-share size-logo"></i></a>
+                            </span>
+                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
+                                <a href="#"><i class="fi-x size-logo"></i></a>
+                            </span>
+                        </td>
+                    </tr>-->
             </tbody>
         </table>
     </div>

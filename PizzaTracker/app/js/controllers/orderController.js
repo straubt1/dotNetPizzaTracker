@@ -52,12 +52,12 @@
         //    Size: $scope.selectSize,
         //    Toppings: $scope.selectToppings
         //};
-        orderService.sendOrder($scope.selectedPizza)
+        orderService.sendOrder($scope.selectedPizza, $scope.authentication.user.Token)
         .then(function (response) {
             console.log("order placed success " + response);
             $scope.confirmModalShown = false;
             $location.path('#/');
-            $scope.$apply();
+            //$scope.$apply();
         },
          function (err) {
              console.log("order placed error " + err);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using PizzaTracker.Code;
 using PizzaTracker.Data;
 using PizzaTracker.Models;
 
@@ -14,24 +15,26 @@ namespace PizzaTracker.Controllers
         private PizzaContext db = new PizzaContext();
 
         // GET: api/Order
-        public List<Order> GetOrders()
+        public List<Order> GetOrders(string id)
         {
-            var list = db.Orders.ToList();
+            var user = UserInfo.GetUserInfo(db, id);
+
+            var list = db.Orders.Where(x => x.OrderedById == user.Id && x.Show).ToList();//filter
             return list;
         }
 
-        // GET: api/Order/5
-        [ResponseType(typeof(Pizza))]
-        public async Task<IHttpActionResult> GetPizza(int id)
-        {
-            Pizza pizza = await db.Pizzas.FindAsync(id);
-            if (pizza == null)
-            {
-                return NotFound();
-            }
+        //// GET: api/Order/5
+        //[ResponseType(typeof(Pizza))]
+        //public async Task<IHttpActionResult> GetPizza(int id)
+        //{
+        //    Pizza pizza = await db.Pizzas.FindAsync(id);
+        //    if (pizza == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(pizza);
-        }
+        //    return Ok(pizza);
+        //}
 
         // POST: api/Order
         [ResponseType(typeof(Pizza))]
@@ -41,6 +44,8 @@ namespace PizzaTracker.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            var user = UserInfo.GetUserInfo(db, pizzaVm.UserToken);
 
             var pizza = new Pizza
             {
@@ -61,9 +66,11 @@ namespace PizzaTracker.Controllers
 
             var order = new Order
             {
+                OrderedById = user.Id,
                 Date = DateTime.Now,
                 Pizzas = new List<Pizza>(),
-                OrderEvents = new List<OrderEvent>()
+                OrderEvents = new List<OrderEvent>(),
+                Show = true
             };
 
             var oEvent = new OrderEvent
@@ -76,6 +83,25 @@ namespace PizzaTracker.Controllers
 
             db.Orders.Add(order);
             await db.SaveChangesAsync();
+
+            var queue = new Queue
+            {
+                Active = true,
+                Message = "Thank you",
+                OrderId = order.Id,
+                StatusId = 1
+            };
+
+            db.Queues.Add(queue);
+            try
+            {
+                var a = db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
             return CreatedAtRoute("DefaultApi", new { id = 1 }, pizza);
         }

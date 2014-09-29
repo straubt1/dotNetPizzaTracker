@@ -4,6 +4,7 @@ namespace PizzaTracker.Models
 {
     public class PizzaVm
     {
+        public string UserToken { get; set; }
         public Crust Crust { get; set; }
         public List<Topping> Toppings { get; set; }
         public Sauce Sauce { get; set; }

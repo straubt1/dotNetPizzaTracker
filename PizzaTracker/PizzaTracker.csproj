@@ -369,7 +369,9 @@
     <Content Include="app\css\main.css" />
     <Content Include="app\css\vendor\alertify.css" />
     <Content Include="app\css\vendor\loading-bar.css" />
+    <Content Include="app\img\pizza3.jpg" />
     <Content Include="app\js\controllers\authController.js" />
+    <Content Include="app\js\controllers\queueController.js" />
     <Content Include="app\js\controllers\orderController.js" />
     <Content Include="app\js\controllers\loginController.js" />
     <Content Include="app\js\controllers\usersController.js" />
@@ -379,6 +381,7 @@
     <Content Include="app\img\loading.gif" />
     <Content Include="app\img\pizza.ico" />
     <Content Include="app\index.html" />
+    <Content Include="app\js\services\queueService.js" />
     <Content Include="app\js\services\orderService.js" />
     <Content Include="app\js\services\resourceService.js" />
     <Content Include="app\js\services\pushService.js" />
@@ -1174,6 +1177,7 @@
     <None Include="app\js\_references.js" />
     <Content Include="app\templates\neworder.html" />
     <Content Include="app\templates\login.html" />
+    <Content Include="app\templates\queue.html" />
     <Content Include="app\templates\users.html" />
     <Content Include="app\templates\settings.html" />
     <Content Include="app\templates\home.html" />
@@ -1183,32 +1187,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Code\Aes256.cs" />
     <Compile Include="Code\Crypto.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PizzasController.cs" />
+    <Compile Include="Controllers\QueueController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Data\PizzaContext.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201409251757368_Pizza.cs" />
-    <Compile Include="Migrations\201409251757368_Pizza.Designer.cs">
-      <DependentUpon>201409251757368_Pizza.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409251800043_Pizza2.cs" />
-    <Compile Include="Migrations\201409251800043_Pizza2.Designer.cs">
-      <DependentUpon>201409251800043_Pizza2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409261424552_Orders.cs" />
-    <Compile Include="Migrations\201409261424552_Orders.Designer.cs">
-      <DependentUpon>201409261424552_Orders.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409261425276_Orders2.cs" />
-    <Compile Include="Migrations\201409261425276_Orders2.Designer.cs">
-      <DependentUpon>201409261425276_Orders2.cs</DependentUpon>
+    <Compile Include="Migrations\201409291931593_Queue.cs" />
+    <Compile Include="Migrations\201409291931593_Queue.Designer.cs">
+      <DependentUpon>201409291931593_Queue.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Message.cs" />
@@ -1242,17 +1236,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201409251757368_Pizza.resx">
-      <DependentUpon>201409251757368_Pizza.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409251800043_Pizza2.resx">
-      <DependentUpon>201409251800043_Pizza2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409261424552_Orders.resx">
-      <DependentUpon>201409261424552_Orders.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409261425276_Orders2.resx">
-      <DependentUpon>201409261425276_Orders2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201409291931593_Queue.resx">
+      <DependentUpon>201409291931593_Queue.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

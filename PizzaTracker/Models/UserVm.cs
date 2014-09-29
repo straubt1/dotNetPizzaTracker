@@ -10,4 +10,10 @@
         public string Password { get; set; }
         public string PasswordConfirm { get; set; }
     }
+
+    public class LoginVm
+    {
+        public int UserId { get; set; }
+        public string UserToken { get; set; }
+    }
 }

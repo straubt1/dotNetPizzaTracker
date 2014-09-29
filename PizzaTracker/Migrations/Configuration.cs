@@ -8,8 +8,26 @@ namespace PizzaTracker.Migrations
 {
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<PizzaTracker.Data.PizzaContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<PizzaContext>
     {
+        private List<Role> _roles = new List<Role>
+        {
+            new Role{ Name = "Admin", Id = 1},
+            new Role{ Name = "Employee", Id = 2},
+            new Role{ Name = "Customer", Id = 3}
+        };
+
+        private List<Status> _statuses = new List<Status>
+        {
+            new Status{ Name = "Placed"},
+            new Status{ Name = "Started"},
+            new Status{ Name = "In the Oven"},
+            new Status{ Name = "Ready for Pickup"},
+            new Status{ Name = "Ready for Delivery"},
+            new Status{ Name = "Picked up"},
+            new Status{ Name = "Delivered"}
+        };
+
         private List<Crust> _crusts = new List<Crust>
         {
             new Crust {Name = "Thin", Cost = 11.2},
@@ -45,6 +63,7 @@ namespace PizzaTracker.Migrations
 
         protected override void Seed(PizzaContext context)
         {
+            PopulateRoles(context);
             PopulateUsers(context);
 
             PopulateLookups(context);
@@ -52,19 +71,35 @@ namespace PizzaTracker.Migrations
             PopulatePizzas(context);
         }
 
-        private void PopulateUsers(PizzaContext context)
+        private void PopulateRoles(PizzaContext context)
         {
-           AddUser(context, "tstraub", "Tom", "Straub", "tom@mail.com", "Test@123");
+            foreach (var role in _roles)
+            {
+                context.Roles.AddOrUpdate(x => x.Name, role);
+            }
         }
 
-        private void AddUser(PizzaContext context, string username, string first, string last, string email, string password)
+
+        private void PopulateUsers(PizzaContext context)
         {
+            AddUser(context, "tstraub", "Tom", "Straub", "tom@mail.com", "Test@123", _roles[0].Id);
+            AddUser(context, "admin", "I am Admin", "Straub", "tom@mail.com", "Test@123", _roles[0].Id);
+            AddUser(context, "employee", "I am employee", "Straub", "tom@mail.com", "Test@123", _roles[1].Id);
+            AddUser(context, "customer", "I am customer", "Straub", "tom@mail.com", "Test@123", _roles[2].Id);
+        }
+
+        private void AddUser(PizzaContext context, string username, string first, string last, string email, string password, int roleId)
+        {
+            //var role = context.Roles.FirstOrDefault(x => x.Name == roleName);
+
             var user = new User
             {
                 UserName = username,
                 FirstName = first,
                 LastName = last,
-                Email = email
+                Email = email,
+                RoleId = roleId,
+                LoginToken = string.Empty
             };
 
             var salt = Crypto.GenerateSalt();
@@ -76,6 +111,11 @@ namespace PizzaTracker.Migrations
         }
         private void PopulateLookups(PizzaContext context)
         {
+            foreach (var stat in _statuses)
+            {
+                context.Statuses.AddOrUpdate(x => x.Name, stat);
+            }
+
             foreach (var crust in _crusts)
             {
                 context.Crusts.AddOrUpdate(x => x.Name, crust);
@@ -103,7 +143,7 @@ namespace PizzaTracker.Migrations
             {
                 Name = "Supreme",
                 Cost = 15.4,
-                CrustId =1,
+                CrustId = 1,
                 Toppings = new List<ToppingOption>
                 {
                     new ToppingOption{ Topping = context.Toppings.ToList()[0], Side = PizzaSide.Full},

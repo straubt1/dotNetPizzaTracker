@@ -22,15 +22,15 @@ namespace PizzaTracker.Controllers
         // GET: api/Users
         public IEnumerable<object> GetUsers()
         {
-            return db.Users.ToList();
-            //return db.Users.Select(x => new
-            //{
-            //    Id = x.Id,
-            //    UserName = x.UserName,
-            //    FirstName = x.FirstName,
-            //    LastName = x.LastName,
-            //    Roles = x.Roles
-            //}).ToList();
+            //return db.Users.ToList();
+            return db.Users.Select(x => new
+            {
+                Id = x.Id,
+                UserName = x.UserName,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Role = x.Role
+            }).ToList();
         }
 
         // GET: api/Users/5
@@ -61,10 +61,11 @@ namespace PizzaTracker.Controllers
                 FirstName = userVm.FirstName,
                 LastName = userVm.LastName,
                 Email = userVm.Email,
-                Roles = new List<string>(),
+                RoleId = 1,
                 PasswordHash = "hash",
                 PasswordSalt = "salt",
-                PasswordResetToken = "null"
+                PasswordResetToken = "null",
+                LoginToken = string.Empty
             };
 
             if (id != user.Id)
@@ -109,7 +110,7 @@ namespace PizzaTracker.Controllers
                 {
                     StatusCode = HttpStatusCode.Conflict,
                     ReasonPhrase = "User already exists",
-                    Content =  content
+                    Content = content
                 });
             }
             var salt = Crypto.GenerateSalt();
@@ -120,10 +121,11 @@ namespace PizzaTracker.Controllers
                 FirstName = userVm.FirstName,
                 LastName = userVm.LastName,
                 Email = userVm.Email,
-                Roles = new List<string>(),
+                RoleId = 1,
                 PasswordHash = password,
                 PasswordSalt = salt,
-                PasswordResetToken = "null"
+                PasswordResetToken = "null",
+                LoginToken = string.Empty
             };
 
             db.Users.AddOrUpdate(user);
