@@ -3,7 +3,6 @@ using System.Linq;
 using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web.UI.WebControls;
 using Newtonsoft.Json;
 using PizzaTracker.Data;
 using PizzaTracker.Models;
@@ -83,28 +82,28 @@ namespace PizzaTracker.Code
         }
     }
 
-    public static class UserInfo
-    {
-        public static User GetUserInfo(PizzaContext db, string encrypted)
-        {
-            var decrypted = Aes256.Decrypt(encrypted);
-            var loginVm = JsonConvert.DeserializeObject<LoginVm>(decrypted);
+    //public static class UserInfo
+    //{
+    //    public static User GetUserInfo(PizzaTrackerRepo repo, string encrypted)
+    //    {
+    //        var decrypted = Aes256.Decrypt(encrypted);
+    //        var loginVm = JsonConvert.DeserializeObject<LoginVm>(decrypted);
 
-            var userDb = db.Users.FirstOrDefault(x => x.Id == loginVm.UserId);
-            if(userDb == null)
-            {  throw new AuthenticationException("User Id not found: " + loginVm.UserId);}
+    //        var userDb = repo.GetUserById(loginVm.UserId);
+    //        if (userDb == null)
+    //        { throw new AuthenticationException("User Id not found: " + loginVm.UserId); }
 
-            if (userDb.LoginToken != loginVm.UserToken)
-            {
-                throw new AuthenticationException("User Token not valid: " + loginVm.UserToken);
-            }
+    //        if (userDb.LoginToken != loginVm.UserToken)
+    //        {
+    //            throw new AuthenticationException("User Token not valid: " + loginVm.UserToken);
+    //        }
 
-            if (userDb.LoginExpiration < DateTime.UtcNow)
-            {
-                throw new AuthenticationException("User Token Expired: " + userDb.LoginExpiration);
-            }
+    //        if (userDb.LoginExpiration < DateTime.UtcNow)
+    //        {
+    //            throw new AuthenticationException("User Token Expired: " + userDb.LoginExpiration);
+    //        }
 
-            return userDb;
-        }
-    }
+    //        return userDb;
+    //    }
+    //}
 }

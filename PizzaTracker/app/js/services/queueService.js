@@ -22,14 +22,13 @@ app.factory('queueService', ['$http', '$q', function ($http, $q) {
     //    return deferred.promise;
     //};
 
-    var _getQueue = function (userId) {
+    var _getQueue = function () {
         var deferred = $q.defer();
 
         $http({
             method: 'GET',
-            url: '/api/queue' //'?id=' + encodeURIComponent(userId)
+            url: '/api/pizzaqueue'
         }).success(function (response) {
-            //localStorageService.set('resources', response);
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -37,21 +36,37 @@ app.factory('queueService', ['$http', '$q', function ($http, $q) {
         return deferred.promise;
     };
 
-    var _updateQueue = function (id) {
+    var _updateQueue = function (id, statusId) {
         var deferred = $q.defer();
 
         $http({
             method: 'POST',
-            url: '/api/queue/' + id //'?id=' + encodeURIComponent(userId)
+            url: '/api/pizzaqueue',
+            data: JSON.stringify({ Id: id, StatusId: statusId })
         }).success(function (response) {
-            //localStorageService.set('resources', response);
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
         });
         return deferred.promise;
     };
+
+    var _deleteQueue = function (id) {
+        var deferred = $q.defer();
+
+        $http({
+            method: 'DELETE',
+            url: '/api/pizzaqueue/' + id
+        }).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+
     queueServiceFactory.updateQueue = _updateQueue;
     queueServiceFactory.getQueue = _getQueue;
+    queueServiceFactory.deleteQueue = _deleteQueue;
     return queueServiceFactory;
 }]);

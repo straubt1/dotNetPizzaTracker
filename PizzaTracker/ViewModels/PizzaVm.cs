@@ -9,5 +9,6 @@ namespace PizzaTracker.Models
         public List<Topping> Toppings { get; set; }
         public Sauce Sauce { get; set; }
         public Size Size { get; set; }
+        public string Instructions { get; set; }
     }
 }

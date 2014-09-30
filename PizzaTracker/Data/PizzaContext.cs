@@ -6,6 +6,11 @@ namespace PizzaTracker.Data
 {
     public class PizzaContext : DbContext
     {
+        public PizzaContext(string connectionString)
+            : base(connectionString)
+        {
+            
+        }
         public PizzaContext()
             : base("PizzaDb")
         {
@@ -20,6 +25,7 @@ namespace PizzaTracker.Data
         public DbSet<Sauce> Sauces { get; set; }
         public DbSet<Pizza> Pizzas { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Queue> Queues { get; set; }
+        public DbSet<PizzaQueue> PizzaQueue { get; set; }
+        public DbSet<MessageQueue> MessageQueue { get; set; }
     }
 }

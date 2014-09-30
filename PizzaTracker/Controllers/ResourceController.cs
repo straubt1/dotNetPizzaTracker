@@ -2,6 +2,7 @@
 using System.Web.Http;
 using PizzaTracker.Data;
 using PizzaTracker.Models;
+using PizzaTracker.ViewModels;
 
 namespace PizzaTracker.Controllers
 {
@@ -17,7 +18,8 @@ namespace PizzaTracker.Controllers
                 Crusts = db.Crusts.ToList(),
                 Sauces = db.Sauces.ToList(),
                 Sizes = db.Sizes.ToList(),
-                Toppings = db.Toppings.ToList()
+                Toppings = db.Toppings.ToList(),
+                Statuses =  db.Statuses.ToList()
             };
 
             return all;

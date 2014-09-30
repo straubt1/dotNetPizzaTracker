@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Web.Http;
+using PizzaTracker.Code;
+using PizzaTracker.Data;
 using PizzaTracker.Models;
 
 namespace PizzaTracker.Controllers
 {
     public class MessageController : ApiController
     {
+        private PizzaTrackerRepo _repo = new PizzaTrackerRepo(new PizzaContext());
+
         // GET: api/Message
         public Message Get()
         {
+            
             return (DateTime.Now.Second % 10 == 0)
                 ? new Message
                 {
@@ -20,9 +25,11 @@ namespace PizzaTracker.Controllers
         }
 
         // GET: api/Message/5
-        public string Get(int id)
+        public MessageQueue Get(string id)
         {
-            return "value";
+            var user = _repo.GetUserByEncrypted(id);
+            var message = _repo.GetNextMessage(user.Id);
+            return message;
         }
 
         // POST: api/Message

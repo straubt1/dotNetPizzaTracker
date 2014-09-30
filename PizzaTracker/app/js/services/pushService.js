@@ -4,6 +4,7 @@ app.factory('pushService', ['pizzaAppConfig', '$http', '$q', function (pizzaAppC
 
     pushServiceFactory.running = false;
     pushServiceFactory.callback = null;
+    pushServiceFactory.UserToken = null;
 
     var run = function () {
         // var i = 0;
@@ -19,20 +20,25 @@ app.factory('pushService', ['pizzaAppConfig', '$http', '$q', function (pizzaAppC
         if (!pushServiceFactory.running) {
             return;
         }
-
+        if (!pushServiceFactory.UserToken) {
+            setTimeout(getMessage, pizzaAppConfig.notificationInterval);
+            return;
+        }
         $http({
             method: 'GET',
-            url: '/api/message'
+            url: '/api/message?id=' + encodeURIComponent(pushServiceFactory.UserToken)
         })
-        .success(function (data, status, headers, config) {
-            console.log("  push service success: " + data);
-            if (data && data != "null")
-            { pushServiceFactory.callback(data); }
-            setTimeout(getMessage, pizzaAppConfig.notificationInterval);
-        })
-        .error(function (data, status, headers, config) {
-            console.log("  push service failed: " + data);
-        });
+                .success(function (data, status, headers, config) {
+                    console.log("  push service success: " + data);
+                    if (data && data != "null") {
+                        pushServiceFactory.callback(data);
+                    }
+                    setTimeout(getMessage, pizzaAppConfig.notificationInterval);
+                })
+                .error(function (data, status, headers, config) {
+                    console.log("  push service failed: " + data);
+                    setTimeout(getMessage, pizzaAppConfig.notificationInterval);
+                });
     };
 
     var _start = function () {

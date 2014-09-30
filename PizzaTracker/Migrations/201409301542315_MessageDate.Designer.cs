@@ -7,13 +7,13 @@ namespace PizzaTracker.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class Queue : IMigrationMetadata
+    public sealed partial class MessageDate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Queue));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MessageDate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201409291931593_Queue"; }
+            get { return "201409301542315_MessageDate"; }
         }
         
         string IMigrationMetadata.Source

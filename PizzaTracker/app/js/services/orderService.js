@@ -38,8 +38,23 @@ app.factory('orderService', ['$http', '$q', 'localStorageService', function ($ht
         });
         return deferred.promise;
     };
+
+    var _deleteOrder = function (orderId) {
+        var deferred = $q.defer();
+
+        $http({
+            method: 'DELETE',
+            url: '/api/order/' + orderId 
+        }).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    };
     //orderServiceFactory.getResources = _getResources;
     orderServiceFactory.sendOrder = _sendOrder;
     orderServiceFactory.getOrders = _getOrders;
+    orderServiceFactory.deleteOrder = _deleteOrder;
     return orderServiceFactory;
 }]);

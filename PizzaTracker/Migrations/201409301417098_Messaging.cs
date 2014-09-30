@@ -3,7 +3,7 @@ namespace PizzaTracker.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Queue : DbMigration
+    public partial class Messaging : DbMigration
     {
         public override void Up()
         {
@@ -18,12 +18,27 @@ namespace PizzaTracker.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.MessageQueues",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Active = c.Boolean(nullable: false),
+                        OrderId = c.Int(nullable: false),
+                        MessageTitle = c.String(),
+                        MessageBody = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Orders", t => t.OrderId, cascadeDelete: true)
+                .Index(t => t.OrderId);
+            
+            CreateTable(
                 "dbo.Orders",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Date = c.DateTime(nullable: false),
                         OrderedById = c.Int(nullable: false),
+                        CustomInstructions = c.String(),
                         Show = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -65,7 +80,7 @@ namespace PizzaTracker.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Date = c.DateTime(nullable: false),
-                        EventName = c.String(),
+                        Description = c.String(),
                         Order_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
@@ -140,11 +155,10 @@ namespace PizzaTracker.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.Queues",
+                "dbo.PizzaQueues",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Message = c.String(),
                         Active = c.Boolean(nullable: false),
                         OrderId = c.Int(nullable: false),
                         StatusId = c.Int(nullable: false),
@@ -171,9 +185,10 @@ namespace PizzaTracker.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Queues", "StatusId", "dbo.Status");
-            DropForeignKey("dbo.Queues", "OrderId", "dbo.Orders");
-            DropForeignKey("dbo.Queues", "AssignedToId", "dbo.Users");
+            DropForeignKey("dbo.PizzaQueues", "StatusId", "dbo.Status");
+            DropForeignKey("dbo.PizzaQueues", "OrderId", "dbo.Orders");
+            DropForeignKey("dbo.PizzaQueues", "AssignedToId", "dbo.Users");
+            DropForeignKey("dbo.MessageQueues", "OrderId", "dbo.Orders");
             DropForeignKey("dbo.Pizzas", "Order_Id", "dbo.Orders");
             DropForeignKey("dbo.ToppingOptions", "Pizza_Id", "dbo.Pizzas");
             DropForeignKey("dbo.ToppingOptions", "ToppingId", "dbo.Toppings");
@@ -183,9 +198,9 @@ namespace PizzaTracker.Migrations
             DropForeignKey("dbo.OrderEvents", "Order_Id", "dbo.Orders");
             DropForeignKey("dbo.Orders", "OrderedById", "dbo.Users");
             DropForeignKey("dbo.Users", "RoleId", "dbo.Roles");
-            DropIndex("dbo.Queues", new[] { "AssignedToId" });
-            DropIndex("dbo.Queues", new[] { "StatusId" });
-            DropIndex("dbo.Queues", new[] { "OrderId" });
+            DropIndex("dbo.PizzaQueues", new[] { "AssignedToId" });
+            DropIndex("dbo.PizzaQueues", new[] { "StatusId" });
+            DropIndex("dbo.PizzaQueues", new[] { "OrderId" });
             DropIndex("dbo.ToppingOptions", new[] { "Pizza_Id" });
             DropIndex("dbo.ToppingOptions", new[] { "ToppingId" });
             DropIndex("dbo.Pizzas", new[] { "Order_Id" });
@@ -195,8 +210,9 @@ namespace PizzaTracker.Migrations
             DropIndex("dbo.OrderEvents", new[] { "Order_Id" });
             DropIndex("dbo.Users", new[] { "RoleId" });
             DropIndex("dbo.Orders", new[] { "OrderedById" });
+            DropIndex("dbo.MessageQueues", new[] { "OrderId" });
             DropTable("dbo.Status");
-            DropTable("dbo.Queues");
+            DropTable("dbo.PizzaQueues");
             DropTable("dbo.Toppings");
             DropTable("dbo.ToppingOptions");
             DropTable("dbo.Sizes");
@@ -206,6 +222,7 @@ namespace PizzaTracker.Migrations
             DropTable("dbo.Roles");
             DropTable("dbo.Users");
             DropTable("dbo.Orders");
+            DropTable("dbo.MessageQueues");
             DropTable("dbo.Crusts");
         }
     }

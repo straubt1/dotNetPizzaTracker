@@ -21,14 +21,18 @@
                     <td>{{ q.Id }}</td>
                     <td></td>
                     <td>{{ q.Order.Pizzas[0].Size.Name }}</td>
-                    <td>{{ q.Status.Name }}</td>
+                    <td>{{q.Status}}
+                        <select name="status_id" ng-model="q.Status" ng-options="stat.Name for stat in q.Statuses"
+                                ng-change="updateQueue(q)"
+                                required></select>
+                    </td>
                     <td>
                         <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Edit this user"
-                              ng-click='updateQueue(q.Id)'>
+                              ng-click='updateQueue(q)'>
                             <a><i class="fi-page-edit icon-size-30"></i></a>
                         </span>
                         <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Delete this user"
-                              ng-click='toggleRemoveModal(u)'>
+                              ng-click='deleteQueue(q.Id)'>
                             <a><i class="fi-x icon-size-30"></i></a>
                         </span>
                     </td>

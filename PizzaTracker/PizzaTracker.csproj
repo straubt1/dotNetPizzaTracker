@@ -1189,27 +1189,47 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Code\Aes256.cs" />
     <Compile Include="Code\Crypto.cs" />
+    <Compile Include="Code\PizzaTime.cs" />
+    <Compile Include="Code\PizzaTrackerRepo.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PizzasController.cs" />
-    <Compile Include="Controllers\QueueController.cs" />
+    <Compile Include="Controllers\PizzaQueueController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Data\PizzaContext.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201409291931593_Queue.cs" />
-    <Compile Include="Migrations\201409291931593_Queue.Designer.cs">
-      <DependentUpon>201409291931593_Queue.cs</DependentUpon>
+    <Compile Include="Migrations\201409301417098_Messaging.cs" />
+    <Compile Include="Migrations\201409301417098_Messaging.Designer.cs">
+      <DependentUpon>201409301417098_Messaging.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201409301542315_MessageDate.cs" />
+    <Compile Include="Migrations\201409301542315_MessageDate.Designer.cs">
+      <DependentUpon>201409301542315_MessageDate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Crust.cs" />
     <Compile Include="Models\Message.cs" />
-    <Compile Include="Models\PizzaVm.cs" />
-    <Compile Include="Models\ResourceVm.cs" />
+    <Compile Include="Models\MessageQueue.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderEvent.cs" />
+    <Compile Include="Models\Pizza.cs" />
+    <Compile Include="Models\PizzaSide.cs" />
+    <Compile Include="ViewModels\PizzaQueueVm.cs" />
+    <Compile Include="ViewModels\PizzaVm.cs" />
+    <Compile Include="Models\PizzaQueue.cs" />
+    <Compile Include="ViewModels\ResourceVm.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Sauce.cs" />
+    <Compile Include="Models\Size.cs" />
+    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\Topping.cs" />
+    <Compile Include="Models\ToppingOption.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserVm.cs" />
+    <Compile Include="ViewModels\UserVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1236,8 +1256,11 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201409291931593_Queue.resx">
-      <DependentUpon>201409291931593_Queue.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201409301417098_Messaging.resx">
+      <DependentUpon>201409301417098_Messaging.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409301542315_MessageDate.resx">
+      <DependentUpon>201409301542315_MessageDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

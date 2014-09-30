@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaTracker", "PizzaTracker\PizzaTracker.csproj", "{C11294E6-299C-44DF-AD32-BA169EDBB328}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaTracker.Test", "PizzaTracker.Test\PizzaTracker.Test.csproj", "{5FB5BD09-3318-44C2-9B6D-4F7806FC86F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C11294E6-299C-44DF-AD32-BA169EDBB328}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C11294E6-299C-44DF-AD32-BA169EDBB328}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C11294E6-299C-44DF-AD32-BA169EDBB328}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FB5BD09-3318-44C2-9B6D-4F7806FC86F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FB5BD09-3318-44C2-9B6D-4F7806FC86F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FB5BD09-3318-44C2-9B6D-4F7806FC86F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FB5BD09-3318-44C2-9B6D-4F7806FC86F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
