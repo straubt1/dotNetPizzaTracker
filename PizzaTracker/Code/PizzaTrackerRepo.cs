@@ -14,13 +14,11 @@ namespace PizzaTracker.Code
     {
         public enum PizzaStatus
         {
-            Placed = 1,
-            Started = 2,
-            IntheOven = 3,
-            ReadyforPickup = 4,
-            ReadyforDelivery = 5,
-            Pickedup = 6,
-            Delivered = 7
+            Received = 1,
+            Creating = 2,
+            Baking = 3,
+            Preparing = 4,
+            Ready = 5
         }
 
         private readonly PizzaContext _context;
@@ -60,7 +58,12 @@ namespace PizzaTracker.Code
 
         public Order GetOrderById(int id)
         {
-            return _context.Orders.Single(x => x.Id == id);
+            return _context.Orders.SingleOrDefault(x => x.Id == id);
+        }
+
+        public Pizza GetPizzaById(int id)
+        {
+            return _context.Pizzas.SingleOrDefault(x => x.Id == id);
         }
 
         public PizzaQueue GetPizzaQueueById(int id)
@@ -109,7 +112,7 @@ namespace PizzaTracker.Code
             {
                 AssignedToId = null,
                 OrderId = order.Id,
-                StatusId = (int)PizzaStatus.Placed,
+                StatusId = (int)PizzaStatus.Received,
                 Active = true//default
             };
             _context.PizzaQueue.Add(pizzaQ);

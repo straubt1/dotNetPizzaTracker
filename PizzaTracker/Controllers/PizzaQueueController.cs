@@ -23,10 +23,6 @@ namespace PizzaTracker.Controllers
         public PizzaQueue PostPizzaQueue(PizzaQueueVm vm)
         {
             var newStatus = (PizzaTrackerRepo.PizzaStatus)vm.StatusId;
-            if (vm.StatusId > 3)
-            {
-                return _repo.UpdatePizzaQueue(vm.Id, newStatus, "Pizza For James", "James sucks since he can go home and not work!!");
-            }
             return _repo.UpdatePizzaQueue(vm.Id, newStatus, "Pizza Update", "Your pizza status was updated to: " + newStatus);
         }
 

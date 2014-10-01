@@ -6,5 +6,6 @@
         public virtual string Name { get; set; }
         public virtual double Cost { get; set; }
         public virtual string Category { get; set; }
+        public virtual string Class { get; set; }
     }
 }

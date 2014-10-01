@@ -114,7 +114,7 @@ namespace PizzaTracker.Test.Repo
             const string messageTitleSet = "Pizza in the Oven!";
             var messagBodySet = "Your pizza was placed into the oven at " + PizzaTime.Now.ToShortTimeString();
             var pizzaQ = _repo.GetpPizzaQueues().First();
-            _repo.UpdatePizzaQueue(pizzaQ.Id, PizzaTrackerRepo.PizzaStatus.IntheOven, messageTitleSet, messagBodySet);
+            _repo.UpdatePizzaQueue(pizzaQ.Id, PizzaTrackerRepo.PizzaStatus.Baking, messageTitleSet, messagBodySet);
 
             //make sure message got queued
             next = _repo.GetNextMessage(userId);
@@ -129,7 +129,7 @@ namespace PizzaTracker.Test.Repo
         [TestMethod]
         public void SetActiveOnPizzaQueue()
         {
-            var userId = 1;
+            //var userId = 1;
 
             var pizzaQs = _repo.GetpPizzaQueues().ToList();
             Assert.IsTrue(pizzaQs.Any());

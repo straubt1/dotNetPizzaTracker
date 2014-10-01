@@ -1,0 +1,43 @@
+﻿<div class="row">
+    <div class="large-12 columns">
+        <div ng-hide="pizza">Not found</div>
+        <div ng-show="pizza">
+            <div class="row">
+                <div class="small-8 columns">
+                    <h4>Crust</h4>
+                    <div>{{ pizza.Crust.Name }}</div>
+                </div>
+                <div class="small-8 columns">
+                    <h4>Sauce</h4>
+                    <div>{{ pizza.Sauce.Name }}</div>
+                </div>
+                <div class="small-8 columns">
+                    <h4>Size</h4>
+                    <div>{{ pizza.Size.Name }}</div>
+                </div>
+                <div class="small-8 columns">
+                    <h4>Toppings</h4>
+                    <div>
+                        <span ng-hide="pizza.Toppings.length > 0">
+                            No Toppings! Are you crazy?
+                        </span>
+                        <span ng-show="pizza.Toppings.length > 0" ng-repeat="t in pizza.Toppings">
+                            {{ t.Topping.Name }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="small-8 columns">
+                    <button type="submit"
+                            class="button radius">
+                        Send Order
+                    </button>
+                    <button type="button"
+                            class="button radius alert">
+                        Edit Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

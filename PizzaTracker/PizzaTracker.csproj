@@ -45,6 +45,9 @@
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -62,6 +65,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Twilio.Api">
+      <HintPath>..\packages\Twilio.3.6.18\lib\3.5\Twilio.Api.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -367,10 +373,13 @@
     <Content Include="app\css\foundation\svgs\fi-zoom-in.svg" />
     <Content Include="app\css\foundation\svgs\fi-zoom-out.svg" />
     <Content Include="app\css\main.css" />
+    <Content Include="app\css\toppings.css" />
     <Content Include="app\css\vendor\alertify.css" />
     <Content Include="app\css\vendor\loading-bar.css" />
     <Content Include="app\img\pizza3.jpg" />
+    <Content Include="app\img\toppingSprite.png" />
     <Content Include="app\js\controllers\authController.js" />
+    <Content Include="app\js\controllers\pizzaController.js" />
     <Content Include="app\js\controllers\queueController.js" />
     <Content Include="app\js\controllers\orderController.js" />
     <Content Include="app\js\controllers\loginController.js" />
@@ -383,10 +392,12 @@
     <Content Include="app\index.html" />
     <Content Include="app\js\services\queueService.js" />
     <Content Include="app\js\services\orderService.js" />
+    <Content Include="app\js\services\pizzaService.js" />
     <Content Include="app\js\services\resourceService.js" />
     <Content Include="app\js\services\pushService.js" />
     <Content Include="app\js\vendor\ai.js" />
     <Content Include="app\js\vendor\ai.min.js" />
+    <Content Include="app\js\vendor\alertify.mod.js" />
     <Content Include="app\js\vendor\alertify.js" />
     <Content Include="app\js\vendor\angular-animate.js" />
     <Content Include="app\js\vendor\angular-animate.min.js" />
@@ -1175,6 +1186,7 @@
     <Content Include="app\js\vendor\respond.js" />
     <Content Include="app\js\vendor\respond.min.js" />
     <None Include="app\js\_references.js" />
+    <Content Include="app\templates\pizza.html" />
     <Content Include="app\templates\neworder.html" />
     <Content Include="app\templates\login.html" />
     <Content Include="app\templates\queue.html" />
@@ -1191,10 +1203,11 @@
     <Compile Include="Code\Crypto.cs" />
     <Compile Include="Code\PizzaTime.cs" />
     <Compile Include="Code\PizzaTrackerRepo.cs" />
+    <Compile Include="Code\SmsMessenger.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
-    <Compile Include="Controllers\PizzasController.cs" />
+    <Compile Include="Controllers\PizzaController.cs" />
     <Compile Include="Controllers\PizzaQueueController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Data\PizzaContext.cs" />
@@ -1209,6 +1222,14 @@
     <Compile Include="Migrations\201409301542315_MessageDate.cs" />
     <Compile Include="Migrations\201409301542315_MessageDate.Designer.cs">
       <DependentUpon>201409301542315_MessageDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410011334568_user.cell.cs" />
+    <Compile Include="Migrations\201410011334568_user.cell.Designer.cs">
+      <DependentUpon>201410011334568_user.cell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410011943303_Topping.Class.cs" />
+    <Compile Include="Migrations\201410011943303_Topping.Class.Designer.cs">
+      <DependentUpon>201410011943303_Topping.Class.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Crust.cs" />
@@ -1261,6 +1282,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409301542315_MessageDate.resx">
       <DependentUpon>201409301542315_MessageDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410011334568_user.cell.resx">
+      <DependentUpon>201410011334568_user.cell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410011943303_Topping.Class.resx">
+      <DependentUpon>201410011943303_Topping.Class.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

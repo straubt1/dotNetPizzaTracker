@@ -11,6 +11,7 @@
     <link href="css/vendor/loading-bar.css" rel="stylesheet" />
     <link href="css/vendor/alertify.css" rel="stylesheet" />
     <link href="css/main.css" rel="stylesheet" />
+    <link href="css/toppings.css" rel="stylesheet" />
 </head>
 <body ng-controller="authController">
     <!--<div class="row">-->
@@ -50,6 +51,15 @@
             </nav>
         <!--</div>-->
     <!--</div>-->
+    <!--<nav ng-show="authentication.user.Role == 'Admin'" class="top-bar-admin">
+        Admin
+    </nav>
+    <nav ng-show="authentication.user.Role == 'Employee'" class="top-bar-employee">
+        Employee
+    </nav>
+    <nav ng-show="authentication.user.Role == 'Customer'" class="top-bar-customer">
+        Customer
+    </nav>-->
 
     <div ng-view></div>
     
@@ -62,10 +72,7 @@
                 </div>
                 <div class="large-6 columns">
                     <ul class="inline-list right">
-                        <li><a href="#">Link 1</a></li>
-                        <li><a href="#">Link 2</a></li>
-                        <li><a href="#">Link 3</a></li>
-                        <li><a href="#">Link 4</a></li>
+                        <li><a href="#">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
@@ -87,6 +94,7 @@
     <script src="js/services/orderService.js"></script>
     <script src="js/services/pushService.js"></script>
     <script src="js/services/queueService.js"></script>
+    <script src="js/services/pizzaService.js"></script>
     <script src="js/vendor/angular-local-storage.min.js"></script>
     <script src="js/directives/pizzaModalDirective.js"></script>
     <script src="js/directives/passwordVerifyDirective.js"></script>
@@ -96,7 +104,8 @@
     <script src="js/controllers/loginController.js"></script>
     <script src="js/controllers/orderController.js"></script>
     <script src="js/controllers/queueController.js"></script>
+    <script src="js/controllers/pizzaController.js"></script>
     <script src="js/vendor/loading-bar.js"></script>
-    <!--<script src="js/vendor/live.js"></script>-->
+    <script src="js/vendor/live.js"></script>
 </body>
 </html>

@@ -13,25 +13,25 @@
                     <th>Username</th>
                     <th>Toppings</th>
                     <th>Status</th>
-                    <th width="100">Actions</th>
+                    <th width="80">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="q in queue">
                     <td>{{ q.Id }}</td>
-                    <td></td>
+                    <td>{{ q.Order.OrderedBy.UserName }}</td>
                     <td>{{ q.Order.Pizzas[0].Size.Name }}</td>
-                    <td>{{q.Status}}
-                        <select name="status_id" ng-model="q.Status" ng-options="stat.Name for stat in q.Statuses"
+                    <td>
+                        <select name="status_id" ng-model="q.Status" ng-options="stat.Name for stat in statuses"
                                 ng-change="updateQueue(q)"
                                 required></select>
                     </td>
                     <td>
-                        <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Edit this user"
+                        <!--<span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Edit this user"
                               ng-click='updateQueue(q)'>
                             <a><i class="fi-page-edit icon-size-30"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Delete this user"
+                        </span>-->
+                        <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Remove this pizza from the queue"
                               ng-click='deleteQueue(q.Id)'>
                             <a><i class="fi-x icon-size-30"></i></a>
                         </span>

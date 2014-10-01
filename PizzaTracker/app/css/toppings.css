@@ -1,0 +1,110 @@
+﻿.topping-bacon {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -116px transparent;
+    width: 60px;
+    height: 60px;
+}
+
+.topping-pork {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -219px transparent;
+
+    width: 60px;
+    height: 60px;
+}
+
+.topping-pepperoni {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -312px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-beef {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -415px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-ham {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -511px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-italiansausage {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -590px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-chicken {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -671px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-blackolive {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -16px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-mushroom {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -114px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-jalapenos {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -211px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-pineapple {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -321px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-greenpepper {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -419px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-tomato {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -520px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-redonion {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -602px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-bananapepper {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -674px transparent;
+    
+    width: 60px;
+    height: 60px;
+}
+
+.topping-greenolive {
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -749px transparent;
+    
+    width: 60px;
+    height: 60px;
+}

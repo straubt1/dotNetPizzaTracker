@@ -6,7 +6,8 @@ app.factory('resourceService', ['$http', '$q', 'localStorageService', function (
     var _getResources = function (force) {
         var deferred = $q.defer();
         var local = localStorageService.get('resources');
-        if (!local || force) {
+        //if (!local || force) {
+        if (true) {
             console.log("going to get resources");
             $http({
                 method: 'GET',

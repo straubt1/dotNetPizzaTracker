@@ -3,7 +3,7 @@
 <!--<img src="img/pizza3.jpg" class="home-image" />-->
 <figure class="dash-image">
     <img src="http://placehold.it/1040x650&text=Pizza Image" alt="slide image">
-    <!--<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" alt="slide image" class="home-image">-->
+    <!--<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" alt="slide image" >-->
 </figure>
 <!--</div>
 </div>-->
@@ -30,7 +30,7 @@
                     <td>{{ o.Date }}</td>
                     <td>
                         <span ng-repeat="p in o.Pizzas">
-                            {{o.Id}}
+                            {{o.Pizzas[0].Id}}
                             <span ng-repeat="t in p.Toppings">
                                 {{t.Topping.Name}}
                             </span>

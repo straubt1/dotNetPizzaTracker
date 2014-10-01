@@ -1,52 +1,99 @@
 ﻿<div class="row">
     <form name="neworderform" ng-submit="createOrder()">
-        <div class="large-12 columns">
-            <h4>New Order</h4>
+        <div class="row">
+            <div class="large-6 columns">
+                <h4>New Order</h4>
+                <span>Crust</span>
+                <select name="crust_id" ng-model="selectedPizza.Crust" ng-options="crust.Name for crust in resources.Crusts"
+                        required>
+                    <option value="">-- choose crust --</option>
+                </select>
+                <!--<dl class="tabs" data-tab>
+                        <dd ng-repeat="crust in resources.Crusts" ng-click="mthod({{crust.Id}})"><a>{{ crust.Name }}</a></dd>
+                    </dl>-->
+                <span class="error" ng-show="neworderform.crust_id.$error.required">Select a Crust </span>
+                <br />
 
-            <span>Crusts</span>
-            <select name="crust_id" ng-model="selectedPizza.Crust" ng-options="crust.Name for crust in resources.Crusts"
-                    required>
-                <option value="">-- choose crust --</option>
-            </select>
-            <span class="error" ng-show="neworderform.crust_id.$error.required">Select a Crust </span>
-            <br />
+                <div class="row">
+                    <div class="large-6 columns">
+                        <span>Sauce</span>
+                        <select name="sauce_id" ng-model="selectedPizza.Sauce" ng-options="sauce.Name for sauce in resources.Sauces"
+                                ng-required="true">
+                            <option value="">-- choose sauce --</option>
+                        </select>
+                        <span class="error" ng-show="neworderform.sauce_id.$error.required">Select a Sauce </span>
+                    </div>
+                    <div class="large-6 columns">
+                        <span>Level</span>
+                        <select name="sauce_id" ng-model="selectedPizza.Sauce" ng-options="sauce.Name for sauce in resources.Sauces"
+                                ng-required="true">
+                            <option value="">-- choose sauce --</option>
+                        </select>
+                        <span class="error" ng-show="neworderform.sauce_id.$error.required">Select a Sauce </span>
+                    </div>
+                </div>
+                <br />
 
-            <span>Toppings</span>
-            <label ng-repeat="t in resources.Toppings">
-                <input type="checkbox"
-                       name="selectToppings[]"
-                       value="{{t}}"
-                       ng-checked="selectToppings.indexOf(t) > -1"
-                       ng-click="toggleTopping(t)" /> {{ t.Name }}
-            </label>
-            <!--<span class="error" ng-show="neworderform.selectToppings.$error.required">Select a Topping </span>-->
-            <br />
+                <span>Size</span>
+                <select name="size_id" ng-model="selectedPizza.Size" ng-options="size.Name for size in resources.Sizes"
+                        ng-required="true">
+                    <option value="">-- choose size --</option>
+                </select>
+                <span class="error" ng-show="neworderform.size_id.$error.required">Select a Size </span>
+                <br />
 
-            <span>Sauces</span>
-            <select name="sauce_id" ng-model="selectedPizza.Sauce" ng-options="sauce.Name for sauce in resources.Sauces"
-                    ng-required="true">
-                <option value="">-- choose sauce --</option>
-            </select>
-            <span class="error" ng-show="neworderform.sauce_id.$error.required">Select a Sauce </span>
-            <br />
+                <span>Toppings</span>
+                <!--<ul class="toppings">
+                    <li ng-repeat="t in resources.Toppings">-->
+                <div>
+                    <div class="topping-item"
+                         ng-repeat="t in resources.Toppings"
+                         ng-class="{ 'topping-selected' : selectedPizza.Toppings.indexOf(t) > -1 } "
+                         ng-click="toggleTopping(t)">
 
-            <span>Sizes</span>
-            <select name="size_id" ng-model="selectedPizza.Size" ng-options="size.Name for size in resources.Sizes"
-                    ng-required="true">
-                <option value="">-- choose size --</option>
-            </select>
-            <span class="error" ng-show="neworderform.size_id.$error.required">Select a Size </span>
-            <br />
+                        {{ t.Name }}
+                        <div class="{{t.Class}}"></div>
+                    </div>
+                </div>
+                <!--</li>
+                </ul>-->
+                <!--<span class="error" ng-show="neworderform.selectToppings.$error.required">Select a Topping </span>-->
+                <br />
+            </div>
+            <div class="large-6 columns">
+                Verify
+                <!--<div class="small-8 columns">
+                        <h4>Crust</h4>
+                        <div>{{ selectedPizza.Crust.Name }}</div>
+                    </div>
+                    <div class="small-8 columns">
+                        <h4>Sauce</h4>
+                        <div>{{ selectedPizza.Sauce.Name }}</div>
+                    </div>
+                    <div class="small-8 columns">
+                        <h4>Size</h4>
+                        <div>{{ selectedPizza.Size.Name }}</div>
+                    </div>
+                    <div class="small-8 columns">
+                        <h4>Toppings</h4>
+                        <div>
+                            <span ng-repeat="t in selectedPizza.Toppings">
+                                {{ t.Name }}
+                            </span>
+                        </div>
+                    </div>-->
+            </div>
         </div>
-        <div class="large-centered columns">
-            <button type="button"
-                    class="button radius right"
-                    ng-disabled="neworderform.$invalid"
-                    ng-click="toggleConfirmModal()">
-                Place Order
-            </button>
+        <div class="row">
+            <div class="large-centered columns">
+                <button type="button"
+                        class="button radius right"
+                        ng-disabled="neworderform.$invalid"
+                        ng-click="toggleConfirmModal()">
+                    Place Order
+                </button>
+            </div>
         </div>
-
         <div pizza-modal show='confirmModalShown'>
             <div class="row">
                 <div class="small-8 columns">

@@ -19,13 +19,11 @@ namespace PizzaTracker.Migrations
 
         private List<Status> _statuses = new List<Status>
         {
-            new Status{ Name = "Placed"},
-            new Status{ Name = "Started"},
-            new Status{ Name = "In the Oven"},
-            new Status{ Name = "Ready for Pickup"},
-            new Status{ Name = "Ready for Delivery"},
-            new Status{ Name = "Picked up"},
-            new Status{ Name = "Delivered"}
+            new Status{ Name = "Order Received"},
+            new Status{ Name = "Creating Pizza"},
+            new Status{ Name = "Baking Pizza"},
+            new Status{ Name = "Preparing Pizza"},
+            new Status{ Name = "Pizza is Ready"}
         };
 
         private List<Crust> _crusts = new List<Crust>
@@ -37,9 +35,22 @@ namespace PizzaTracker.Migrations
 
         private List<Topping> _toppings = new List<Topping>
         {
-            new Topping {Name = "Pepperoni", Cost = 1.2},
-            new Topping {Name = "Sausage", Cost = 1.1},
-            new Topping {Name = "Chicken", Cost = 1.3},
+            new Topping {Name = "Bacon", Class = "topping-bacon", Cost = 1.2},
+            new Topping {Name = "Pork", Class = "topping-pork", Cost = 1.2},
+            new Topping {Name = "Pepperoni", Class = "topping-pepperoni", Cost = 1.2},
+            new Topping {Name = "Beef", Class = "topping-beef", Cost = 1.2},
+            new Topping {Name = "Ham", Class = "topping-ham", Cost = 1.2},
+            new Topping {Name = "Italian Sausage", Class = "topping-italiansausage", Cost = 1.2},
+            new Topping {Name = "Chicken", Class = "topping-chicken", Cost = 1.2},
+            new Topping {Name = "Black Olives", Class = "topping-blackolive", Cost = 1.2},
+            new Topping {Name = "Mushroom", Class = "topping-mushroom", Cost = 1.2},
+            new Topping {Name = "Jalapenos", Class = "topping-jalapenos", Cost = 1.2},
+            new Topping {Name = "Pineapple", Class = "topping-pineapple", Cost = 1.2},
+            new Topping {Name = "Green Peppers", Class = "topping-greenpepper", Cost = 1.2},
+            new Topping {Name = "Tomatoes", Class = "topping-tomato", Cost = 1.2},
+            new Topping {Name = "Red Onions", Class = "topping-redonion", Cost = 1.2},
+            new Topping {Name = "Banana Peppers", Class = "topping-bananapepper", Cost = 1.2},
+            new Topping {Name = "Green Olives", Class = "topping-greenolive", Cost = 1.2},
         };
 
         private List<Size> _sizes = new List<Size>

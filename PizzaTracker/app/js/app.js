@@ -21,6 +21,10 @@ app.config(function ($routeProvider) {
             templateUrl: "templates/users.html",
             controller: 'usersController'
         })
+        .when('/neworder/:pizzaId', {
+            templateUrl: "templates/neworder.html",
+            controller: 'orderController'
+        })
         .when('/neworder', {
             templateUrl: "templates/neworder.html",
             controller: 'orderController'
@@ -29,7 +33,26 @@ app.config(function ($routeProvider) {
             templateUrl: "templates/queue.html",
             controller: 'queueController'
         })
+        .when('/pizza/:pizzaId', {
+            templateUrl: "templates/pizza.html",
+            controller: 'pizzaController'
+        })
         .otherwise({
             redirectTo: '/' //redirect to home route
         });
 });
+
+function lookupById(arr, id) {
+    var n = $.grep(arr, function (a) {
+        return a.Id == id;
+    });
+    return (n && n.length > 0) ? n[0] : null;
+}
+
+function lookupByIds(arr, idArr) {
+    var list = [];
+    for (var i = 0; i < idArr.length; i++) {
+        list.push(lookupById(arr, idArr[i].Id));
+    }
+    return list;
+}
