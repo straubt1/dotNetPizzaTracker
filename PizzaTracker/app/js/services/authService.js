@@ -10,7 +10,9 @@ app.factory('authService', ['$http', '$q', 'localStorageService', function ($htt
 
     var _getAuth = function () {
         var cookie = localStorageService.get('user');
-        if (cookie) {
+        if (cookie && cookie.Expiration && 
+            new Date(cookie.Expiration) > new Date()) {
+            //found and not believed to be expired
             _authentication.user = cookie;
             _authentication.isAuth = true;
         } else {

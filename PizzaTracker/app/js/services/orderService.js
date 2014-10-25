@@ -22,6 +22,25 @@ app.factory('orderService', ['$http', '$q', 'localStorageService', function ($ht
         return deferred.promise;
     };
 
+    var _sendAnonOrder = function (pizza, userId) {
+        var deferred = $q.defer();
+        //var local = localStorageService.get('resources');
+
+        pizza.UserToken = userId;
+        $http({
+            method: 'POST',
+            data: pizza,
+            url: '/api/order'
+        }).success(function (response) {
+            //orderServiceFactory = response;
+            //localStorageService.set('resources', response);
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+
     var _getOrders = function (userId) {
         var deferred = $q.defer();
         //var local = localStorageService.get('resources');
@@ -54,6 +73,7 @@ app.factory('orderService', ['$http', '$q', 'localStorageService', function ($ht
     };
     //orderServiceFactory.getResources = _getResources;
     orderServiceFactory.sendOrder = _sendOrder;
+    orderServiceFactory.sendAnonOrder = _sendAnonOrder;
     orderServiceFactory.getOrders = _getOrders;
     orderServiceFactory.deleteOrder = _deleteOrder;
     return orderServiceFactory;

@@ -35,7 +35,7 @@ namespace PizzaTracker.Controllers
             var pizza = new Pizza
             {
                 CrustId = pizzaVm.Crust.Id,
-                SauceId = pizzaVm.Sauce.Id,
+                Sauce = new SauceOption { SauceId = pizzaVm.Sauce.Id, SauceLevelId = pizzaVm.SauceLevel.Id},
                 SizeId = pizzaVm.Size.Id,
                 Toppings = new List<ToppingOption>()
             };
@@ -49,7 +49,7 @@ namespace PizzaTracker.Controllers
                 pizza.Toppings.Add(tOption);
             }
 
-            _repo.PlaceOrderForUser(user.Id, new List<Pizza> {pizza}, pizzaVm.Instructions);
+            _repo.PlaceOrderForUser(user.Id, new List<Pizza> { pizza }, pizzaVm.Instructions);
 
             return CreatedAtRoute("DefaultApi", new { id = 1 }, pizza);
         }

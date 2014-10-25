@@ -2,10 +2,12 @@
     function ($scope, $location, $routeParams, resourceService, orderService, pizzaService) {
         $scope.resources = {};
         $scope.confirmModalShown = false;
+        $scope.anonUser = {};
 
         $scope.selectedPizza = {
             Crust: {},
             Sauce: {},
+            SauceLevel: {},
             Size: {},
             Toppings: []
         };
@@ -31,6 +33,7 @@
 
              $scope.selectedPizza.Crust = lookupById($scope.resources.Crusts, 1);
              $scope.selectedPizza.Sauce = lookupById($scope.resources.Sauces, 1);
+             $scope.selectedPizza.SauceLevel = lookupById($scope.resources.SauceLevels, 1);
              $scope.selectedPizza.Size = lookupById($scope.resources.Sizes, 1);
          },
              function (err) {
@@ -39,25 +42,31 @@
              });
 
         $scope.createOrder = function () {
-            console.log("new order placed");
-            //var pizza = {
-            //    Crust: $scope.selectCrust,
-            //    Sauce: $scope.selectSauce,
-            //    Size: $scope.selectSize,
-            //    Toppings: $scope.selectToppings
-            //};
-            orderService.sendOrder($scope.selectedPizza, $scope.authentication.user.Token)
-            .then(function (response) {
-                console.log("order placed success " + response);
-                $scope.confirmModalShown = false;
-                $location.path('#/');
-                //$scope.$apply();
-            },
-             function (err) {
-                 console.log("order placed error " + err);
-                 //$scope.resources = {};
-             });
-
+            if ($scope.authentication.isAuth) {
+                orderService.sendOrder($scope.selectedPizza, $scope.authentication.user.Token)
+                    .then(function (response) {
+                        console.log("order placed success " + response);
+                        $scope.confirmModalShown = false;
+                        $location.path('#/');
+                        //$scope.$apply();
+                    },
+                        function (err) {
+                            console.log("order placed error " + err);
+                            //$scope.resources = {};
+                        });
+            } else {
+                orderService.sendAnonOrder($scope.selectedPizza, $scope.anonUser)
+                  .then(function (response) {
+                      console.log("order placed success " + response);
+                      $scope.confirmModalShown = false;
+                      $location.path('#/');
+                      //$scope.$apply();
+                  },
+                      function (err) {
+                          console.log("order placed error " + err);
+                          //$scope.resources = {};
+                      });
+            }
         };
 
         var startingPizzaId = $routeParams.pizzaId;
@@ -67,7 +76,8 @@
                console.log("pizza gotten2 success " + response);
 
                $scope.selectedPizza.Crust = lookupById($scope.resources.Crusts, response.Crust.Id);
-               $scope.selectedPizza.Sauce = lookupById($scope.resources.Sauces, response.Sauce.Id);
+               $scope.selectedPizza.Sauce = lookupById($scope.resources.Sauces, response.Sauce.Sauce.Id);
+               $scope.selectedPizza.SauceLevel = lookupById($scope.resources.SauceLevels, response.Sauce.SauceLevel.Id);
                $scope.selectedPizza.Size = lookupById($scope.resources.Sizes, response.Size.Id);
                $scope.selectedPizza.Toppings = lookupByIds($scope.resources.Toppings, response.Toppings.map(function (v) {
                    return v.Topping;

@@ -16,8 +16,8 @@ namespace PizzaTracker.Models
         [ForeignKey("CrustId")]
         public virtual Crust Crust { get; set; }
         public virtual List<ToppingOption> Toppings { get; set; }
-        public int SauceId { get; set; }
-        [ForeignKey("SauceId")]
-        public virtual Sauce Sauce { get; set; }
+        //public int SauceId { get; set; }
+        //[ForeignKey("SauceId")]
+        public virtual SauceOption Sauce { get; set; }
     }
 }

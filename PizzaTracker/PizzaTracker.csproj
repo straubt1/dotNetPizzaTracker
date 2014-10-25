@@ -1231,6 +1231,22 @@
     <Compile Include="Migrations\201410011943303_Topping.Class.Designer.cs">
       <DependentUpon>201410011943303_Topping.Class.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410102134415_SauceLevels.cs" />
+    <Compile Include="Migrations\201410102134415_SauceLevels.Designer.cs">
+      <DependentUpon>201410102134415_SauceLevels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410251532538_SauceLevelToPizza.cs" />
+    <Compile Include="Migrations\201410251532538_SauceLevelToPizza.Designer.cs">
+      <DependentUpon>201410251532538_SauceLevelToPizza.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410251540066_SauceLevelToPizza2.cs" />
+    <Compile Include="Migrations\201410251540066_SauceLevelToPizza2.Designer.cs">
+      <DependentUpon>201410251540066_SauceLevelToPizza2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410251543287_SauceLevelToPizza3.cs" />
+    <Compile Include="Migrations\201410251543287_SauceLevelToPizza3.Designer.cs">
+      <DependentUpon>201410251543287_SauceLevelToPizza3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Crust.cs" />
     <Compile Include="Models\Message.cs" />
@@ -1239,6 +1255,8 @@
     <Compile Include="Models\OrderEvent.cs" />
     <Compile Include="Models\Pizza.cs" />
     <Compile Include="Models\PizzaSide.cs" />
+    <Compile Include="Models\SauceLevel.cs" />
+    <Compile Include="Models\SauceOption.cs" />
     <Compile Include="ViewModels\PizzaQueueVm.cs" />
     <Compile Include="ViewModels\PizzaVm.cs" />
     <Compile Include="Models\PizzaQueue.cs" />
@@ -1288,6 +1306,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410011943303_Topping.Class.resx">
       <DependentUpon>201410011943303_Topping.Class.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410102134415_SauceLevels.resx">
+      <DependentUpon>201410102134415_SauceLevels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410251532538_SauceLevelToPizza.resx">
+      <DependentUpon>201410251532538_SauceLevelToPizza.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410251540066_SauceLevelToPizza2.resx">
+      <DependentUpon>201410251540066_SauceLevelToPizza2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410251543287_SauceLevelToPizza3.resx">
+      <DependentUpon>201410251543287_SauceLevelToPizza3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

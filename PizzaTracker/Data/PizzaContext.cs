@@ -23,6 +23,7 @@ namespace PizzaTracker.Data
         public DbSet<Crust> Crusts { get; set; }
         public DbSet<Size> Sizes { get; set; }
         public DbSet<Sauce> Sauces { get; set; }
+        public DbSet<SauceLevel> SauceLevels { get; set; }
         public DbSet<Pizza> Pizzas { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<PizzaQueue> PizzaQueue { get; set; }

@@ -25,11 +25,11 @@
                     </div>
                     <div class="large-6 columns">
                         <span>Level</span>
-                        <select name="sauce_id" ng-model="selectedPizza.Sauce" ng-options="sauce.Name for sauce in resources.Sauces"
+                        <select name="saucelevel_id" ng-model="selectedPizza.SauceLevel" ng-options="level.Name for level in resources.SauceLevels"
                                 ng-required="true">
-                            <option value="">-- choose sauce --</option>
+                            <option value="">-- choose sauce level --</option>
                         </select>
-                        <span class="error" ng-show="neworderform.sauce_id.$error.required">Select a Sauce </span>
+                        <span class="error" ng-show="neworderform.saucelevel_id.$error.required">Select a Sauce Level</span>
                     </div>
                 </div>
                 <br />
@@ -61,34 +61,37 @@
                 <br />
             </div>
             <div class="large-6 columns">
-                Verify
-                <!--<div class="small-8 columns">
-                        <h4>Crust</h4>
-                        <div>{{ selectedPizza.Crust.Name }}</div>
+                <h4>Confirm</h4>
+                <div data-alert class="alert-box info radius pizza-confirm">
+                    <div>
+                        <div><strong>Crust: </strong>{{ selectedPizza.Crust.Name }}</div>
+                        <br />
                     </div>
-                    <div class="small-8 columns">
-                        <h4>Sauce</h4>
-                        <div>{{ selectedPizza.Sauce.Name }}</div>
+                    <div>
+                        <div><strong>Sauce: </strong>{{ selectedPizza.Sauce.Name }} ({{ selectedPizza.SauceLevel.Name }})</div>
+                        <br />
                     </div>
-                    <div class="small-8 columns">
-                        <h4>Size</h4>
-                        <div>{{ selectedPizza.Size.Name }}</div>
+                    <div>
+                        <div><strong>Size: </strong>{{ selectedPizza.Size.Name }}</div>
+                        <br />
                     </div>
-                    <div class="small-8 columns">
-                        <h4>Toppings</h4>
-                        <div>
-                            <span ng-repeat="t in selectedPizza.Toppings">
+                    <div>
+                        <strong>Toppings: </strong>
+                        <br />
+                        <span ng-hide="selectedPizza.Toppings.length > 0">No Toppings Selected</span>
+                        <ul>
+                            <li ng-repeat="t in selectedPizza.Toppings | orderBy: 'Name'">
                                 {{ t.Name }}
-                            </span>
-                        </div>
-                    </div>-->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="large-centered columns">
                 <button type="button"
                         class="button radius right"
-                        ng-disabled="neworderform.$invalid"
                         ng-click="toggleConfirmModal()">
                     Place Order
                 </button>
@@ -96,39 +99,69 @@
         </div>
         <div pizza-modal show='confirmModalShown'>
             <div class="row">
-                <div class="small-8 columns">
-                    <h4>Crust</h4>
-                    <div>{{ selectedPizza.Crust.Name }}</div>
-                </div>
-                <div class="small-8 columns">
-                    <h4>Sauce</h4>
-                    <div>{{ selectedPizza.Sauce.Name }}</div>
-                </div>
-                <div class="small-8 columns">
-                    <h4>Size</h4>
-                    <div>{{ selectedPizza.Size.Name }}</div>
-                </div>
-                <div class="small-8 columns">
-                    <h4>Toppings</h4>
+                <div class="large-6 columns">
                     <div>
-                        <span ng-repeat="t in selectedPizza.Toppings">
-                            {{ t.Name }}
-                        </span>
+                        <div><strong>Crust: </strong>{{ selectedPizza.Crust.Name }}</div>
+                        <br />
+                    </div>
+                    <div>
+                        <div><strong>Sauce: </strong>{{ selectedPizza.Sauce.Name }} ({{ selectedPizza.SauceLevel.Name }})</div>
+                        <br />
+                    </div>
+                    <div>
+                        <div><strong>Size: </strong>{{ selectedPizza.Size.Name }}</div>
+                        <br />
+                    </div>
+                    <div>
+                        <strong>Toppings: </strong>
+                        <br />
+                        <span ng-hide="selectedPizza.Toppings.length > 0">No Toppings Selected</span>
+                        <ul>
+                            <li ng-repeat="t in selectedPizza.Toppings | orderBy: 'Name'">
+                                {{ t.Name }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
-
-                <div class="small-8 columns">
-                    <button type="submit"
-                            class="button radius">
-                        Send Order
-                    </button>
+                <div class="large-6 columns" ng-if="!authentication.isAuth">
+                    <div>
+                        You are <strong>not</strong> logged in!
+                    </div>
+                    <div>
+                        Don't worry you can still order, just enter your information below.
+                    </div>
+                    <br />
+                    <label>Email</label>
+                    <input type="email" placeholder="Email" name="email" ng-model="anonUser.Email" required />
+                    <div class="error"
+                         ng-show="neworderform.email.$dirty && neworderform.email.$invalid">
+                        <small class="error"
+                               ng-show="neworderform.email.$error.required">
+                            Your email is required.
+                        </small>
+                        <small class="error"
+                               ng-show="neworderform.email.$error.email">
+                            That is not a valid email. Please input a valid email.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-6 columns">
                     <button type="button"
                             class="button radius alert"
                             ng-click="toggleConfirmModal()">
                         Edit Order
                     </button>
                 </div>
-            </div>
+                <div class="small-6 columns">
+                    <button type="submit"
+                            ng-disabled="!authentication.isAuth && neworderform.$invalid"
+                            class="button radius right">
+                        Send Order
+                    </button>
+                    </div>
+                </div>
         </div>
     </form>
 </div>

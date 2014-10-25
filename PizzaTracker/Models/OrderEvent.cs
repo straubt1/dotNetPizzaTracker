@@ -10,7 +10,7 @@ namespace PizzaTracker.Models
         /// </summary>
         public virtual DateTime Date { get; set; }
         /// <summary>
-        /// Desciption of the event
+        /// Description of the event
         /// </summary>
         public virtual string Description { get; set; }
     }

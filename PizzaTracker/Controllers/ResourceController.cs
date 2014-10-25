@@ -19,7 +19,8 @@ namespace PizzaTracker.Controllers
                 Sauces = db.Sauces.ToList(),
                 Sizes = db.Sizes.ToList(),
                 Toppings = db.Toppings.ToList(),
-                Statuses =  db.Statuses.ToList()
+                Statuses =  db.Statuses.ToList(),
+                SauceLevels =  db.SauceLevels.ToList()
             };
 
             return all;

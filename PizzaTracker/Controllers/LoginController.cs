@@ -54,7 +54,7 @@ namespace PizzaTracker.Controllers
 
             var loginVmJson = JsonConvert.SerializeObject(loginVm);
             var encrypted = Aes256.Encrypt(loginVmJson);
-            return new { Token = encrypted, Name = userDb.FirstName, Role = userDb.Role.Name };
+            return new { Token = encrypted, Name = userDb.FirstName, Role = userDb.Role.Name, Expiration = userDb.LoginExpiration };
             // return CreatedAtRoute("DefaultApi", new { id = userDb.Id }, userDb);
         }
     }

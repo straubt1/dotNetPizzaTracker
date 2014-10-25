@@ -67,6 +67,13 @@ namespace PizzaTracker.Migrations
             new Sauce {Name = "None"}
         };
 
+        private List<SauceLevel> _sauceLevels = new List<SauceLevel>
+        {
+            new SauceLevel {Name = "Regular"},
+            new SauceLevel {Name = "Light"},
+            new SauceLevel {Name = "Heavy"}
+        };
+
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
@@ -146,6 +153,11 @@ namespace PizzaTracker.Migrations
             {
                 context.Sauces.AddOrUpdate(x => x.Name, sauce);
             }
+
+            foreach (var level in _sauceLevels)
+            {
+                context.SauceLevels.AddOrUpdate(x => x.Name, level);
+            }
         }
 
         private void PopulatePizzas(PizzaContext context)
@@ -160,7 +172,7 @@ namespace PizzaTracker.Migrations
                     new ToppingOption{ Topping = context.Toppings.ToList()[0], Side = PizzaSide.Full},
                     new ToppingOption{ Topping = context.Toppings.ToList()[1],  Side = PizzaSide.Left}
                 },
-                SauceId = 1,
+                Sauce = new SauceOption { Id = 1 },
                 SizeId = 1
             };
 

@@ -26,7 +26,7 @@ namespace PizzaTracker.Test.Repo
             var pizza = new Pizza
             {
                 CrustId = 1,
-                SauceId = 1,
+                Sauce = new SauceOption { Id = 1 },
                 SizeId = 1,
                 Name = "Test Pizza",
                 Toppings = new List<ToppingOption>
@@ -81,7 +81,7 @@ namespace PizzaTracker.Test.Repo
             var pizza = new Pizza
             {
                 CrustId = 1,
-                SauceId = 1,
+                Sauce = new SauceOption { Id = 1 },
                 SizeId = 1,
                 Name = "Test Pizza",
                 Toppings = new List<ToppingOption>

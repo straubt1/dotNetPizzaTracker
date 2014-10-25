@@ -4,6 +4,8 @@
 
 .icon-size-30 {
     font-size: 30px;
+    padding-left: 6px;
+    padding-right: 6px;
 }
 
 .icon-size-20 {
@@ -151,4 +153,54 @@ figure.dash-image {
 
 .topping-selected {
     border: solid black;
+}
+
+/*Override*/
+.reveal-modal {
+    margin-left: -25%;
+    width: 50%;
+}
+
+.pizza-confirm {
+    height: 100%;
+}
+
+
+.pizza-toppingsshort {
+    margin-left: 20px;
+}
+
+
+/*.coverpage {
+    background: url('http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 1000px;
+}*/
+img.bg {
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+    /* Set up positioning */
+    position: fixed;
+    /*top: 0;*/
+    left: 0;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+    img.bg {
+        left: 50%;
+        margin-left: -512px; /* 50% */
+    }
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    margin-left: 24% !important;
 }

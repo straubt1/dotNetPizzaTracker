@@ -5,7 +5,7 @@ var app = angular.module("pizzaApp", ['ngRoute', 'ngAnimate', 'ngCookies', 'angu
 app.constant('pizzaAppConfig',
 {
     notificationInterval: 1000,//time between polling
-    notificationIsListening: false//are we listening
+    notificationIsListening: true//are we listening
 });
 app.config(function ($routeProvider) {
     $routeProvider

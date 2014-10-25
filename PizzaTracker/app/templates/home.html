@@ -1,10 +1,11 @@
 ﻿<!--<div class="row">
     <div class="large-12 columns">-->
 <!--<img src="img/pizza3.jpg" class="home-image" />-->
-<figure class="dash-image">
-    <img src="http://placehold.it/1040x650&text=Pizza Image" alt="slide image">
+<!--<figure class="dash-image">
+    <img src="http://placehold.it/1040x650&text=Pizza Image" alt="slide image">-->
     <!--<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" alt="slide image" >-->
-</figure>
+<!--</figure>-->
+<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" class="bg shadow">
 <!--</div>
 </div>-->
 <div class="row">
@@ -15,7 +16,7 @@
             <thead>
                 <tr>
                     <th width="200">Order Date</th>
-                    <th>Order Contents</th>
+                    <th>Pizza</th>
                     <th width="130">Actions</th>
                 </tr>
             </thead>
@@ -29,88 +30,93 @@
                 <tr ng-show="authentication.isAuth && orders.length > 0" ng-repeat="o in orders">
                     <td>{{ o.Date }}</td>
                     <td>
-                        <span ng-repeat="p in o.Pizzas">
-                            {{o.Pizzas[0].Id}}
-                            <span ng-repeat="t in p.Toppings">
-                                {{t.Topping.Name}}
+                        <div ng-repeat="p in o.Pizzas">
+                            <span>
+                                <strong>{{p.Size.Name}}</strong> / <strong>{{p.Crust.Name}}</strong> / <strong>{{p.Sauce.Sauce.Name}} ({{p.Sauce.SauceLevel.Name}})</strong>
                             </span>
-                        </span>
-
+                            <br />
+                            <div class="pizza-toppingsshort">
+                                <i ng-hide="p.Toppings.length > 0">No Toppings on this pizza, are you crazy? or just boring...</i>
+                                <i ng-repeat="t in p.Toppings | orderBy: 'Topping.Name'">
+                                    {{t.Topping.Name}}{{$last ? '' : ', '}}
+                                </i>
+                            </div>
+                        </div>
                     </td>
                     <td class="right">
                         <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
-                            <a href="#"><i class="fi-annotate icon-size-20"></i></a>
+                            <a href="#/neworder/{{o.Pizzas[0].Id}}"><i class="fi-annotate icon-size-30"></i></a>
                         </span>
                         <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
-                            <a href="#"><i class="fi-share icon-size-20"></i></a>
+                            <a ng-click="toggleShareModal(o)"><i class="fi-share icon-size-30"></i></a>
                         </span>
                         <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
-                            <a ng-click="removeOrder(o.Id)"><i class="fi-x icon-size-20"></i></a>
+                            <a ng-click="removeOrder(o.Id)"><i class="fi-x icon-size-30"></i></a>
                         </span>
                     </td>
                 </tr>
-
-                <!--<tr>
-                        <td>9/17/2014 4:34pm</td>
-                        <td>Supreme Pizza</td>
-                        <td class="right">
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
-                                <a href="#"><i class="fi-annotate size-logo"></i></a>
-                            </span>
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
-                                <a href="#"><i class="fi-share size-logo"></i></a>
-                            </span>
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
-                                <a href="#"><i class="fi-x size-logo"></i></a>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>9/13/2014 2:32pm</td>
-                        <td>Meat Topper Pizza</td>
-                        <td class="right">
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
-                                <a href="#"><i class="fi-annotate size-logo"></i></a>
-                            </span>
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
-                                <a href="#"><i class="fi-share size-logo"></i></a>
-                            </span>
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
-                                <a href="#"><i class="fi-x size-logo"></i></a>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>9/12/2014 9:45pm</td>
-                        <td>Veggie Pizza</td>
-                        <td class="right">
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
-                                <a href="#"><i class="fi-annotate size-logo"></i></a>
-                            </span>
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
-                                <a href="#"><i class="fi-share size-logo"></i></a>
-                            </span>
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
-                                <a href="#"><i class="fi-x size-logo"></i></a>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>9/10/2014 3:33pm</td>
-                        <td>Supreme Pizza</td>
-                        <td class="right">
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
-                                <a href="#"><i class="fi-annotate size-logo"></i></a>
-                            </span>
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
-                                <a href="#"><i class="fi-share size-logo"></i></a>
-                            </span>
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
-                                <a href="#"><i class="fi-x size-logo"></i></a>
-                            </span>
-                        </td>
-                    </tr>-->
             </tbody>
         </table>
     </div>
+</div>
+
+<div pizza-modal show='shareModalShown'>
+    <form name="shareform" ng-submit="shareOrder()">
+        <fieldset>
+            <legend>Share Order</legend>
+            <div class="row">
+                <div class="small-8 columns">
+                    <div ng-repeat="p in shareModel.order.Pizzas">
+                        <span>
+                            <strong>{{p.Size.Name}}</strong> / <strong>{{p.Crust.Name}}</strong> / <strong>{{p.Sauce.Sauce.Name}} ({{p.Sauce.SauceLevel.Name}})</strong>
+                        </span>
+                        <br />
+                        <div class="pizza-toppingsshort">
+                            <i ng-hide="p.Toppings.length > 0">No Toppings on this pizza, are you crazy? or just boring...</i>
+                            <i ng-repeat="t in p.Toppings | orderBy: 'Topping.Name'">
+                                {{t.Topping.Name}}{{$last ? '' : ', '}}
+                            </i>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-8 columns">
+                    <label>Email</label>
+                    <input type="email" placeholder="Email" name="email" ng-model="shareModel.email" />
+
+                    <div class="error"
+                         ng-show="shareform.email.$dirty && shareform.email.$invalid">
+                        <small class="error"
+                               ng-show="shareform.email.$error.email">
+                            That is not a valid email. Please input a valid email.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-8 columns">
+                    <label>Message</label>
+                    <textarea placeholder="Enter a custom message" name="message" ng-model="shareModel.message"
+                              ng-maxlength="250"></textarea>
+                    <div class="error"
+                         ng-show="shareform.message.$dirty && shareform.message.$invalid">
+                        <small class="error"
+                               ng-show="shareform.message.$error.maxlength">
+                            Your name cannot be longer than 250 characters
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="small-8 columns">
+                <button type="submit"
+                        ng-disabled="shareform.$invalid"
+                        class="button radius">
+                    Share Order
+                </button>
+            </div>
+</div>
+        </fieldset>
+    </form>
 </div>
