@@ -1,4 +1,4 @@
-﻿angular.module('pizzaApp').controller('homeController', ['$scope', 'orderService', function ($scope, orderService) {
+﻿angular.module('pizzaApp').controller('homeController', ['$scope', 'orderService', 'emailService', 'ngTableParams', function ($scope, orderService, emailService, ngTableParams) {
 
     $scope.orders = {};
     $scope.shareModalShown = false;
@@ -13,8 +13,29 @@
         $scope.shareModalShown = !$scope.shareModalShown;
     };
 
-    $scope.shareOrder = function() {
+    $scope.tableParams = {};
 
+    $scope.shareOrder = function () {
+        var subject = $scope.authentication.user.Name + " wants to share a Pizza with you - Pizza Tracker";
+        var message = "<html>Hey!<br/>Check out this pizza <a href='" + $scope.shareModel.order.ShareLink + "'>My Awesome Pizza</a><br/><br/>" +
+            $scope.shareModel.message + "</html>";
+
+        emailService.sendEmail($scope.shareModel.email, subject, message)
+             .then(function () {
+                 alertify.success("Pizza Has Been Shared!",
+                     null,
+                     null);
+                 $scope.shareModel = {
+                     order: {},
+                     message: "",
+                     email: ""
+                 };
+             },
+            function (err) {
+                alertify.error("Sorry, there was a problem sending your email!",
+                    null,
+                    null);
+            });
         console.log($scope.shareModel.order.Pizzas[0].Id);
         $scope.shareModalShown = false;
     };
@@ -49,4 +70,31 @@
     };
 
     $scope.getOrders();
+
+    var data = null;
+
+    $scope.tableParams = new ngTableParams({
+        page: 1,            // show first page
+        count: 4          // count per page
+    }, {
+        total: 0,           // length of data
+        //groupBy: '',
+        getData: function ($defer, params) {
+            if ($scope.authentication.isAuth) {
+                if (data == null) {
+                    orderService.getOrders($scope.authentication.user.Token)
+                        .then(function (response) {
+                            params.total(response.length);
+                            data = response;
+                            $defer.resolve(response.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                        },
+                            function (err) {
+                                console.log("failed to get orders");
+                            });
+                } else {
+                    $defer.resolve(data.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            }
+        }
+    });
 }]);

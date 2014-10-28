@@ -1,4 +1,4 @@
-﻿namespace PizzaTracker.Models
+﻿namespace PizzaTracker.ViewModels
 {
     public class UserVm
     {

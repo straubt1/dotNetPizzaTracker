@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Authentication;
-using System.Web.WebSockets;
+using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 using PizzaTracker.Data;
 using PizzaTracker.Models;
+using PizzaTracker.ViewModels;
 
 namespace PizzaTracker.Code
 {
@@ -54,11 +56,56 @@ namespace PizzaTracker.Code
 
             return userDb;
         }
+        public User GetAnonUserByEmail(string userEmail)
+        {
+            var existing = _context.Users.FirstOrDefault(x => x.UserName == userEmail);
+            if (existing != null)
+            {
+                existing.LoginToken = Crypto.GenerateSalt();
+                existing.LoginExpiration = DateTime.UtcNow.AddMinutes(500);
+                _context.Entry(existing).State = EntityState.Modified;
+                _context.SaveChanges();
+                return existing;
+            }
+
+            //create random password, this will never be used to login directly
+            var salt = Crypto.GenerateSalt();
+            var password = Crypto.HashPassword(salt, salt);
+            var role = _context.Roles.FirstOrDefault(x => x.Id == 3);
+            var user = new User
+            {
+                //use email as username since we wont ask for their info
+                UserName = userEmail,
+                FirstName = "Guest",
+                //LastName = userVm.LastName,
+                Email = userEmail,
+                Role = role,
+                PasswordHash = password,
+                PasswordSalt = salt,
+                PasswordResetToken = "null",
+                LoginToken = Crypto.GenerateSalt(),
+                LoginExpiration = DateTime.UtcNow.AddMinutes(500)
+            };
+            //userDb.LoginToken = Crypto.GenerateSalt();
+            //userDb.LoginExpiration = DateTime.UtcNow.AddMinutes(500);
+            //var loginVm = new LoginVm { UserId = userDb.Id, UserToken = userDb.LoginToken };
+            //db.Entry(userDb).State = EntityState.Modified;
+            
+            _context.Users.AddOrUpdate(x => x.Email, user);
+            _context.SaveChanges();
+            var u =  _context.Users.ToList().FirstOrDefault(x => x.UserName == userEmail);
+            return u;
+        }
         #endregion
 
         public Order GetOrderById(int id)
         {
             return _context.Orders.SingleOrDefault(x => x.Id == id);
+        }
+
+        public Order GetOrderByPizzaId(int id)
+        {
+            return _context.Orders.SingleOrDefault(x => x.Pizzas.Any(y=>y.Id == id));
         }
 
         public Pizza GetPizzaById(int id)
@@ -73,7 +120,7 @@ namespace PizzaTracker.Code
 
         public IEnumerable<PizzaQueue> GetpPizzaQueues()
         {
-            return _context.PizzaQueue.Where(x=>x.Active);
+            return _context.PizzaQueue.Where(x => x.Active);
         }
 
         /// <summary>
@@ -86,7 +133,7 @@ namespace PizzaTracker.Code
             return _context.Orders.Where(x => x.OrderedById == userId && x.Show);
         }
 
-        public Order PlaceOrderForUser(int userId, List<Pizza> pizzas, string customInst = null)
+        public Order PlaceOrderForUser(int userId, List<Pizza> pizzas, NotificationVm notifications, string customInst = null)
         {
             var orderEvent = new OrderEvent
             {
@@ -100,7 +147,10 @@ namespace PizzaTracker.Code
                 OrderedById = userId,
                 Pizzas = pizzas,
                 Show = true,//default
-                CustomInstructions = customInst
+                CustomInstructions = customInst,
+                NotificationEmail = notifications.Email,
+                NotificationText = notifications.Text,
+                NotificationPush =  notifications.Push
             };
 
             //add order to database
@@ -116,17 +166,6 @@ namespace PizzaTracker.Code
                 Active = true//default
             };
             _context.PizzaQueue.Add(pizzaQ);
-
-            //add to message queue
-            var messageQ = new MessageQueue
-            {
-                OrderId = order.Id,
-                Date = PizzaTime.Now,
-                MessageTitle = "Your order has been placed!",
-                MessageBody = "We will update you along the way.",
-                Active = true//default
-            };
-            _context.MessageQueue.Add(messageQ);
             _context.SaveChanges();
 
             return order;
@@ -189,7 +228,8 @@ namespace PizzaTracker.Code
         /// <returns></returns>
         public MessageQueue GetNextMessage(int userId)
         {
-            var message = _context.MessageQueue.OrderBy(x => x.Date).FirstOrDefault(x => x.Order.OrderedById == userId && x.Active);
+            //todo filter out messages that are older than 10 minutes
+            var message = _context.MessageQueue.OrderBy(x => x.Date).FirstOrDefault(x => x.Order.OrderedById == userId && x.Active);// && (DateTime.Now - x.Date).TotalMinutes < 10);
             if (message == null)
             {
                 return null;
@@ -221,7 +261,7 @@ namespace PizzaTracker.Code
                 Active = true
             };
 
-            messageQ =_context.MessageQueue.Add(messageQ);
+            messageQ = _context.MessageQueue.Add(messageQ);
             _context.SaveChanges();
             return messageQ;
         }

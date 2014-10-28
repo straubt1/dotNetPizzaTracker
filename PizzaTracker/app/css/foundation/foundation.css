@@ -5182,3 +5182,265 @@ th.hide-for-touch {
 
   th.show-for-print {
     display: table-cell !important; } }
+
+
+
+/*Tom Added*/
+
+/* line 200, ../../sass/foundation/components/_switches.scss */
+.switch {
+  padding: 0;
+  border: none;
+  position: relative;
+}
+/* line 49, ../../sass/foundation/components/_switches.scss */
+.switch label {
+  display: block;
+  margin-bottom: 1rem;
+  position: relative;
+  color: transparent;
+  background: #dddddd;
+  text-indent: 100%;
+  width: 4rem;
+  height: 2rem;
+  cursor: pointer;
+  transition: left 0.15s ease-out;
+}
+/* line 65, ../../sass/foundation/components/_switches.scss */
+.switch input {
+  opacity: 0;
+  position: absolute;
+  top: 9px;
+  left: 10px;
+  padding: 0;
+}
+/* line 72, ../../sass/foundation/components/_switches.scss */
+.switch input + label {
+  margin-left: 0;
+  margin-right: 0;
+}
+/* line 79, ../../sass/foundation/components/_switches.scss */
+.switch label:after {
+  content: "";
+  display: block;
+  background: white;
+  position: absolute;
+  top: .25rem;
+  left: .25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-transition: left 0.15s ease-out;
+  -moz-transition: left 0.15s ease-out;
+  transition: left 0.15s ease-out;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+/* line 95, ../../sass/foundation/components/_switches.scss */
+.switch input:checked + label {
+  background: #008cba;
+}
+/* line 99, ../../sass/foundation/components/_switches.scss */
+.switch input:checked + label:after {
+  left: 2.25rem;
+}
+/* line 111, ../../sass/foundation/components/_switches.scss */
+.switch label {
+  width: 4rem;
+  height: 2rem;
+}
+/* line 115, ../../sass/foundation/components/_switches.scss */
+.switch label:after {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+/* line 119, ../../sass/foundation/components/_switches.scss */
+.switch input:checked + label:after {
+  left: 2.25rem;
+}
+/* line 139, ../../sass/foundation/components/_switches.scss */
+.switch label {
+  color: transparent;
+  background: #dddddd;
+}
+/* line 144, ../../sass/foundation/components/_switches.scss */
+.switch label:after {
+  background: white;
+}
+/* line 148, ../../sass/foundation/components/_switches.scss */
+.switch input:checked + label {
+  background: #008cba;
+}
+/* line 111, ../../sass/foundation/components/_switches.scss */
+.switch.large label {
+  width: 5rem;
+  height: 2.5rem;
+}
+/* line 115, ../../sass/foundation/components/_switches.scss */
+.switch.large label:after {
+  width: 2rem;
+  height: 2rem;
+}
+/* line 119, ../../sass/foundation/components/_switches.scss */
+.switch.large input:checked + label:after {
+  left: 2.75rem;
+}
+/* line 111, ../../sass/foundation/components/_switches.scss */
+.switch.small label {
+  width: 3.5rem;
+  height: 1.75rem;
+}
+/* line 115, ../../sass/foundation/components/_switches.scss */
+.switch.small label:after {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+/* line 119, ../../sass/foundation/components/_switches.scss */
+.switch.small input:checked + label:after {
+  left: 2rem;
+}
+/* line 111, ../../sass/foundation/components/_switches.scss */
+.switch.tiny label {
+  width: 3rem;
+  height: 1.5rem;
+}
+/* line 115, ../../sass/foundation/components/_switches.scss */
+.switch.tiny label:after {
+  width: 1rem;
+  height: 1rem;
+}
+/* line 119, ../../sass/foundation/components/_switches.scss */
+.switch.tiny input:checked + label:after {
+  left: 1.75rem;
+}
+/* line 214, ../../sass/foundation/components/_switches.scss */
+.switch.radius label {
+  border-radius: 4px;
+}
+/* line 215, ../../sass/foundation/components/_switches.scss */
+.switch.radius label:after {
+  border-radius: 3px;
+}
+/* line 219, ../../sass/foundation/components/_switches.scss */
+.switch.round {
+  border-radius: 1000px;
+}
+/* line 220, ../../sass/foundation/components/_switches.scss */
+.switch.round label {
+  border-radius: 2rem;
+}
+/* line 221, ../../sass/foundation/components/_switches.scss */
+.switch.round label:after {
+  border-radius: 2rem;
+}
+
+
+/* Tooltips */
+/* line 38, ../../sass/foundation/components/_tooltips.scss */
+.has-tip {
+  border-bottom: dotted 1px #cccccc;
+  cursor: help;
+  font-weight: bold;
+  color: #333333;
+}
+/* line 45, ../../sass/foundation/components/_tooltips.scss */
+.has-tip:hover, .has-tip:focus {
+  border-bottom: dotted 1px #003f54;
+  color: #008cba;
+}
+/* line 51, ../../sass/foundation/components/_tooltips.scss */
+.has-tip.tip-left, .has-tip.tip-right {
+  float: none !important;
+}
+
+/* line 54, ../../sass/foundation/components/_tooltips.scss */
+.tooltip {
+  display: none;
+  position: absolute;
+  z-index: 1006;
+  font-weight: normal;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  padding: 0.75rem;
+  max-width: 300px;
+  left: 50%;
+  width: 100%;
+  color: white;
+  background: #333333;
+}
+/* line 68, ../../sass/foundation/components/_tooltips.scss */
+.tooltip > .nub {
+  display: block;
+  left: 5px;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: solid 5px;
+  border-color: transparent transparent #333333 transparent;
+  top: -10px;
+  pointer-events: none;
+}
+/* line 79, ../../sass/foundation/components/_tooltips.scss */
+.tooltip > .nub.rtl {
+  left: auto;
+  right: 5px;
+}
+/* line 85, ../../sass/foundation/components/_tooltips.scss */
+.tooltip.radius {
+  border-radius: 3px;
+}
+/* line 88, ../../sass/foundation/components/_tooltips.scss */
+.tooltip.round {
+  border-radius: 1000px;
+}
+/* line 90, ../../sass/foundation/components/_tooltips.scss */
+.tooltip.round > .nub {
+  left: 2rem;
+}
+/* line 95, ../../sass/foundation/components/_tooltips.scss */
+.tooltip.opened {
+  color: #008cba !important;
+  border-bottom: dotted 1px #003f54 !important;
+}
+
+/* line 101, ../../sass/foundation/components/_tooltips.scss */
+.tap-to-close {
+  display: block;
+  font-size: 0.625rem;
+  color: #777777;
+  font-weight: normal;
+}
+
+@media only screen and (min-width: 40.063em) {
+  /* line 110, ../../sass/foundation/components/_tooltips.scss */
+  .tooltip > .nub {
+    border-color: transparent transparent #333333 transparent;
+    top: -10px;
+  }
+  /* line 114, ../../sass/foundation/components/_tooltips.scss */
+  .tooltip.tip-top > .nub {
+    border-color: #333333 transparent transparent transparent;
+    top: auto;
+    bottom: -10px;
+  }
+  /* line 121, ../../sass/foundation/components/_tooltips.scss */
+  .tooltip.tip-left, .tooltip.tip-right {
+    float: none !important;
+  }
+  /* line 123, ../../sass/foundation/components/_tooltips.scss */
+  .tooltip.tip-left > .nub {
+    border-color: transparent transparent transparent #333333;
+    right: -10px;
+    left: auto;
+    top: 50%;
+    margin-top: -5px;
+  }
+  /* line 130, ../../sass/foundation/components/_tooltips.scss */
+  .tooltip.tip-right > .nub {
+    border-color: transparent #333333 transparent transparent;
+    right: auto;
+    left: -10px;
+    top: 50%;
+    margin-top: -5px;
+  }
+}

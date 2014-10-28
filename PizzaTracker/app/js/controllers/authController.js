@@ -8,6 +8,7 @@ angular.module('pizzaApp').controller('authController', ['$scope', '$location', 
         Password: "Test@123"
     };
     $scope.error = null;
+    //$scope.isLoading = false;
 
     $scope.login = function (user) {
         authService.login(user)
@@ -43,7 +44,6 @@ angular.module('pizzaApp').controller('authController', ['$scope', '$location', 
             });
         console.log(data);
     };
-    
 
     $scope.authentication = authService.authentication;
     if ($scope.authentication.isAuth) {

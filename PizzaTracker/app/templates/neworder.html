@@ -1,8 +1,12 @@
-﻿<div class="row">
+﻿<div data-alert class="alert-box" ng-show="existing">
+    This order was place on {{existingDate | date: "yyyy-MM-dd"}} by {{existingOrderBy}}.
+    <!--<a class="close">&times;</a>-->
+</div>
+<div class="row">
     <form name="neworderform" ng-submit="createOrder()">
         <div class="row">
             <div class="large-6 columns">
-                <h4>New Order</h4>
+                <h4>Create Pizza</h4>
                 <span>Crust</span>
                 <select name="crust_id" ng-model="selectedPizza.Crust" ng-options="crust.Name for crust in resources.Crusts"
                         required>
@@ -78,7 +82,7 @@
                     <div>
                         <strong>Toppings: </strong>
                         <br />
-                        <span ng-hide="selectedPizza.Toppings.length > 0">No Toppings Selected</span>
+                        <span ng-hide="selectedPizza.Toppings.length > 0">No Toppings Selected. <i>What are you, some kind of freak?</i></span>
                         <ul>
                             <li ng-repeat="t in selectedPizza.Toppings | orderBy: 'Name'">
                                 {{ t.Name }}
@@ -93,58 +97,98 @@
                 <button type="button"
                         class="button radius right"
                         ng-click="toggleConfirmModal()">
-                    Place Order
+                    Confirm Order
                 </button>
             </div>
         </div>
         <div pizza-modal show='confirmModalShown'>
             <div class="row">
                 <div class="large-6 columns">
-                    <div>
-                        <div><strong>Crust: </strong>{{ selectedPizza.Crust.Name }}</div>
-                        <br />
-                    </div>
-                    <div>
-                        <div><strong>Sauce: </strong>{{ selectedPizza.Sauce.Name }} ({{ selectedPizza.SauceLevel.Name }})</div>
-                        <br />
-                    </div>
-                    <div>
-                        <div><strong>Size: </strong>{{ selectedPizza.Size.Name }}</div>
-                        <br />
-                    </div>
-                    <div>
-                        <strong>Toppings: </strong>
-                        <br />
-                        <span ng-hide="selectedPizza.Toppings.length > 0">No Toppings Selected</span>
-                        <ul>
-                            <li ng-repeat="t in selectedPizza.Toppings | orderBy: 'Name'">
-                                {{ t.Name }}
-                            </li>
-                        </ul>
-                    </div>
+                    <fieldset>
+                        <legend>Order Confirmation</legend>
+                        <div>
+                            <div><strong>Crust: </strong>{{ selectedPizza.Crust.Name }}</div>
+                            <br />
+                        </div>
+                        <div>
+                            <div><strong>Sauce: </strong>{{ selectedPizza.Sauce.Name }} ({{ selectedPizza.SauceLevel.Name }})</div>
+                            <br />
+                        </div>
+                        <div>
+                            <div><strong>Size: </strong>{{ selectedPizza.Size.Name }}</div>
+                            <br />
+                        </div>
+                        <div>
+                            <strong>Toppings: </strong>
+                            <br />
+                            <span ng-hide="selectedPizza.Toppings.length > 0">No Toppings Selected</span>
+                            <ul class="pizza-toppingslist">
+                                <li ng-repeat="t in selectedPizza.Toppings | orderBy: 'Name'">
+                                    {{ t.Name }}
+                                </li>
+                            </ul>
+                        </div>
+                    </fieldset>
                 </div>
                 <div class="large-6 columns" ng-if="!authentication.isAuth">
-                    <div>
-                        You are <strong>not</strong> logged in!
-                    </div>
-                    <div>
-                        Don't worry you can still order, just enter your information below.
-                    </div>
-                    <br />
-                    <label>Email</label>
-                    <input type="email" placeholder="Email" name="email" ng-model="anonUser.Email" required />
-                    <div class="error"
-                         ng-show="neworderform.email.$dirty && neworderform.email.$invalid">
-                        <small class="error"
-                               ng-show="neworderform.email.$error.required">
-                            Your email is required.
-                        </small>
-                        <small class="error"
-                               ng-show="neworderform.email.$error.email">
-                            That is not a valid email. Please input a valid email.
-                        </small>
-                    </div>
+                    <fieldset>
+                        <legend>Information Required</legend>
+                        <div>
+                            You are <strong>not</strong> logged in!
+                        </div>
+                        <div>
+                            Don't worry you can still order, just enter your information below.
+                        </div>
+                        <br />
+                        <label>Email</label>
+                        <input type="email" placeholder="Email" name="email" ng-model="anonUser.Email" required />
+                        <div class="error"
+                             ng-show="neworderform.email.$dirty && neworderform.email.$invalid">
+                            <small class="error"
+                                   ng-show="neworderform.email.$error.required">
+                                Your email is required.
+                            </small>
+                            <small class="error"
+                                   ng-show="neworderform.email.$error.email">
+                                That is not a valid email. Please input a valid email.
+                            </small>
+                        </div>
+                    </fieldset>
                 </div>
+            </div>
+
+            <div class="row">
+                <fieldset>
+                    <legend>Notifications</legend>
+                    <div class="large-6 columns">
+                        <div>
+                            <div class="row pizza-notifyrow">
+                                <div class="pizza-notify">Email</div>
+                                <div class="switch radius">
+                                    <input id="emailchk" type="checkbox" ng-model="orderNotifications.Email" />
+                                    <label for="emailchk">Email</label>
+                                </div>
+                            </div>
+                            <div class="row pizza-notifyrow">
+                                <div class="pizza-notify">Text</div>
+                                <div class="switch radius">
+                                    <input id="textchk" type="checkbox" ng-model="orderNotifications.Text" />
+                                    <label for="textchk">Text</label>
+                                </div>
+                            </div>
+                            <div class="row pizza-notifyrow">
+                                <div class="pizza-notify">Push</div>
+                                <div class="switch radius">
+                                    <input id="pushchk" type="checkbox" ng-model="orderNotifications.Push" />
+                                    <label for="pushchk">Push</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="large-6 columns pizza-notifywarning" ng-show="!orderNotifications.Email && !orderNotifications.Text && !orderNotifications.Push">
+                        You don't want us to let you know when your pizza is ready? But we spent so much time on this :(
+                    </div>
+                </fieldset>
             </div>
             <div class="row">
                 <div class="small-6 columns">
@@ -160,8 +204,8 @@
                             class="button radius right">
                         Send Order
                     </button>
-                    </div>
                 </div>
+            </div>
         </div>
     </form>
 </div>

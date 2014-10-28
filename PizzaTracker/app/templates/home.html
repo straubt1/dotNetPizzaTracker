@@ -3,33 +3,35 @@
 <!--<img src="img/pizza3.jpg" class="home-image" />-->
 <!--<figure class="dash-image">
     <img src="http://placehold.it/1040x650&text=Pizza Image" alt="slide image">-->
-    <!--<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" alt="slide image" >-->
+<!--<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" alt="slide image" >-->
 <!--</figure>-->
-<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" class="bg shadow">
+<div class="pizza-imagebg">
+    <img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" class="bg shadow">
+</div>
 <!--</div>
 </div>-->
 <div class="row">
-    <div class="large-12 columns">
+    <div class="large-12 columns pizza-recentorders">
         <h4>Recent Orders <a href="#/neworder" class="right button"><i class="fi-plus dash-neworder"></i>New Order</a></h4>
 
-        <table class="table-full">
-            <thead>
+        <!--<p><strong>Page:</strong> {{tableParams.page()}}</p>
+        <p><strong>Count per page:</strong> {{tableParams.count()}}</p>-->
+
+        <table ng-table="tableParams" class="table-full" template-pagination="custom/pager" id="recent-orders">
+            <!--<thead>
                 <tr>
                     <th width="200">Order Date</th>
                     <th>Pizza</th>
                     <th width="130">Actions</th>
                 </tr>
-            </thead>
+            </thead>-->
             <tbody>
-                <tr ng-hide="authentication.isAuth">
-                    <td colspan="3">You must <a href="#/login">login</a> to see past orders</td>
-                </tr>
-                <tr ng-show="authentication.isAuth && orders.length == 0">
-                    <td colspan="3">You have no past orders</td>
-                </tr>
-                <tr ng-show="authentication.isAuth && orders.length > 0" ng-repeat="o in orders">
-                    <td>{{ o.Date }}</td>
-                    <td>
+                <tr ng-repeat="o in $data">
+                    <td data-title="'Date'">
+                        <strong>{{ o.Date | date:'MM/dd/yyyy' }}</strong>
+                        <div>{{ o.Date | date:'h:mma' }}</div>
+                    </td>
+                    <td data-title="'Pizza'">
                         <div ng-repeat="p in o.Pizzas">
                             <span>
                                 <strong>{{p.Size.Name}}</strong> / <strong>{{p.Crust.Name}}</strong> / <strong>{{p.Sauce.Sauce.Name}} ({{p.Sauce.SauceLevel.Name}})</strong>
@@ -43,10 +45,13 @@
                             </div>
                         </div>
                     </td>
-                    <td class="right">
+                    <td data-title="'Actions'" class="right">
                         <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
                             <a href="#/neworder/{{o.Pizzas[0].Id}}"><i class="fi-annotate icon-size-30"></i></a>
                         </span>
+                        <!--<script src="https://apis.google.com/js/platform.js"></script>
+                        <div class="g-plus" data-action="share" data-annotation="none"
+                             data-href="{{o.ShareLink}}"></div>-->
                         <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
                             <a ng-click="toggleShareModal(o)"><i class="fi-share icon-size-30"></i></a>
                         </span>
@@ -57,6 +62,17 @@
                 </tr>
             </tbody>
         </table>
+
+        <!--<table ng-table="tableParams" template-pagination="custom/pager" class="table">
+                <tr ng-repeat="user in $data">
+                    <td data-title="'Name of people'">
+                        {{user.name}}
+                    </td>
+                    <td data-title="'Age'">
+                        {{user.age}}
+                    </td>
+                </tr>
+            </table>-->
     </div>
 </div>
 
@@ -83,11 +99,21 @@
             </div>
             <div class="row">
                 <div class="small-8 columns">
+                    <label>Share Link</label>
+                    <input type="text" value="{{shareModel.order.ShareLink}}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-8 columns">
                     <label>Email</label>
-                    <input type="email" placeholder="Email" name="email" ng-model="shareModel.email" />
+                    <input type="email" placeholder="Email" name="email" ng-model="shareModel.email" required />
 
                     <div class="error"
                          ng-show="shareform.email.$dirty && shareform.email.$invalid">
+                        <small class="error"
+                               ng-show="shareform.email.$error.required">
+                            Email is required.
+                        </small>
                         <small class="error"
                                ng-show="shareform.email.$error.email">
                             That is not a valid email. Please input a valid email.
@@ -116,7 +142,30 @@
                     Share Order
                 </button>
             </div>
-</div>
         </fieldset>
     </form>
 </div>
+
+<script type="text/ng-template" id="custom/pager">
+    <ul class="pagination pager ng-cloak right" role="menubar" aria-label="Pagination">
+        <li ng-repeat="page in pages" ng-class="{'current': !page.active }" data-blank="{{page}}">
+            <a ng-click="params.page(page.number)" href=""
+               ng-hide="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">{{page.number}}</a>
+            <!--<a ng-click="params.page(page.number)" href=""
+               ng-show="page.type == 'prev'" ng-switch="page.type">&laquo; Previous</a>
+            <a ng-click="params.page(page.number)" href=""
+               ng-show="page.type == 'next'" ng-switch="page.type">Next &raquo;</a>-->
+        </li>
+        <!--<li class="unavailable" aria-disabled="true"><a href="">&hellip;</a></li>-->
+    </ul>
+
+    <!--<ul class="pager ng-cloak">
+        <li ng-repeat="page in pages"
+            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo; Previous</a>
+            <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next &raquo;</a>
+        </li>
+    </ul>-->
+
+</script>

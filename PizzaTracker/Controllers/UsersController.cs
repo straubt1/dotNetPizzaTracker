@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using PizzaTracker.Code;
 using PizzaTracker.Data;
 using PizzaTracker.Models;
+using PizzaTracker.ViewModels;
 
 namespace PizzaTracker.Controllers
 {
@@ -121,7 +122,7 @@ namespace PizzaTracker.Controllers
                 FirstName = userVm.FirstName,
                 LastName = userVm.LastName,
                 Email = userVm.Email,
-                RoleId = 1,
+                RoleId = 3,//customer
                 PasswordHash = password,
                 PasswordSalt = salt,
                 PasswordResetToken = "null",

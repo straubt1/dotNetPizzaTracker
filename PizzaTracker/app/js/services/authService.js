@@ -8,6 +8,12 @@ app.factory('authService', ['$http', '$q', 'localStorageService', function ($htt
         isAuth: false
     };
 
+    var _setAuth = function(u, a) {
+        _authentication.user = u;
+        _authentication.isAuth = a;
+        localStorageService.set('user', _authentication.user);
+    };
+
     var _getAuth = function () {
         var cookie = localStorageService.get('user');
         if (cookie && cookie.Expiration && 
@@ -116,6 +122,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', function ($htt
     authServiceFactory.logout = _logout;
     authServiceFactory.getAuth = _getAuth;
     authServiceFactory.authentication = _authentication;
+    authServiceFactory.setAuth = _setAuth;
 
     return authServiceFactory;
 }]);

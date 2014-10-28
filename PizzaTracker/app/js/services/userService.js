@@ -21,24 +21,6 @@
         });
     };
 
-    //var sendMail = function (mail) {
-    //    var d = $q.defer();
-
-    //    $http({
-    //        method: 'POST',
-    //        data: mail,
-    //        url: '/api/email'
-    //    })
-    //     .success(function (data, status, headers) {
-    //         d.resolve(data);
-    //     })
-    //    .error(function (data, status, headers) {
-    //        d.reject(data);
-    //    });
-
-    //    return d.promise;
-    //};
-
     return {
         getUsers: getUsers,
         removeUser: removeUser,

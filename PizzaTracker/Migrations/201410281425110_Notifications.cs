@@ -3,7 +3,7 @@ namespace PizzaTracker.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Messaging : DbMigration
+    public partial class Notifications : DbMigration
     {
         public override void Up()
         {
@@ -22,6 +22,7 @@ namespace PizzaTracker.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        Date = c.DateTime(nullable: false),
                         Active = c.Boolean(nullable: false),
                         OrderId = c.Int(nullable: false),
                         MessageTitle = c.String(),
@@ -40,6 +41,9 @@ namespace PizzaTracker.Migrations
                         OrderedById = c.Int(nullable: false),
                         CustomInstructions = c.String(),
                         Show = c.Boolean(nullable: false),
+                        NotificationEmail = c.Boolean(nullable: false),
+                        NotificationText = c.Boolean(nullable: false),
+                        NotificationPush = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Users", t => t.OrderedById, cascadeDelete: true)
@@ -54,6 +58,7 @@ namespace PizzaTracker.Migrations
                         FirstName = c.String(),
                         LastName = c.String(),
                         Email = c.String(),
+                        CellPhone = c.String(),
                         PasswordHash = c.String(),
                         PasswordSalt = c.String(),
                         PasswordResetToken = c.String(),
@@ -96,21 +101,44 @@ namespace PizzaTracker.Migrations
                         Cost = c.Double(nullable: false),
                         SizeId = c.Int(nullable: false),
                         CrustId = c.Int(nullable: false),
-                        SauceId = c.Int(nullable: false),
+                        Sauce_Id = c.Int(),
                         Order_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Crusts", t => t.CrustId, cascadeDelete: true)
-                .ForeignKey("dbo.Sauces", t => t.SauceId, cascadeDelete: true)
+                .ForeignKey("dbo.SauceOptions", t => t.Sauce_Id)
                 .ForeignKey("dbo.Sizes", t => t.SizeId, cascadeDelete: true)
                 .ForeignKey("dbo.Orders", t => t.Order_Id)
                 .Index(t => t.SizeId)
                 .Index(t => t.CrustId)
-                .Index(t => t.SauceId)
+                .Index(t => t.Sauce_Id)
                 .Index(t => t.Order_Id);
             
             CreateTable(
+                "dbo.SauceOptions",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        SauceId = c.Int(nullable: false),
+                        SauceLevelId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Sauces", t => t.SauceId, cascadeDelete: true)
+                .ForeignKey("dbo.SauceLevels", t => t.SauceLevelId, cascadeDelete: true)
+                .Index(t => t.SauceId)
+                .Index(t => t.SauceLevelId);
+            
+            CreateTable(
                 "dbo.Sauces",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.SauceLevels",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -151,6 +179,7 @@ namespace PizzaTracker.Migrations
                         Name = c.String(),
                         Cost = c.Double(nullable: false),
                         Category = c.String(),
+                        Class = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -193,7 +222,9 @@ namespace PizzaTracker.Migrations
             DropForeignKey("dbo.ToppingOptions", "Pizza_Id", "dbo.Pizzas");
             DropForeignKey("dbo.ToppingOptions", "ToppingId", "dbo.Toppings");
             DropForeignKey("dbo.Pizzas", "SizeId", "dbo.Sizes");
-            DropForeignKey("dbo.Pizzas", "SauceId", "dbo.Sauces");
+            DropForeignKey("dbo.Pizzas", "Sauce_Id", "dbo.SauceOptions");
+            DropForeignKey("dbo.SauceOptions", "SauceLevelId", "dbo.SauceLevels");
+            DropForeignKey("dbo.SauceOptions", "SauceId", "dbo.Sauces");
             DropForeignKey("dbo.Pizzas", "CrustId", "dbo.Crusts");
             DropForeignKey("dbo.OrderEvents", "Order_Id", "dbo.Orders");
             DropForeignKey("dbo.Orders", "OrderedById", "dbo.Users");
@@ -203,8 +234,10 @@ namespace PizzaTracker.Migrations
             DropIndex("dbo.PizzaQueues", new[] { "OrderId" });
             DropIndex("dbo.ToppingOptions", new[] { "Pizza_Id" });
             DropIndex("dbo.ToppingOptions", new[] { "ToppingId" });
+            DropIndex("dbo.SauceOptions", new[] { "SauceLevelId" });
+            DropIndex("dbo.SauceOptions", new[] { "SauceId" });
             DropIndex("dbo.Pizzas", new[] { "Order_Id" });
-            DropIndex("dbo.Pizzas", new[] { "SauceId" });
+            DropIndex("dbo.Pizzas", new[] { "Sauce_Id" });
             DropIndex("dbo.Pizzas", new[] { "CrustId" });
             DropIndex("dbo.Pizzas", new[] { "SizeId" });
             DropIndex("dbo.OrderEvents", new[] { "Order_Id" });
@@ -216,7 +249,9 @@ namespace PizzaTracker.Migrations
             DropTable("dbo.Toppings");
             DropTable("dbo.ToppingOptions");
             DropTable("dbo.Sizes");
+            DropTable("dbo.SauceLevels");
             DropTable("dbo.Sauces");
+            DropTable("dbo.SauceOptions");
             DropTable("dbo.Pizzas");
             DropTable("dbo.OrderEvents");
             DropTable("dbo.Roles");

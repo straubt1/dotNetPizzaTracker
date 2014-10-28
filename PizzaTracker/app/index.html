@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="pizzaApp">
+<html ng-app="pizzaApp" itemscope itemtype="http://schema.org/Product">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,48 +8,53 @@
     <title>Pizza Tracker</title>
     <link href="css/foundation/foundation.css" rel="stylesheet" />
     <link href="css/foundation/foundation-icons.css" rel="stylesheet" />
+    <link href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" rel="stylesheet" />
     <link href="css/vendor/loading-bar.css" rel="stylesheet" />
     <link href="css/vendor/alertify.css" rel="stylesheet" />
     <link href="css/main.css" rel="stylesheet" />
     <link href="css/toppings.css" rel="stylesheet" />
+
+    <meta itemprop="name" content="Pizza Tracker3">
+    <meta itemprop="description" content="I am pizza tracker">
 </head>
 <body ng-controller="authController">
     <!--<div class="row">-->
-        <!--<div class="large-12 columns">-->
-            <nav class="top-bar" data-topbar>
-                <ul class="title-area">
-                    <li class="name">
-                        <h1>
-                            <a href="#">
-                                Pizza Tracker 
-                            </a>
-                        </h1>
-                    </li>
-                    <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
-                </ul>
+    <!--<div class="large-12 columns">-->
+    
+    <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+            <li class="name">
+                <h1>
+                    <a href="#">
+                        Pizza Tracker
+                    </a>
+                </h1>
+            </li>
+            <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+        </ul>
 
-                <section class="top-bar-section">
-                    <!--<ul class="left">
-                        <li><a href="#">Some Link here?</a></li>
-                    </ul>-->
-                    <ul class="right">
-                        <li class="has-form" ng-hide="authentication.isAuth"><a class="radius button" href="#/login">Login</a></li>
-                        <li ng-show="authentication.isAuth"><a href="#">Welcome {{ authentication.user.Name }}!</a></li>
-                        <li ng-show="authentication.isAuth && authentication.user.Role == 'Admin'"><a href="#/users">Users</a></li>
-                        <li ng-show="authentication.isAuth && authentication.user.Role != ''"><a href="#/queue">Queue</a></li>
-                        <li ng-show="authentication.isAuth"><a ng-click="logout()">Logout</a></li>
-                        <!--<li class="has-dropdown">
-                                <a href="#">Username</a>
-                                <ul class="dropdown">
-                                    <li><a href="/">Profile</a></li>
-                                    <li><a href="#/users">Users</a></li>
-                                    <li><a href="/">Logout</a></li>
-                                </ul>
-                            </li>-->
-                    </ul>
-                </section>
-            </nav>
-        <!--</div>-->
+        <section class="top-bar-section">
+            <!--<ul class="left">
+                    <li><a href="#">Some Link here?</a></li>
+                </ul>-->
+            <ul class="right">
+                <li class="has-form" ng-hide="authentication.isAuth"><a class="radius button" href="#/login">Login</a></li>
+                <li ng-show="authentication.isAuth"><a href="#">Welcome {{ authentication.user.Name }}!</a></li>
+                <li ng-show="authentication.isAuth && authentication.user.Role == 'Admin'"><a href="#/users">Users</a></li>
+                <li ng-show="authentication.isAuth && authentication.user.Role == 'Admin'"><a href="#/queue">Queue</a></li>
+                <li ng-show="authentication.isAuth"><a ng-click="logout()">Logout</a></li>
+                <!--<li class="has-dropdown">
+                        <a href="#">Username</a>
+                        <ul class="dropdown">
+                            <li><a href="/">Profile</a></li>
+                            <li><a href="#/users">Users</a></li>
+                            <li><a href="/">Logout</a></li>
+                        </ul>
+                    </li>-->
+            </ul>
+        </section>
+    </nav>
+    <!--</div>-->
     <!--</div>-->
     <!--<nav ng-show="authentication.user.Role == 'Admin'" class="top-bar-admin">
         Admin
@@ -60,9 +65,14 @@
     <nav ng-show="authentication.user.Role == 'Customer'" class="top-bar-customer">
         Customer
     </nav>-->
-
-    <div ng-view></div>
     
+    <div ng-view class="maincontent"></div>
+    <!--<div class="maincontent" ng-show="isLoading">
+        <div class="row">
+            <img src="img/loading.gif" />
+        </div>
+    </div>-->
+
     <footer class="row">
         <div class="large-12 columns">
             <hr>
@@ -78,6 +88,7 @@
             </div>
         </div>
     </footer>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script src="js/vendor/alertify.js"></script>
     <script src="js/foundation/foundation.js"></script>
@@ -95,9 +106,13 @@
     <script src="js/services/pushService.js"></script>
     <script src="js/services/queueService.js"></script>
     <script src="js/services/pizzaService.js"></script>
+    <script src="js/services/emailService.js"></script>
     <script src="js/vendor/angular-local-storage.min.js"></script>
     <script src="js/directives/pizzaModalDirective.js"></script>
     <script src="js/directives/passwordVerifyDirective.js"></script>
+    
+    <script src="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.js"></script>
+
     <script src="js/controllers/homeController.js"></script>
     <script src="js/controllers/usersController.js"></script>
     <script src="js/controllers/authController.js"></script>
@@ -107,5 +122,11 @@
     <script src="js/controllers/pizzaController.js"></script>
     <script src="js/vendor/loading-bar.js"></script>
     <!--<script src="js/vendor/live.js"></script>-->
+    
+
+
+    <script>
+        $(document).foundation();
+    </script>
 </body>
 </html>

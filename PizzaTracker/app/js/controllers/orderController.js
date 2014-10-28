@@ -3,6 +3,9 @@
         $scope.resources = {};
         $scope.confirmModalShown = false;
         $scope.anonUser = {};
+        $scope.existing = false;
+        $scope.existingDate = null;
+        $scope.existingOrderBy = null;
 
         $scope.selectedPizza = {
             Crust: {},
@@ -10,6 +13,12 @@
             SauceLevel: {},
             Size: {},
             Toppings: []
+        };
+
+        $scope.orderNotifications = {
+            Email: true,
+            Push: true,
+            Text: true
         };
 
         $scope.toggleTopping = function (crust) {
@@ -43,28 +52,24 @@
 
         $scope.createOrder = function () {
             if ($scope.authentication.isAuth) {
-                orderService.sendOrder($scope.selectedPizza, $scope.authentication.user.Token)
+                orderService.sendOrder($scope.selectedPizza, $scope.orderNotifications, $scope.authentication.user.Token)
                     .then(function (response) {
                         console.log("order placed success " + response);
                         $scope.confirmModalShown = false;
                         $location.path('#/');
-                        //$scope.$apply();
                     },
                         function (err) {
                             console.log("order placed error " + err);
-                            //$scope.resources = {};
                         });
             } else {
-                orderService.sendAnonOrder($scope.selectedPizza, $scope.anonUser)
+                orderService.sendAnonOrder($scope.selectedPizza, $scope.orderNotifications, $scope.anonUser)
                   .then(function (response) {
                       console.log("order placed success " + response);
                       $scope.confirmModalShown = false;
                       $location.path('#/');
-                      //$scope.$apply();
                   },
                       function (err) {
                           console.log("order placed error " + err);
-                          //$scope.resources = {};
                       });
             }
         };
@@ -74,12 +79,15 @@
             pizzaService.getPizza(startingPizzaId)
            .then(function (response) {
                console.log("pizza gotten2 success " + response);
+               $scope.existing = true;
+               $scope.existingDate = response.Date;
+               $scope.existingOrderBy = response.UserName;
 
-               $scope.selectedPizza.Crust = lookupById($scope.resources.Crusts, response.Crust.Id);
-               $scope.selectedPizza.Sauce = lookupById($scope.resources.Sauces, response.Sauce.Sauce.Id);
-               $scope.selectedPizza.SauceLevel = lookupById($scope.resources.SauceLevels, response.Sauce.SauceLevel.Id);
-               $scope.selectedPizza.Size = lookupById($scope.resources.Sizes, response.Size.Id);
-               $scope.selectedPizza.Toppings = lookupByIds($scope.resources.Toppings, response.Toppings.map(function (v) {
+               $scope.selectedPizza.Crust = lookupById($scope.resources.Crusts, response.Pizza.Crust.Id);
+               $scope.selectedPizza.Sauce = lookupById($scope.resources.Sauces, response.Pizza.Sauce.Sauce.Id);
+               $scope.selectedPizza.SauceLevel = lookupById($scope.resources.SauceLevels, response.Pizza.Sauce.SauceLevel.Id);
+               $scope.selectedPizza.Size = lookupById($scope.resources.Sizes, response.Pizza.Size.Id);
+               $scope.selectedPizza.Toppings = lookupByIds($scope.resources.Toppings, response.Pizza.Toppings.map(function (v) {
                    return v.Topping;
                }));
            },

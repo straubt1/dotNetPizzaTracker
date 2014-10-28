@@ -7,13 +7,13 @@ namespace PizzaTracker.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class SauceLevels : IMigrationMetadata
+    public sealed partial class Notifications : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SauceLevels));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Notifications));
         
         string IMigrationMetadata.Id
         {
-            get { return "201410102134415_SauceLevels"; }
+            get { return "201410281425110_Notifications"; }
         }
         
         string IMigrationMetadata.Source

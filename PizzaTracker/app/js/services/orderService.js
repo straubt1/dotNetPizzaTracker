@@ -1,13 +1,15 @@
 ﻿'use strict';
-app.factory('orderService', ['$http', '$q', 'localStorageService', function ($http, $q, localStorageService) {
+app.factory('orderService', ['$http', '$q', 'localStorageService', 'authService', 'pushService', function ($http, $q, localStorageService, authService, pushService) {
 
     var orderServiceFactory = {};
 
-    var _sendOrder = function (pizza, userId) {
+    var _sendOrder = function (pizza, notifications, userId) {
         var deferred = $q.defer();
         //var local = localStorageService.get('resources');
 
         pizza.UserToken = userId;
+        pizza.IsAnon = false;
+        pizza.Notifications = notifications;
         $http({
             method: 'POST',
             data: pizza,
@@ -22,18 +24,21 @@ app.factory('orderService', ['$http', '$q', 'localStorageService', function ($ht
         return deferred.promise;
     };
 
-    var _sendAnonOrder = function (pizza, userId) {
+    var _sendAnonOrder = function (pizza, notifications, anonUser) {
         var deferred = $q.defer();
         //var local = localStorageService.get('resources');
 
-        pizza.UserToken = userId;
+        pizza.UserToken = anonUser.Email;
+        pizza.IsAnon = true;
+        pizza.Notifications = notifications;
         $http({
             method: 'POST',
             data: pizza,
             url: '/api/order'
         }).success(function (response) {
-            //orderServiceFactory = response;
-            //localStorageService.set('resources', response);
+            authService.setAuth(response.AnonUser, true);
+            pushService.UserToken = response.AnonUser.Token;
+            pushService.start();
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);

@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PizzaTracker.Code;
 using PizzaTracker.Data;
 using PizzaTracker.Models;
+using PizzaTracker.ViewModels;
 
 namespace PizzaTracker.Test.Repo
 {
@@ -36,7 +37,7 @@ namespace PizzaTracker.Test.Repo
                 }
             };
 
-            var newOrder = _repo.PlaceOrderForUser(userId, new List<Pizza> { pizza });
+            var newOrder = _repo.PlaceOrderForUser(userId, new List<Pizza> { pizza }, new NotificationVm());
 
             Assert.IsNotNull(newOrder);
 
@@ -90,7 +91,7 @@ namespace PizzaTracker.Test.Repo
                    new ToppingOption{ ToppingId = 2,Side = PizzaSide.Left}
                 }
             };
-            var newOrder = _repo.PlaceOrderForUser(userId, new List<Pizza> { pizza });
+            var newOrder = _repo.PlaceOrderForUser(userId, new List<Pizza> { pizza }, new NotificationVm());
 
             //make sure message got queued
             next = _repo.GetNextMessage(userId);
@@ -143,6 +144,19 @@ namespace PizzaTracker.Test.Repo
             _repo.SetPizzaQueueActive(pizzaQId, false);
             readQueue = _repo.GetPizzaQueueById(pizzaQId);
             Assert.IsFalse(readQueue.Active);
+        }
+
+        [TestMethod]
+        public void SendSmsMessage()
+        {//    MessageTitle = "Your order has been placed!",
+            //    MessageBody = "We will update you along the way.",
+            SmsMessenger.Send("5132529466", "Your order has been placed!", "We will update you along the way.");
+        }
+
+        [TestMethod]
+        public void SendEmailMessage()
+        {
+            EmailMessenger.Send("johndirst@gmail.com", "Your order has been placed!", "We will update you along the way.");
         }
     }
 }

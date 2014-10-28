@@ -1,25 +1,25 @@
 ﻿.topping-bacon {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -116px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -24px -108px transparent;
     width: 60px;
     height: 60px;
 }
 
 .topping-pork {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -219px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -20px -207px transparent;
 
     width: 60px;
     height: 60px;
 }
 
 .topping-pepperoni {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -312px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -20px -306px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-beef {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -415px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -21px -408px transparent;
     
     width: 60px;
     height: 60px;

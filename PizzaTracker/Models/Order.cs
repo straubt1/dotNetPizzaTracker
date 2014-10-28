@@ -36,5 +36,12 @@ namespace PizzaTracker.Models
         /// They can 'remove' the order, but it just hides it
         /// </summary>
         public virtual bool Show { get; set; }
+
+        public bool NotificationEmail { get; set; }
+        public bool NotificationText { get; set; }
+        public bool NotificationPush { get; set; }
+
+        [NotMapped]
+        public string ShareLink { get; set; }
     }
 }

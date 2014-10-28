@@ -1,6 +1,6 @@
 //$(document).foundation();
 
-var app = angular.module("pizzaApp", ['ngRoute', 'ngAnimate', 'ngCookies', 'angular-loading-bar', 'LocalStorageModule']);
+var app = angular.module("pizzaApp", ['ngRoute', 'ngAnimate', 'ngCookies', 'angular-loading-bar', 'LocalStorageModule', 'ngTable']);
 
 app.constant('pizzaAppConfig',
 {
