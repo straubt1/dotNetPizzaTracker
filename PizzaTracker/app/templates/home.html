@@ -1,78 +1,58 @@
-﻿<!--<div class="row">
-    <div class="large-12 columns">-->
-<!--<img src="img/pizza3.jpg" class="home-image" />-->
-<!--<figure class="dash-image">
-    <img src="http://placehold.it/1040x650&text=Pizza Image" alt="slide image">-->
-<!--<img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" alt="slide image" >-->
-<!--</figure>-->
-<div class="pizza-imagebg">
-    <img src="http://www.followthecoin.com/wp-content/uploads/2014/05/pizza3.jpg" class="bg shadow">
+﻿<div class="pizza-imagebg">
+    <img src="img/pizza3.jpg" class="bg shadow" />
 </div>
-<!--</div>
-</div>-->
 <div class="row">
     <div class="large-12 columns pizza-recentorders">
-        <h4>Recent Orders <a href="#/neworder" class="right button"><i class="fi-plus dash-neworder"></i>New Order</a></h4>
-
-        <!--<p><strong>Page:</strong> {{tableParams.page()}}</p>
-        <p><strong>Count per page:</strong> {{tableParams.count()}}</p>-->
-
-        <table ng-table="tableParams" class="table-full" template-pagination="custom/pager" id="recent-orders">
-            <!--<thead>
-                <tr>
-                    <th width="200">Order Date</th>
-                    <th>Pizza</th>
-                    <th width="130">Actions</th>
-                </tr>
-            </thead>-->
-            <tbody>
-                <tr ng-repeat="o in $data">
-                    <td data-title="'Date'">
-                        <strong>{{ o.Date | date:'MM/dd/yyyy' }}</strong>
-                        <div>{{ o.Date | date:'h:mma' }}</div>
-                    </td>
-                    <td data-title="'Pizza'">
-                        <div ng-repeat="p in o.Pizzas">
-                            <span>
-                                <strong>{{p.Size.Name}}</strong> / <strong>{{p.Crust.Name}}</strong> / <strong>{{p.Sauce.Sauce.Name}} ({{p.Sauce.SauceLevel.Name}})</strong>
-                            </span>
-                            <br />
-                            <div class="pizza-toppingsshort">
-                                <i ng-hide="p.Toppings.length > 0">No Toppings on this pizza, are you crazy? or just boring...</i>
-                                <i ng-repeat="t in p.Toppings | orderBy: 'Topping.Name'">
-                                    {{t.Topping.Name}}{{$last ? '' : ', '}}
-                                </i>
+        <div class="row pizza-recentorders-header">
+            <div class="large-6 columns">
+                <h4>Recent Orders <span ng-show="authentication.isAuth">({{tableParams.total()}})</span></h4>
+            </div>
+            <div class="large-6 columns">
+                <a href="#/neworder" class="right button hint--bottom hint--rounded" data-hint="Click me! Click me please!"><i class="fi-plus dash-neworder"></i>New Order</a>
+            </div>
+        </div>
+        <div class="pizza-recentorders-container">
+            <table ng-table="tableParams" class="table-full" template-pagination="custom/pager" id="recent-orders">
+                <tbody>
+                    <tr ng-repeat="o in $data">
+                        <td data-title="'Date'">
+                            <strong>{{ o.Date | date:'MM/dd/yyyy' }}</strong>
+                            <div>{{ o.Date | date:'h:mma' }}</div>
+                        </td>
+                        <td data-title="'Pizza'">
+                            <div ng-repeat="p in o.Pizzas">
+                                <span>
+                                    <strong>{{p.Size.Name}}</strong> / <strong>{{p.Crust.Name}}</strong> / <strong>{{p.Sauce.Sauce.Name}} ({{p.Sauce.SauceLevel.Name}})</strong>
+                                </span>
+                                <br />
+                                <div class="pizza-toppingsshort">
+                                    <i ng-hide="p.Toppings.length > 0">No Toppings on this pizza, are you crazy? or just boring...</i>
+                                    <i ng-repeat="t in p.Toppings | orderBy: 'Topping.Name'">
+                                        {{t.Topping.Name}}{{$last ? '' : ', '}}
+                                    </i>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td data-title="'Actions'" class="right">
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Order this pizza again">
-                            <a href="#/neworder/{{o.Pizzas[0].Id}}"><i class="fi-annotate icon-size-30"></i></a>
-                        </span>
-                        <!--<script src="https://apis.google.com/js/platform.js"></script>
-                        <div class="g-plus" data-action="share" data-annotation="none"
-                             data-href="{{o.ShareLink}}"></div>-->
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Share this order">
-                            <a ng-click="toggleShareModal(o)"><i class="fi-share icon-size-30"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip" title="Delete this order from your history">
-                            <a ng-click="removeOrder(o.Id)"><i class="fi-x icon-size-30"></i></a>
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!--<table ng-table="tableParams" template-pagination="custom/pager" class="table">
-                <tr ng-repeat="user in $data">
-                    <td data-title="'Name of people'">
-                        {{user.name}}
-                    </td>
-                    <td data-title="'Age'">
-                        {{user.age}}
-                    </td>
-                </tr>
-            </table>-->
+                        </td>
+                        <td data-title="'Actions'" class="right">
+                            <span class="hint--bottom hint--rounded" data-hint="Order this pizza again">
+                                <a href="#/neworder/{{o.Pizzas[0].Id}}"><i class="fi-annotate icon-size-30"></i></a>
+                            </span>
+                            <!--<script src="https://apis.google.com/js/platform.js"></script>
+                                <div class="g-plus" data-action="share" data-annotation="none"
+                                     data-href="{{o.ShareLink}}"></div>-->
+                            <span class="hint--bottom hint--rounded" data-hint="Share this order">
+                                <a ng-click="toggleShareModal(o)"><i class="fi-share icon-size-30"></i></a>
+                            </span>
+                            <span class="hint--bottom hint--rounded" data-hint="Delete this order from your history">
+                                <a ng-click="removeOrder(o.Id)"><i class="fi-x icon-size-30"></i></a>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div ng-hide="authentication.isAuth" class="pizza-norordersmsg">You must <a href="#/login">login</a> to see past orders</div>
+            <div ng-show="authentication.isAuth && orders.length == 0" class="pizza-norordersmsg">You have no past orders. Why don't you order something already!</div>
+        </div>
     </div>
 </div>
 
@@ -145,27 +125,3 @@
         </fieldset>
     </form>
 </div>
-
-<script type="text/ng-template" id="custom/pager">
-    <ul class="pagination pager ng-cloak right" role="menubar" aria-label="Pagination">
-        <li ng-repeat="page in pages" ng-class="{'current': !page.active }" data-blank="{{page}}">
-            <a ng-click="params.page(page.number)" href=""
-               ng-hide="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">{{page.number}}</a>
-            <!--<a ng-click="params.page(page.number)" href=""
-               ng-show="page.type == 'prev'" ng-switch="page.type">&laquo; Previous</a>
-            <a ng-click="params.page(page.number)" href=""
-               ng-show="page.type == 'next'" ng-switch="page.type">Next &raquo;</a>-->
-        </li>
-        <!--<li class="unavailable" aria-disabled="true"><a href="">&hellip;</a></li>-->
-    </ul>
-
-    <!--<ul class="pager ng-cloak">
-        <li ng-repeat="page in pages"
-            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
-            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
-            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo; Previous</a>
-            <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next &raquo;</a>
-        </li>
-    </ul>-->
-
-</script>

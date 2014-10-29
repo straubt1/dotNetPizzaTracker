@@ -1,4 +1,4 @@
-﻿angular.module('pizzaApp').controller('usersController', ['$scope', 'userService', function ($scope, userService) {
+﻿angular.module('pizzaApp').controller('usersController', ['$scope', '$filter', 'userService', 'ngTableParams', function ($scope, $filter, userService, ngTableParams) {
     $scope.users = {};
     $scope.currentUser = {};
     $scope.newUser = {};
@@ -60,11 +60,50 @@
          });
     };
 
-    userService.getUsers()
-      .success(function (data, status, headers) {
-          $scope.users = data;
-      })
-      .error(function (data, status, headers) {
-          $scope.error = data;
-      });
+    //userService.getUsers()
+    //  .success(function (data, status, headers) {
+    //      $scope.users = data;
+    //  })
+    //  .error(function (data, status, headers) {
+    //      $scope.error = data;
+    //  });
+
+
+    var data = null;
+
+    $scope.tableParams = new ngTableParams({
+        page: 1,            // show first page
+        count: 4          // count per page
+    }, {
+        total: 0,           // length of data
+       groupBy: 'RoleName',
+        getData: function ($defer, params) {
+            if ($scope.authentication.isAuth) {
+                if (data == null) {
+                    userService.getUsers()
+                         .success(function (response, status, headers) {
+                             params.total(response.length);
+                             data = response;
+                             var orderedData = $filter('orderBy')(data, $scope.tableParams.orderBy());
+                             $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                        })
+                         .error(function (response, status, headers) {
+                            // $scope.error = data;
+                         });
+
+                    //orderService.getOrders($scope.authentication.user.Token)
+                    //    .then(function (response) {
+                    //        params.total(response.length);
+                    //        data = response;
+                    //        $defer.resolve(response.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                    //    },
+                    //        function (err) {
+                    //            console.log("failed to get orders");
+                    //        });
+                } else {
+                    $defer.resolve(data.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            }
+        }
+    });
 }]);

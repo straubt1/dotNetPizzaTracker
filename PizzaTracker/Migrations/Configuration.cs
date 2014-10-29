@@ -102,10 +102,10 @@ namespace PizzaTracker.Migrations
 
         private void PopulateUsers(PizzaContext context)
         {
-            AddUser(context, "tstraub", "Tom", "Straub", "tom@mail.com", "Test@123", _roles[0].Id);
-            AddUser(context, "admin", "I am Admin", "Straub", "tom@mail.com", "Test@123", _roles[0].Id);
-            AddUser(context, "employee", "I am employee", "Straub", "tom@mail.com", "Test@123", _roles[1].Id);
-            AddUser(context, "customer", "I am customer", "Straub", "tom@mail.com", "Test@123", _roles[2].Id);
+            AddUser(context, "tstraub", "Tom", "Straub", "tom@fakemail.com", "Test@123", _roles[0].Id);
+            AddUser(context, "admin", "Walter", "White", "walter@fakemail.com", "Test@123", _roles[0].Id);
+            AddUser(context, "employee", "Jesse", "Pinkman", "jesse@fakemail.com", "Test@123", _roles[1].Id);
+            AddUser(context, "customer", "Phillip", "Fry", "fry@fakemail.com", "Test@123", _roles[2].Id);
         }
 
         private void AddUser(PizzaContext context, string username, string first, string last, string email, string password, int roleId)

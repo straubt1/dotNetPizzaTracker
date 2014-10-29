@@ -16,7 +16,7 @@ namespace PizzaTracker.Controllers
         // GET: api/Order
         public IEnumerable<PizzaQueue> GetPizzaQueue()
         {
-            return _repo.GetpPizzaQueues().ToList();
+            return _repo.GetpPizzaQueues().OrderByDescending(x=>x.Order.Date).ToList();
         }
 
         [HttpPost]

@@ -47,7 +47,10 @@ namespace PizzaTracker.Controllers
             }
 
             //if here, login successful
-            userDb.LoginToken = Crypto.GenerateSalt();
+            if (string.IsNullOrEmpty(userDb.LoginToken))
+            {// do not regenerate token... unless its null
+                userDb.LoginToken = Crypto.GenerateSalt();
+            }
             userDb.LoginExpiration = DateTime.UtcNow.AddMinutes(500);
             var loginVm = new LoginVm { UserId = userDb.Id, UserToken = userDb.LoginToken };
             db.Entry(userDb).State = EntityState.Modified;

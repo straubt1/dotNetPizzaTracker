@@ -26,7 +26,8 @@ app.factory('pushService', ['pizzaAppConfig', '$http', '$q', function (pizzaAppC
         }
         $http({
             method: 'GET',
-            url: '/api/message?id=' + encodeURIComponent(pushServiceFactory.UserToken)
+            url: '/api/message?id=' + encodeURIComponent(pushServiceFactory.UserToken),
+            ignoreLoadingBar: true
         })
                 .success(function (data, status, headers, config) {
                     console.log("  push service success: " + data);

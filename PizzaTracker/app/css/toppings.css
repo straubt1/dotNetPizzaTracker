@@ -26,84 +26,84 @@
 }
 
 .topping-ham {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -511px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -21px -498px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-italiansausage {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -590px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -20px -592px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-chicken {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -671px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -18px -655px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-blackolive {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -16px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -116px -14px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-mushroom {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -114px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -116px -108px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-jalapenos {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -211px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -208px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-pineapple {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -321px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -116px -306px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-greenpepper {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -419px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -120px -412px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-tomato {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -520px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -118px -500px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-redonion {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -602px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -118px -588px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-bananapepper {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -674px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -124px -670px transparent;
     
     width: 60px;
     height: 60px;
 }
 
 .topping-greenolive {
-    background: url("/app/img/toppingSprite.png") no-repeat scroll -115px -749px transparent;
+    background: url("/app/img/toppingSprite.png") no-repeat scroll -116px -738px transparent;
     
     width: 60px;
     height: 60px;

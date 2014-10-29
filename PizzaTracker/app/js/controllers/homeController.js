@@ -60,7 +60,9 @@
                 orderService.deleteOrder(id)
                    .then(function (response) {
                        console.log("Order removed");
-                       $scope.getOrders();
+                       //$scope.getOrders();
+                       data = null;
+                       $scope.tableParams.reload();
                    },
                        function (err) {
                            console.log("failed to remove order");
@@ -69,7 +71,7 @@
         });
     };
 
-    $scope.getOrders();
+    //$scope.getOrders();
 
     var data = null;
 
@@ -78,7 +80,6 @@
         count: 4          // count per page
     }, {
         total: 0,           // length of data
-        //groupBy: '',
         getData: function ($defer, params) {
             if ($scope.authentication.isAuth) {
                 if (data == null) {
@@ -86,6 +87,7 @@
                         .then(function (response) {
                             params.total(response.length);
                             data = response;
+                            $scope.orders = data;
                             $defer.resolve(response.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                         },
                             function (err) {

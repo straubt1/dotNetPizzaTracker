@@ -5,33 +5,49 @@
 </div>
 <div class="row" ng-show="authentication.isAuth">
     <div class="large-12 columns">
-        <h2>Pizza Queue</h2>
-        <table class="table-full">
-            <thead>
-                <tr>
-                    <th width="100">Order Id</th>
-                    <th>Username</th>
-                    <th>Toppings</th>
-                    <th>Status</th>
-                    <th width="80">Actions</th>
-                </tr>
-            </thead>
+        <h4>Pizza Queue <span ng-show="authentication.isAuth">({{tableParams.total()}})</span></h4>
+        <table ng-table="tableParams" class="table-full" template-pagination="custom/pager" id="queued-orders">
             <tbody>
-                <tr ng-repeat="q in queue">
-                    <td>{{ q.Id }}</td>
-                    <td>{{ q.Order.OrderedBy.UserName }}</td>
-                    <td>{{ q.Order.Pizzas[0].Size.Name }}</td>
-                    <td>
+                <!--style="background-color:  {{ q.color }};"-->
+                <tr ng-repeat="q in $data"
+                    style="background-color:  {{ q.color }};"
+                    ng-class="{'pizza-takingtoolong222': q.HowLong.totalhours > 11 }">
+                    <td data-title="'Date'">
+                        <strong>{{ q.Order.Date | date:'MM/dd/yyyy' }}</strong>
+                        <div>{{ q.Order.Date | date:'h:mma' }}</div>
+                    </td>
+                    <td data-title="'Running Time'">
+                        <span ng-show="q.HowLong.days > 0">{{ q.HowLong.days }} <strong>Days</strong><br /></span>
+                        <span ng-show="q.HowLong.hours > 0">{{ q.HowLong.hours }} <strong>Hours</strong><br /></span>
+                        <span ng-show="q.HowLong.minutes > 0">{{ q.HowLong.minutes }} <strong>Minutes</strong><br /></span>
+                        <span>{{ q.HowLong.seconds }} <strong>Seconds</strong><br /></span>
+                    </td>
+                    <td data-title="'Username'">{{ q.Order.OrderedBy.UserName }}</td>
+                    <td data-title="'Pizza'">
+                        <div ng-repeat="p in q.Order.Pizzas">
+                            <span>
+                                <strong>{{p.Size.Name}}</strong> / <strong>{{p.Crust.Name}}</strong> / <strong>{{p.Sauce.Sauce.Name}} ({{p.Sauce.SauceLevel.Name}})</strong>
+                            </span>
+                            <br />
+                            <div class="pizza-toppingsshort">
+                                <i ng-hide="p.Toppings.length > 0">No Toppings on this pizza, are you crazy? or just boring...</i>
+                                <i ng-repeat="t in p.Toppings | orderBy: 'Topping.Name'">
+                                    {{t.Topping.Name}}{{$last ? '' : ', '}}
+                                </i>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-title="'Status'">
                         <select name="status_id" ng-model="q.Status" ng-options="stat.Name for stat in statuses"
                                 ng-change="updateQueue(q)"
                                 required></select>
                     </td>
-                    <td>
+                    <td data-title="''">
                         <!--<span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Edit this user"
-                              ng-click='updateQueue(q)'>
-                            <a><i class="fi-page-edit icon-size-30"></i></a>
-                        </span>-->
-                        <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Remove this pizza from the queue"
+                      ng-click='updateQueue(q)'>
+                    <a><i class="fi-page-edit icon-size-30"></i></a>
+                </span>-->
+                        <span class="hint--bottom" data-hint="Remove this pizza from the queue"
                               ng-click='deleteQueue(q.Id)'>
                             <a><i class="fi-x icon-size-30"></i></a>
                         </span>
@@ -39,6 +55,7 @@
                 </tr>
             </tbody>
         </table>
+
         <div pizza-modal show='removeModalShown'>
             <h2>Are you sure you want to remove user '{{ currentUser.UserName }}'?</h2>
             <div class="large-centered columns">
@@ -219,7 +236,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="small-8 columns">
                             <label>Password</label>
@@ -242,7 +259,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="small-8 columns">
                             <label>Confirm Password</label>
@@ -270,7 +287,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="small-8 columns">
                             <button type="submit"
@@ -285,7 +302,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="row" ng-hide="error == null">{{ error }}</div>
                 </fieldset>
             </form>

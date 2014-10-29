@@ -28,9 +28,11 @@ namespace PizzaTracker.Controllers
             {
                 Id = x.Id,
                 UserName = x.UserName,
+                Email = x.Email,
                 FirstName = x.FirstName,
                 LastName = x.LastName,
-                Role = x.Role
+                Role = x.Role,
+                RoleName = x.Role.Name
             }).ToList();
         }
 

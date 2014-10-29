@@ -375,6 +375,10 @@
     <Content Include="app\css\main.css" />
     <Content Include="app\css\toppings.css" />
     <Content Include="app\css\vendor\alertify.css" />
+    <Content Include="app\css\vendor\hint.base.css" />
+    <Content Include="app\css\vendor\hint.base.min.css" />
+    <Content Include="app\css\vendor\hint.css" />
+    <Content Include="app\css\vendor\hint.min.css" />
     <Content Include="app\css\vendor\loading-bar.css" />
     <Content Include="app\img\loading.gif" />
     <Content Include="app\img\pizza3.jpg" />

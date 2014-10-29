@@ -164,21 +164,21 @@
                         <div>
                             <div class="row pizza-notifyrow">
                                 <div class="pizza-notify">Email</div>
-                                <div class="switch radius">
+                                <div class="switch radius hint--right" data-hint="Let us fill your spam folder!">
                                     <input id="emailchk" type="checkbox" ng-model="orderNotifications.Email" />
                                     <label for="emailchk">Email</label>
                                 </div>
                             </div>
                             <div class="row pizza-notifyrow">
                                 <div class="pizza-notify">Text</div>
-                                <div class="switch radius">
+                                <div class="switch radius hint--right" data-hint="We promise not to text you too late!">
                                     <input id="textchk" type="checkbox" ng-model="orderNotifications.Text" />
                                     <label for="textchk">Text</label>
                                 </div>
                             </div>
                             <div class="row pizza-notifyrow">
                                 <div class="pizza-notify">Push</div>
-                                <div class="switch radius">
+                                <div class="switch radius hint--right" data-hint="Push it, Just Push it!">
                                     <input id="pushchk" type="checkbox" ng-model="orderNotifications.Push" />
                                     <label for="pushchk">Push</label>
                                 </div>
@@ -193,7 +193,8 @@
             <div class="row">
                 <div class="small-6 columns">
                     <button type="button"
-                            class="button radius alert"
+                            class="button radius alert hint--bottom"
+                            data-hint="Go back and edit your order"
                             ng-click="toggleConfirmModal()">
                         Edit Order
                     </button>
@@ -201,7 +202,8 @@
                 <div class="small-6 columns">
                     <button type="submit"
                             ng-disabled="!authentication.isAuth && neworderform.$invalid"
-                            class="button radius right">
+                            class="button radius right hint--bottom hint--bounce"
+                            data-hint="All systems go, let's get this party started!">
                         Send Order
                     </button>
                 </div>

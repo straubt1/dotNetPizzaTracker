@@ -3141,15 +3141,15 @@ dialog[open] {
 
 @media print {
   dialog, .reveal-modal {
-    background: white !important; } }
+    background: white !important; } }too
 /* Tooltips */
 .has-tip {
-  border-bottom: dotted 1px #cccccc;
+  /*border-bottom: dotted 1px #cccccc;*/
   cursor: help;
   font-weight: bold;
   color: #333333; }
   .has-tip:hover, .has-tip:focus {
-    border-bottom: dotted 1px #134b5b;
+    border-bottom: 1px #134b5b;
     color: #2ba6cb; }
   .has-tip.tip-left, .has-tip.tip-right {
     float: none !important; }
@@ -3168,7 +3168,7 @@ dialog[open] {
   color: white;
   background: #333333; }
   .tooltip > .nub {
-    display: block;
+    display: block;.
     left: 5px;
     position: absolute;
     width: 0;
@@ -5334,113 +5334,3 @@ th.hide-for-touch {
   border-radius: 2rem;
 }
 
-
-/* Tooltips */
-/* line 38, ../../sass/foundation/components/_tooltips.scss */
-.has-tip {
-  border-bottom: dotted 1px #cccccc;
-  cursor: help;
-  font-weight: bold;
-  color: #333333;
-}
-/* line 45, ../../sass/foundation/components/_tooltips.scss */
-.has-tip:hover, .has-tip:focus {
-  border-bottom: dotted 1px #003f54;
-  color: #008cba;
-}
-/* line 51, ../../sass/foundation/components/_tooltips.scss */
-.has-tip.tip-left, .has-tip.tip-right {
-  float: none !important;
-}
-
-/* line 54, ../../sass/foundation/components/_tooltips.scss */
-.tooltip {
-  display: none;
-  position: absolute;
-  z-index: 1006;
-  font-weight: normal;
-  font-size: 0.875rem;
-  line-height: 1.3;
-  padding: 0.75rem;
-  max-width: 300px;
-  left: 50%;
-  width: 100%;
-  color: white;
-  background: #333333;
-}
-/* line 68, ../../sass/foundation/components/_tooltips.scss */
-.tooltip > .nub {
-  display: block;
-  left: 5px;
-  position: absolute;
-  width: 0;
-  height: 0;
-  border: solid 5px;
-  border-color: transparent transparent #333333 transparent;
-  top: -10px;
-  pointer-events: none;
-}
-/* line 79, ../../sass/foundation/components/_tooltips.scss */
-.tooltip > .nub.rtl {
-  left: auto;
-  right: 5px;
-}
-/* line 85, ../../sass/foundation/components/_tooltips.scss */
-.tooltip.radius {
-  border-radius: 3px;
-}
-/* line 88, ../../sass/foundation/components/_tooltips.scss */
-.tooltip.round {
-  border-radius: 1000px;
-}
-/* line 90, ../../sass/foundation/components/_tooltips.scss */
-.tooltip.round > .nub {
-  left: 2rem;
-}
-/* line 95, ../../sass/foundation/components/_tooltips.scss */
-.tooltip.opened {
-  color: #008cba !important;
-  border-bottom: dotted 1px #003f54 !important;
-}
-
-/* line 101, ../../sass/foundation/components/_tooltips.scss */
-.tap-to-close {
-  display: block;
-  font-size: 0.625rem;
-  color: #777777;
-  font-weight: normal;
-}
-
-@media only screen and (min-width: 40.063em) {
-  /* line 110, ../../sass/foundation/components/_tooltips.scss */
-  .tooltip > .nub {
-    border-color: transparent transparent #333333 transparent;
-    top: -10px;
-  }
-  /* line 114, ../../sass/foundation/components/_tooltips.scss */
-  .tooltip.tip-top > .nub {
-    border-color: #333333 transparent transparent transparent;
-    top: auto;
-    bottom: -10px;
-  }
-  /* line 121, ../../sass/foundation/components/_tooltips.scss */
-  .tooltip.tip-left, .tooltip.tip-right {
-    float: none !important;
-  }
-  /* line 123, ../../sass/foundation/components/_tooltips.scss */
-  .tooltip.tip-left > .nub {
-    border-color: transparent transparent transparent #333333;
-    right: -10px;
-    left: auto;
-    top: 50%;
-    margin-top: -5px;
-  }
-  /* line 130, ../../sass/foundation/components/_tooltips.scss */
-  .tooltip.tip-right > .nub {
-    border-color: transparent #333333 transparent transparent;
-    right: auto;
-    left: -10px;
-    top: 50%;
-    margin-top: -5px;
-  }
-}

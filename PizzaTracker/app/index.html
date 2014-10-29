@@ -9,11 +9,12 @@
     <link href="css/foundation/foundation.css" rel="stylesheet" />
     <link href="css/foundation/foundation-icons.css" rel="stylesheet" />
     <link href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" rel="stylesheet" />
+    <link href="css/vendor/hint.css" rel="stylesheet" />
     <link href="css/vendor/loading-bar.css" rel="stylesheet" />
     <link href="css/vendor/alertify.css" rel="stylesheet" />
     <link href="css/main.css" rel="stylesheet" />
     <link href="css/toppings.css" rel="stylesheet" />
-
+    <!--<script src="js/vendor/modernizr-2.6.2.js"></script>-->
     <meta itemprop="name" content="Pizza Tracker3">
     <meta itemprop="description" content="I am pizza tracker">
 </head>
@@ -91,8 +92,10 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script src="js/vendor/alertify.js"></script>
-    <script src="js/foundation/foundation.js"></script>
-    <script src="js/foundation/foundation.alert.js"></script>
+    <script src="http://foundation.zurb.com/docs/assets/js/all.js"></script>
+    <!--<script src="js/foundation/foundation.js"></script>
+    <script src="js/foundation/foundation.alert.js"></script>-->
+    <!--<script src="js/foundation/foundation.tooltip.js"></script>-->
     <script src="js/vendor/angular.min.js"></script>
     <script src="js/vendor/angular-route.min.js"></script>
     <script src="js/vendor/angular-animate.min.js"></script>
@@ -122,11 +125,16 @@
     <script src="js/controllers/pizzaController.js"></script>
     <script src="js/vendor/loading-bar.js"></script>
     <!--<script src="js/vendor/live.js"></script>-->
-    
-
-
     <script>
         $(document).foundation();
+    </script>
+    <script type="text/ng-template" id="custom/pager">
+        <ul class="pagination pager ng-cloak right" role="menubar" aria-label="Pagination">
+            <li ng-repeat="page in pages" ng-class="{'current': !page.active }" data-blank="{{page}}">
+                <a ng-click="params.page(page.number)" href=""
+                   ng-hide="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">{{page.number}}</a>
+            </li>
+        </ul>
     </script>
 </body>
 </html>
