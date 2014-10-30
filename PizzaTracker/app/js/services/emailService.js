@@ -1,10 +1,13 @@
-﻿app.factory('emailService', ['pizzaAppConfig', '$http', '$q', function (pizzaAppConfig,$http, $q) {
-    var sendMail = function (to, subject, message) {
+﻿'use strict';
+app.factory('emailService', ['pizzaAppConfig', '$http', '$q', function (pizzaAppConfig, $http, $q) {
+    var emailServiceFactory = {};
+
+    emailServiceFactory.sendEmail = function (to, user, link, message, orderid) {
         var d = $q.defer();
 
         $http({
             method: 'POST',
-            data: { to: to, subject: subject, message: message },
+            data: { to: to, user: user, link: link, message: message, orderid: orderid },
             url: pizzaAppConfig.apiBaseUrl + '/email'
         })
          .success(function (data, status, headers) {
@@ -17,7 +20,5 @@
         return d.promise;
     };
 
-    return {
-        sendEmail: sendMail
-    };
+    return emailServiceFactory;
 }]);

@@ -1,14 +1,11 @@
 ﻿'use strict';
-app.factory('resourceService', ['pizzaAppConfig', '$http', '$q', 'localStorageService', function (pizzaAppConfig,$http, $q, localStorageService) {
-
+app.factory('resourceService', ['pizzaAppConfig', '$http', '$q', 'localStorageService', function (pizzaAppConfig, $http, $q, localStorageService) {
     var resourceServiceFactory = {};
 
-    var _getResources = function (force) {
+    resourceServiceFactory.getResources = function (force) {
         var deferred = $q.defer();
         var local = localStorageService.get('resources');
-        //if (!local || force) {
-        if (true) {
-            console.log("going to get resources");
+        if (!local || force) {
             $http({
                 method: 'GET',
                 url: pizzaAppConfig.apiBaseUrl + '/resource'
@@ -20,13 +17,11 @@ app.factory('resourceService', ['pizzaAppConfig', '$http', '$q', 'localStorageSe
                 deferred.reject(err);
             });
         } else {
-            console.log("local resources");
             resourceServiceFactory = local;
             deferred.resolve(local);
         }
         return deferred.promise;
     };
-    resourceServiceFactory.getResources = _getResources;
 
     return resourceServiceFactory;
 }]);

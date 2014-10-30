@@ -10,41 +10,34 @@ namespace PizzaTracker.Controllers
     {
         private PizzaTrackerRepo _repo = new PizzaTrackerRepo(new PizzaContext());
 
-        // GET: api/Message
-        public Message Get()
+        /// <summary>
+        /// Get the next message in the Queue for the given user
+        /// This return null if no message
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public MessageQueue Get(string token)
         {
-            
+            var user = _repo.GetUserByEncrypted(token);
+
+            return _repo.GetNextMessage(user.Id);
+        }
+
+        /// <summary>
+        /// Test Endpoint to always return a message once every 10 seconds
+        /// </summary>
+        /// <returns></returns>
+        public MessageQueue Get()
+        {
             return (DateTime.Now.Second % 10 == 0)
-                ? new Message
+                ? new MessageQueue
                 {
                     Date = DateTime.Now,
-                    Display = "Message about your order",
-                    Status = "Delivered"
+                    MessageTitle = "Test Title",
+                    MessageBody = "Test Body",
+                    Order = _repo.GetOrderById(1)
                 }
                 : null;
-        }
-
-        // GET: api/Message/5
-        public MessageQueue Get(string id)
-        {
-            var user = _repo.GetUserByEncrypted(id);
-            var message = _repo.GetNextMessage(user.Id);
-            return message;
-        }
-
-        // POST: api/Message
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/Message/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/Message/5
-        public void Delete(int id)
-        {
         }
     }
 }

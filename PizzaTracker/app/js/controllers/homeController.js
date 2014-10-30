@@ -16,19 +16,18 @@
     $scope.tableParams = {};
 
     $scope.shareOrder = function () {
-        var subject = $scope.getUser().Name + " wants to share a Pizza with you - Pizza Tracker";
-        var message = "<html>Hey!<br/>Check out this pizza <a href='" + $scope.shareModel.order.ShareLink + "'>My Awesome Pizza</a><br/><br/>" +
-            $scope.shareModel.message + "</html>";
+        //var subject = $scope.getUser().Name;
+        //var message = "<html>Hey!<br/>Check out this pizza <a href='" + $scope.shareModel.order.ShareLink + "'>My Awesome Pizza</a><br/><br/>" +
+        //    $scope.shareModel.message + "</html>";
 
-        emailService.sendEmail($scope.shareModel.email, subject, message)
+        emailService.sendEmail($scope.shareModel.email, $scope.getUser().Name, $scope.shareModel.order.ShareLink, $scope.shareModel.message, $scope.shareModel.order.Id)
              .then(function () {
                  alertify.success("Pizza Has Been Shared!",
                      null,
                      null);
                  $scope.shareModel = {
                      order: {},
-                     message: "",
-                     email: ""
+                     message: ""
                  };
              },
             function (err) {
@@ -57,7 +56,7 @@
     $scope.removeOrder = function (id) {
         alertify.confirm("Are you sure you want to remove this Pizza <br/>from your recent Orders?", function (e) {
             if (e) {
-                orderService.deleteOrder(id)
+                orderService.deleteOrder($scope.getUserToken(),id)
                    .then(function (response) {
                        console.log("Order removed");
                        //$scope.getOrders();

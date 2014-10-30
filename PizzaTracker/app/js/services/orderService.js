@@ -1,12 +1,9 @@
 ﻿'use strict';
 app.factory('orderService', ['pizzaAppConfig', '$http', '$q', 'localStorageService', 'authService', 'pushService', function (pizzaAppConfig, $http, $q, localStorageService, authService, pushService) {
-
     var orderServiceFactory = {};
 
-    var _sendOrder = function (pizza, notifications, userId) {
+    orderServiceFactory.sendOrder = function (pizza, notifications, userId) {
         var deferred = $q.defer();
-        //var local = localStorageService.get('resources');
-
         pizza.UserToken = userId;
         pizza.IsAnon = false;
         pizza.Notifications = notifications;
@@ -15,8 +12,6 @@ app.factory('orderService', ['pizzaAppConfig', '$http', '$q', 'localStorageServi
             data: pizza,
             url: pizzaAppConfig.apiBaseUrl + '/order'
         }).success(function (response) {
-            //orderServiceFactory = response;
-            //localStorageService.set('resources', response);
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -24,10 +19,8 @@ app.factory('orderService', ['pizzaAppConfig', '$http', '$q', 'localStorageServi
         return deferred.promise;
     };
 
-    var _sendAnonOrder = function (pizza, notifications, anonUser) {
+    orderServiceFactory.sendAnonOrder = function (pizza, notifications, anonUser) {
         var deferred = $q.defer();
-        //var local = localStorageService.get('resources');
-
         pizza.UserToken = anonUser.Email;
         pizza.IsAnon = true;
         pizza.Notifications = notifications;
@@ -37,8 +30,7 @@ app.factory('orderService', ['pizzaAppConfig', '$http', '$q', 'localStorageServi
             url: pizzaAppConfig.apiBaseUrl + '/order'
         }).success(function (response) {
             authService.setAuth(response.AnonUser, true);
-            pushService.UserToken = response.AnonUser.Token;
-            pushService.start();
+            pushService.start(response.AnonUser.Token);
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -46,16 +38,12 @@ app.factory('orderService', ['pizzaAppConfig', '$http', '$q', 'localStorageServi
         return deferred.promise;
     };
 
-    var _getOrders = function (userId) {
+    orderServiceFactory.getOrders = function (userId) {
         var deferred = $q.defer();
-        //var local = localStorageService.get('resources');
-
         $http({
             method: 'GET',
-            url: pizzaAppConfig.apiBaseUrl + '/order?id=' + encodeURIComponent(userId)
+            url: pizzaAppConfig.apiBaseUrl + '/order?token=' + encodeURIComponent(userId)
         }).success(function (response) {
-            //orderServiceFactory = response;
-            //localStorageService.set('resources', response);
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -63,12 +51,11 @@ app.factory('orderService', ['pizzaAppConfig', '$http', '$q', 'localStorageServi
         return deferred.promise;
     };
 
-    var _deleteOrder = function (orderId) {
+    orderServiceFactory.deleteOrder = function (utoken, orderId) {
         var deferred = $q.defer();
-
         $http({
             method: 'DELETE',
-            url: pizzaAppConfig.apiBaseUrl + '/order/' + orderId
+            url: pizzaAppConfig.apiBaseUrl + '/order?token=' + utoken + '&orderid='+ orderId
         }).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
@@ -76,10 +63,6 @@ app.factory('orderService', ['pizzaAppConfig', '$http', '$q', 'localStorageServi
         });
         return deferred.promise;
     };
-    //orderServiceFactory.getResources = _getResources;
-    orderServiceFactory.sendOrder = _sendOrder;
-    orderServiceFactory.sendAnonOrder = _sendAnonOrder;
-    orderServiceFactory.getOrders = _getOrders;
-    orderServiceFactory.deleteOrder = _deleteOrder;
+
     return orderServiceFactory;
 }]);

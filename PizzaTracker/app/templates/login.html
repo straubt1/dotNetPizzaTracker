@@ -45,17 +45,19 @@
                     </div>
                 </div>
 
-                <div class="row" ng-hide="error == null">{{ error }}</div>
+                <div class="row alert-box alert round" ng-hide="loginerror == null">
+                    {{ loginerror }}
+                </div>
             </fieldset>
         </form>
     </div>
     <div class="large-2 columns pizza-newuser-or">
         <div class="alert-box warning round">
-            Or 
+            Or
         </div>
     </div>
     <div class="large-5 columns">
-        <form name="newform" ng-submit="addUser(newUser)">
+        <form name="newform" ng-submit="registerUser(newUser)">
             <fieldset>
                 <legend>Register</legend>
                 <div class="row">
@@ -198,21 +200,18 @@
                 </div>
 
                 <div class="row">
-                    <div class="small-8 columns">
+                    <div class="small-6 columns">
                         <button type="submit"
                                 ng-disabled="newform.$invalid"
                                 class="button radius">
-                            Update
-                        </button>
-                        <button type="button"
-                                class="button radius alert"
-                                ng-click="toggleNewModal()">
-                            Cancel
+                            Register
                         </button>
                     </div>
                 </div>
-
-                <div class="row" ng-hide="error == null">{{ error }}</div>
+                
+                <div class="row alert-box alert round" ng-hide="registererror == null">
+                    {{ registererror }}
+                </div>
             </fieldset>
         </form>
     </div>

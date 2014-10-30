@@ -18,7 +18,11 @@ namespace PizzaTracker.Controllers
     {
         private PizzaContext db = new PizzaContext();
 
-        // POST: api/Login
+        /// <summary>
+        /// Login user based on username and password
+        /// </summary>
+        /// <param name="userVm"></param>
+        /// <returns></returns>
         public object Post([FromBody]UserVm userVm)
         {
             var userDb = db.Users.FirstOrDefault(x => x.UserName == userVm.UserName);

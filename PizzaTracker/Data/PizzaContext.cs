@@ -9,7 +9,7 @@ namespace PizzaTracker.Data
         public PizzaContext(string connectionString)
             : base(connectionString)
         {
-            
+
         }
         public PizzaContext()
             : base("PizzaDb")
@@ -28,5 +28,13 @@ namespace PizzaTracker.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<PizzaQueue> PizzaQueue { get; set; }
         public DbSet<MessageQueue> MessageQueue { get; set; }
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<User>()
+        //        .HasOptional(a => a.Role)
+        //        .WithOptionalDependent()
+        //        .WillCascadeOnDelete(true);
+        //}
     }
 }

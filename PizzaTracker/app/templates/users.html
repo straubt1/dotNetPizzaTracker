@@ -26,6 +26,8 @@
                 <tr ng-hide="group.$hideRows" ng-repeat="u in group.data">
                     <td data-title="'Username'">{{ u.UserName}}</td>
                     <td data-title="'Email'">{{ u.Email}}</td>
+                    <!--<td data-title="'First Name'">{{ u.FirstName}}</td>
+                    <td data-title="'Last Name'">{{ u.LastName}}</td>-->
                     <td data-title="'Role'">{{ u.Role.Name}}</td>
                     <td data-title="'Actions'">
                         <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Edit this user"
@@ -33,14 +35,14 @@
                             <a><i class="fi-page-edit icon-size-30"></i></a>
                         </span>
                         <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Delete this user"
-                              ng-click='toggleRemoveModal(u)'>
+                              ng-click='removeUser(u)'>
                             <a><i class="fi-x icon-size-30"></i></a>
                         </span>
                     </td>
                 </tr>
             </tbody>
 
-            <tbody>
+            <!--<tbody>
                 <tr ng-repeat="u in $data">
                     <td data-title="'Username'">{{ u.UserName}}</td>
                     <td data-title="'Email'">{{ u.Email}}</td>
@@ -51,41 +53,14 @@
                             <a><i class="fi-page-edit icon-size-30"></i></a>
                         </span>
                         <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Delete this user"
-                              ng-click='toggleRemoveModal(u)'>
+                              ng-click='removeUser(u)'>
                             <a><i class="fi-x icon-size-30"></i></a>
                         </span>
                     </td>
                 </tr>
-            </tbody>
+            </tbody>-->
         </table>
-        <!--<h2>Users <a class="right button" ng-click='toggleNewModal()'><i class="fi-plus action-container"></i>New User</a></h2>
-        <table class="table-full">
-            <thead>
-                <tr>
-                    <th width="50">Id</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th width="100">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="u in users">
-                    <td>{{ u.Id }}</td>
-                    <td>{{ u.UserName}}</td>
-                    <td>{{ u.Email}}</td>
-                    <td>
-                        <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Edit this user"
-                              ng-click='toggleEditModal(u)'>
-                            <a><i class="fi-page-edit icon-size-30"></i></a>
-                        </span>
-                        <span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Delete this user"
-                              ng-click='toggleRemoveModal(u)'>
-                            <a><i class="fi-x icon-size-30"></i></a>
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>-->
+
         <div pizza-modal show='removeModalShown'>
             <h2>Are you sure you want to remove user '{{ currentUser.UserName }}'?</h2>
             <div class="large-centered columns">
@@ -113,29 +88,51 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="small-8 columns">
                             <label>User Name</label>
-                            <input type="text" placeholder="Name" name="name" ng-model="currentUser.UserName"
-                                   ng-minlength="3" ng-maxlength="20" ng-pattern="/^[a-zA-Z]+$/" required />
+                            <input type="text" placeholder="Name" name="name" ng-model="currentUser.UserName" disabled />
+                        </div>
+                    </div>-->
+                    
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>First Name</label>
+                            <input type="text" placeholder="First Name" name="firstname" ng-model="currentUser.FirstName" required />
+
                             <div class="error"
-                                 ng-show="form.name.$dirty && form.name.$invalid">
+                                 ng-show="form.firstname.$dirty && form.firstname.$invalid">
                                 <small class="error"
-                                       ng-show="form.name.$error.required">
-                                    Your name is required.
+                                       ng-show="form.firstname.$error.required">
+                                    Your email is required.
                                 </small>
                                 <small class="error"
-                                       ng-show="form.name.$error.minlength">
-                                    Your name is required to be at least 3 characters
-                                </small>
-                                <small class="error"
-                                       ng-show="form.name.$error.maxlength">
-                                    Your name cannot be longer than 20 characters
+                                       ng-show="form.firstname.$error.email">
+                                    That is not a valid email. Please input a valid email.
                                 </small>
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="row">
+                        <div class="small-8 columns">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Last Name" name="lastname" ng-model="currentUser.LastName" required />
 
+                            <div class="error"
+                                 ng-show="form.lastname.$dirty && form.lastname.$invalid">
+                                <small class="error"
+                                       ng-show="form.lastname.$error.required">
+                                    Your email is required.
+                                </small>
+                                <small class="error"
+                                       ng-show="form.lastname.$error.email">
+                                    That is not a valid email. Please input a valid email.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="row">
                         <div class="small-8 columns">
                             <label>Email</label>
@@ -154,18 +151,25 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="row">
                         <div class="small-8 columns">
-                            <button type="submit"
-                                    ng-disabled="form.$dirty && form.$invalid"
-                                    class="button radius">
-                                Update
-                            </button>
+                            <label>Phone Number</label>
+                            <input type="text" placeholder="Cell Phone" name="cellphone" ng-model="currentUser.PhoneNumber" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-12 columns">
                             <button type="button"
                                     class="button radius alert"
                                     ng-click="toggleEditModal()">
                                 Cancel
+                            </button>
+                            <button type="submit"
+                                    ng-disabled="form.$dirty && form.$invalid"
+                                    class="button radius right">
+                                Update
                             </button>
                         </div>
                     </div>

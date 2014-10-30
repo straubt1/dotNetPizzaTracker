@@ -1,30 +1,53 @@
-﻿app.factory('userService', ['pizzaAppConfig', '$http', function (pizzaAppConfig, $http) {
-    
-    var getUsers = function () {
+﻿'use strict';
+app.factory('userService', ['pizzaAppConfig', '$http', '$q', function (pizzaAppConfig, $http, $q) {
+    var userServiceFactory = {};
+
+    userServiceFactory.getUsers = function (utoken) {
         return $http({
             method: 'GET',
-            url: pizzaAppConfig.apiBaseUrl + '/users'
+            url: pizzaAppConfig.apiBaseUrl + '/users?token=' + utoken
         });
     };
 
-    var removeUser = function (user) {
-        return $http({
+    userServiceFactory.removeUser = function (utoken, user) {
+        var deferred = $q.defer();
+        $http({
             method: 'DELETE',
-            url: pizzaAppConfig.apiBaseUrl + '/users/' + user.Id
+            url: pizzaAppConfig.apiBaseUrl + '/users?token=' + utoken + "&userid=" + user.Id
+        }).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
         });
+        return deferred.promise;
     };
 
-    var editUser = function (user) {
-        return $http({
+    userServiceFactory.editUser = function (utoken, user) {
+        var deferred = $q.defer();
+        $http({
+            method: 'PUT',
+            data: user,
+            url: pizzaAppConfig.apiBaseUrl + '/users?token=' + utoken
+        }).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+
+    userServiceFactory.addUser = function (utoken, user) {
+        var deferred = $q.defer();
+        $http({
             method: 'POST',
             data: user,
-            url: pizzaAppConfig.apiBaseUrl + '/users'
+            url: pizzaAppConfig.apiBaseUrl + '/users?token=' + utoken
+        }).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
         });
+        return deferred.promise;
     };
-
-    return {
-        getUsers: getUsers,
-        removeUser: removeUser,
-        editUser: editUser
-    };
+    return userServiceFactory;
 }]);

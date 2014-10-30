@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Description;
 using Newtonsoft.Json;
 using PizzaTracker.Code;
 using PizzaTracker.Data;
@@ -18,10 +15,14 @@ namespace PizzaTracker.Controllers
     {
         private PizzaTrackerRepo _repo = new PizzaTrackerRepo(new PizzaContext());
         
-        // GET: api/Order
-        public IEnumerable<Order> GetOrders(string id)
+        /// <summary>
+        /// Get all active orders for a user
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public IEnumerable<Order> GetOrders(string token)
         {
-            var user = _repo.GetUserByEncrypted(id);
+            var user = _repo.GetUserByEncrypted(token);
             var list =  _repo.GetOrdersForUser(user.Id).OrderByDescending(x=>x.Date).ToList();
             var domain = Request.RequestUri.Scheme + Uri.SchemeDelimiter + Request.RequestUri.Authority;
             //var domain = "http://pizzatracker.azurewebsites.net/app";
@@ -32,15 +33,13 @@ namespace PizzaTracker.Controllers
             return list;
         }
 
-        // POST: api/Order
-        [ResponseType(typeof(Pizza))]
-        public async Task<IHttpActionResult> PostPizza(PizzaVm pizzaVm)
+        /// <summary>
+        /// Add a pizza/order to the system
+        /// </summary>
+        /// <param name="pizzaVm"></param>
+        /// <returns></returns>
+        public IHttpActionResult PostPizza(PizzaVm pizzaVm)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var user = pizzaVm.IsAnon ? _repo.GetAnonUserByEmail(pizzaVm.UserToken) : _repo.GetUserByEncrypted(pizzaVm.UserToken);
 
             var pizza = new Pizza
@@ -83,11 +82,17 @@ namespace PizzaTracker.Controllers
             return CreatedAtRoute("DefaultApi", new { id = 1 }, pizzaVm);
         }
 
-        // DELETE: api/Order/5
-        //[ResponseType(typeof(Pizza))]
-        public IHttpActionResult DeletePizza(int id)
+        /// <summary>
+        /// Set an order to inactive 
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="orderid"></param>
+        /// <returns></returns>
+        public IHttpActionResult DeletePizza(string token, int orderid)
         {
-            _repo.SetOrderShow(id, false);
+            var user = _repo.GetUserByEncrypted(token);
+
+            _repo.SetOrderShow(orderid, false);
 
             return Ok();
         }

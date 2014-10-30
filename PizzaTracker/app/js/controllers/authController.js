@@ -1,34 +1,49 @@
 ﻿'use strict';
 angular.module('pizzaApp').controller('authController', ['$scope', '$location', 'authService', 'pushService', function ($scope, $location, authService, pushService) {
-
     authService.getAuth();
 
     $scope.user = {
         UserName: "tstraub",
         Password: "Test@123"
     };
+    $scope.newUser = {};
 
-    $scope.error = null;
+    $scope.loginerror = null;
+    $scope.registererror = null;
+
+    $scope.registerUser = function (user) {
+        authService.logout();//just in case
+        authService.register(user)
+        .then(function (response) {
+            $scope.registererror = null;
+            $location.path('#/');
+            pushService.start($scope.getUserToken());
+        },
+         function (err) {
+             console.log("failed registered user" + err);
+             $scope.registererror = err;
+         });
+    };
 
     $scope.login = function (user) {
         authService.login(user)
         .then(function (response) {
-            console.log("success logged in user" + response);
-            $scope.error = null;
-            $location.path('#/');
-            pushService.UserToken = $scope.getUserToken();
-            pushService.start();
+            $scope.loginerror = null;
+            if ($scope.isEmployee()) {
+                $location.path('/queue');
+            } else {
+                $location.path('#/');
+            }
+            pushService.start($scope.getUserToken());
         },
          function (err) {
              console.log("failed logged in user" + err);
-             $scope.error = err;
+             $scope.loginerror = err;
          });
     };
 
     $scope.logout = function () {
-        console.log("logout");
         authService.logout();
-        pushService.UserToken = null;
         pushService.stop();
         $location.path('#/');
     };
@@ -43,11 +58,6 @@ angular.module('pizzaApp').controller('authController', ['$scope', '$location', 
         console.log(data);
     };
 
-    if (authService.authentication.isAuth) {
-        pushService.UserToken = authService.authentication.user.Token;
-        pushService.start();
-    }
-
     $scope.isAdmin = function () {
         if (authService.authentication == null || !authService.authentication.isAuth) {
             return false;
@@ -55,6 +65,7 @@ angular.module('pizzaApp').controller('authController', ['$scope', '$location', 
 
         return authService.authentication.user.Role == 'Admin';
     };
+
     $scope.isEmployee = function () {
         if (authService.authentication == null || !authService.authentication.isAuth) {
             return false;
@@ -63,14 +74,14 @@ angular.module('pizzaApp').controller('authController', ['$scope', '$location', 
         return authService.authentication.user.Role == 'Employee' || authService.authentication.user.Role == 'Admin';
     };
 
-    $scope.isLoggedIn = function() {
+    $scope.isLoggedIn = function () {
         if (authService.authentication == null) {
             return false;
         }
         return authService.authentication.isAuth == true;
     }
 
-    $scope.getUserToken= function() {
+    $scope.getUserToken = function () {
         if (authService.authentication == null || !authService.authentication.isAuth || authService.authentication.user == null) {
             return null;
         }
@@ -82,5 +93,9 @@ angular.module('pizzaApp').controller('authController', ['$scope', '$location', 
             return null;
         }
         return authService.authentication.user;
+    }
+
+    if (authService.authentication.isAuth) {
+        pushService.start($scope.getUserToken());
     }
 }]);

@@ -28,11 +28,11 @@ namespace PizzaTracker.Code
             }
             if(order.NotificationEmail)
             {
-                SmsMessenger.Send("5132529466", title, message);
+                EmailMessenger.Send(order.OrderedBy.Email, title,message);
             }
             if (order.NotificationPush)
             {
-                EmailMessenger.Send(order.OrderedBy.Email, title,message);
+                SmsMessenger.Send("5132529466", title, message);
             }
         }
     }

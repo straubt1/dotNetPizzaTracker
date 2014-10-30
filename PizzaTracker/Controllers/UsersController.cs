@@ -1,34 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Description;
 using PizzaTracker.Code;
 using PizzaTracker.Data;
-using PizzaTracker.Models;
 using PizzaTracker.ViewModels;
 
 namespace PizzaTracker.Controllers
 {
     public class UsersController : ApiController
     {
-        private PizzaContext db = new PizzaContext();
+        private PizzaTrackerRepo _repo = new PizzaTrackerRepo(new PizzaContext());
 
-        // GET: api/Users
-        public IEnumerable<object> GetUsers()
+        /// <summary>
+        /// Get all the users in the system
+        /// </summary>
+        /// <param name="token">Encrypted user token</param>
+        /// <returns></returns>
+        public IEnumerable<object> GetUsers(string token)
         {
-            //return db.Users.ToList();
-            return db.Users.Select(x => new
+            var user = _repo.GetUserByEncrypted(token, PizzaTrackerRepo.PizzaRole.Admin);
+
+            return _repo.GetAllUsers().Select(x => new
             {
                 Id = x.Id,
                 UserName = x.UserName,
                 Email = x.Email,
+                PhoneNumber = x.CellPhone,
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 Role = x.Role,
@@ -36,77 +35,52 @@ namespace PizzaTracker.Controllers
             }).ToList();
         }
 
-        // GET: api/Users/5
-        [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> GetUser(int id)
+        /// <summary>
+        /// Remove the given user from the system
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public IHttpActionResult DeleteUser(string token, int userid)
         {
-            User user = await db.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(user);
-        }
-
-        // PUT: api/Users/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutUser(int id, UserVm userVm)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = new User
-            {
-                UserName = userVm.UserName,
-                FirstName = userVm.FirstName,
-                LastName = userVm.LastName,
-                Email = userVm.Email,
-                RoleId = 1,
-                PasswordHash = "hash",
-                PasswordSalt = "salt",
-                PasswordResetToken = "null",
-                LoginToken = string.Empty
-            };
-
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(user).State = EntityState.Modified;
-
+            var user = _repo.GetUserByEncrypted(token, PizzaTrackerRepo.PizzaRole.Admin);
             try
             {
-                await db.SaveChangesAsync();
+                _repo.RemoveUser(userid);
             }
-            catch (DbUpdateConcurrencyException)
+            catch //ignore errors
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok();
         }
 
-        // POST: api/Users
-        [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> PostUser(UserVm userVm)
+        /// <summary>
+        /// Update a user
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="userVm"></param>
+        /// <returns></returns>
+        public IHttpActionResult Put(string token, [FromBody]UserVm userVm)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var user = _repo.GetUserByEncrypted(token, PizzaTrackerRepo.PizzaRole.Admin);
 
-            if (db.Users.FirstOrDefault(x => x.UserName == userVm.UserName) != null)
+            _repo.UpdateUser(userVm);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Add a new user
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="userVm"></param>
+        /// <returns></returns>
+        public IHttpActionResult PostUser(string token, UserVm userVm)
+        {
+            var user = _repo.GetUserByEncrypted(token, PizzaTrackerRepo.PizzaRole.Admin);
+
+            if (_repo.GetUserByUserName(userVm.UserName) != null)
             {
                 var content = new StringContent("User already exists");
                 throw new HttpResponseException(new HttpResponseMessage
@@ -116,55 +90,9 @@ namespace PizzaTracker.Controllers
                     Content = content
                 });
             }
-            var salt = Crypto.GenerateSalt();
-            var password = Crypto.HashPassword(userVm.Password, salt);
-            var user = new User
-            {
-                UserName = userVm.UserName,
-                FirstName = userVm.FirstName,
-                LastName = userVm.LastName,
-                Email = userVm.Email,
-                RoleId = 3,//customer
-                PasswordHash = password,
-                PasswordSalt = salt,
-                PasswordResetToken = "null",
-                LoginToken = string.Empty
-            };
 
-            db.Users.AddOrUpdate(user);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = user.Id }, user);
-        }
-
-        // DELETE: api/Users/5
-        [ResponseType(typeof(User))]
-        public async Task<IHttpActionResult> DeleteUser(int id)
-        {
-            User user = await db.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            db.Users.Remove(user);
-            await db.SaveChangesAsync();
-
-            return Ok(user);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool UserExists(int id)
-        {
-            return db.Users.Count(e => e.Id == id) > 0;
+            var newUser = _repo.AddUser(userVm);
+            return Ok(newUser);
         }
     }
 }

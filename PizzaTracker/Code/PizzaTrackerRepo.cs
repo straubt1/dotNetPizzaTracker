@@ -23,6 +23,13 @@ namespace PizzaTracker.Code
             Ready = 5
         }
 
+        public enum PizzaRole
+        {
+            Admin = 1,
+            Employee = 2,
+            Customer = 3
+        }
+
         private readonly PizzaContext _context;
 
         public PizzaTrackerRepo(PizzaContext context)
@@ -31,19 +38,75 @@ namespace PizzaTracker.Code
         }
 
         #region Users
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns></returns>
+        public List<User> GetAllUsers()
+        {
+            return _context.Users.ToList();
+        }
+        /// <summary>
+        /// Remove the user if they exist
+        /// </summary>
+        /// <param name="id"></param>
+        public void RemoveUser(int id)
+        {
+            var user = GetUserById(id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Update a user if they exist
+        /// </summary>
+        /// <param name="userVm"></param>
+        /// <returns></returns>
+        public User UpdateUser(UserVm userVm)
+        {
+            var user = GetUserById(userVm.Id);
+            if (user != null)
+            {
+                user.FirstName = userVm.FirstName;
+                user.LastName = userVm.LastName;
+                user.Email = userVm.Email;
+                user.CellPhone = userVm.PhoneNumber;
+
+                _context.Entry(user).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            return user;
+        }
+
         public User GetUserById(int id)
         {
             return _context.Users.FirstOrDefault(x => x.Id == id);
         }
-        public User GetUserByEncrypted(string encrypted)
+        public User GetUserByUserName(string username)
+        {
+            return _context.Users.FirstOrDefault(x => x.UserName == username);
+        }
+        /// <summary>
+        /// Get the user based on encrypted string and optional role 
+        /// Throws exception on bad token
+        /// </summary>
+        /// <param name="encrypted"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public User GetUserByEncrypted(string encrypted, PizzaRole? role = null)
         {
             var decrypted = Aes256.Decrypt(encrypted);
             var loginVm = JsonConvert.DeserializeObject<LoginVm>(decrypted);
 
             var userDb = GetUserById(loginVm.UserId);
             if (userDb == null)
-            { throw new AuthenticationException("User Id not found: " + loginVm.UserId); }
-
+            {
+                throw new AuthenticationException("User Id not found: " + loginVm.UserId);
+            }
+            
             if (userDb.LoginToken != loginVm.UserToken)
             {
                 throw new AuthenticationException("User Token not valid: " + loginVm.UserToken);
@@ -52,6 +115,11 @@ namespace PizzaTracker.Code
             if (userDb.LoginExpiration < PizzaTime.Now)
             {
                 throw new AuthenticationException("User Token Expired: " + userDb.LoginExpiration);
+            }
+
+            if (role != null && userDb.RoleId > (int)role)//lower role means more privilege
+            {
+                throw new AuthenticationException("User Role Not Sufficient: " + userDb.Role.Name);
             }
 
             return userDb;
@@ -90,11 +158,42 @@ namespace PizzaTracker.Code
             //userDb.LoginExpiration = DateTime.UtcNow.AddMinutes(500);
             //var loginVm = new LoginVm { UserId = userDb.Id, UserToken = userDb.LoginToken };
             //db.Entry(userDb).State = EntityState.Modified;
-            
+
             _context.Users.AddOrUpdate(x => x.Email, user);
             _context.SaveChanges();
-            var u =  _context.Users.ToList().FirstOrDefault(x => x.UserName == userEmail);
+            var u = _context.Users.ToList().FirstOrDefault(x => x.UserName == userEmail);
             return u;
+        }
+
+        /// <summary>
+        /// Add user to the system
+        /// </summary>
+        /// <param name="userVm"></param>
+        /// <returns></returns>
+        public User AddUser(UserVm userVm, PizzaRole roleId = PizzaRole.Customer)
+        {
+            var salt = Crypto.GenerateSalt();
+            var password = Crypto.HashPassword(userVm.Password, salt);
+            var role = _context.Roles.FirstOrDefault(x => x.Id == (int)roleId);
+            var user = new User
+            {
+                UserName = userVm.UserName,
+                FirstName = userVm.FirstName,
+                LastName = userVm.LastName,
+                Email = userVm.Email,
+                Role = role,
+                PasswordHash = password,
+                PasswordSalt = salt,
+                PasswordResetToken = "null",
+                LoginToken = Crypto.GenerateSalt(),
+                LoginExpiration = DateTime.UtcNow.AddMinutes(500)
+            };
+
+            _context.Users.AddOrUpdate(user);
+            _context.SaveChanges();
+
+            return GetUserByUserName(userVm.UserName);
+
         }
         #endregion
 
@@ -105,7 +204,7 @@ namespace PizzaTracker.Code
 
         public Order GetOrderByPizzaId(int id)
         {
-            return _context.Orders.SingleOrDefault(x => x.Pizzas.Any(y=>y.Id == id));
+            return _context.Orders.SingleOrDefault(x => x.Pizzas.Any(y => y.Id == id));
         }
 
         public Pizza GetPizzaById(int id)
@@ -150,7 +249,7 @@ namespace PizzaTracker.Code
                 CustomInstructions = customInst,
                 NotificationEmail = notifications.Email,
                 NotificationText = notifications.Text,
-                NotificationPush =  notifications.Push
+                NotificationPush = notifications.Push
             };
 
             //add order to database
@@ -217,8 +316,7 @@ namespace PizzaTracker.Code
             _context.Entry(pizzaQ).State = EntityState.Modified;
             _context.SaveChanges();
 
-            new MessageCenter(this).PushMessage("Pizza was removed", "Your pizza was removed from queue", pizzaQ.OrderId);
-            //AddMessageQueue(pizzaQ.OrderId, "Pizza was removed", "Your pizza was removed from queue");
+            //new MessageCenter(this).PushMessage("Pizza was removed", "Your pizza was removed from queue", pizzaQ.OrderId);
             return pizzaQ;
         }
 

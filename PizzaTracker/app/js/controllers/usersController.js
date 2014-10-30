@@ -21,43 +21,47 @@
         $scope.newUser = {};
     };
 
-    $scope.removeUser = function (user) {
-        userService.removeUser(user)
-         .success(function (data, status, headers) {
-             console.log("success removing user" + data);
-             $scope.users.splice($scope.users.indexOf(user), 1);
-             $scope.removeModalShown = false;
-             $scope.error = null;
-         })
-         .error(function (data, status, headers) {
 
-         });
+    $scope.removeUser = function (user) {
+        alertify.confirm("Are you sure you want to remove this user <br/>from the system?", function (e) {
+            if (e) {
+                userService.removeUser($scope.getUserToken(), user)
+                     .then(function (response) {
+                         data.splice(data.indexOf(user), 1);
+                         $scope.tableParams.reload();
+                         $scope.error = null;
+                     },
+                    function (err) {
+                        console.log("user not removed error " + err);
+                        $scope.error = err;
+                    });
+            }
+        });
     };
 
     $scope.editUser = function (user) {
-        userService.editUser(user)
-         .success(function (data, status, headers) {
-             console.log("success edit user" + data);
-             $scope.editModalShown = false;
-             $scope.error = null;
-         })
-         .error(function (data, status, headers) {
-             $scope.error = data;
-         });
+        userService.editUser($scope.getUserToken(), user)
+            .then(function (response) {
+                $scope.editModalShown = false;
+            },
+            function (err) {
+                console.log("user not updated error " + err);
+                $scope.error = err;
+            });
     };
 
     $scope.addUser = function (user) {
-        console.log("New User: " + user.UserName);
-        userService.editUser(user)
-         .success(function (data, status, headers) {
-             console.log("success adding user" + data);
-             $scope.users.splice(1, 0, data);
-             $scope.newModalShown = false;
-             $scope.error = null;
-         })
-         .error(function (data, status, headers) {
-             $scope.error = data;
-         });
+        userService.addUser($scope.getUserToken(), user)
+            .then(function (response) {
+                data.splice(1, 0, response);
+                $scope.tableParams.reload();
+                $scope.newModalShown = false;
+                $scope.error = null;
+            },
+            function (err) {
+                console.log("user not updated error " + err);
+                $scope.error = err;
+            });
     };
 
     //userService.getUsers()
@@ -73,14 +77,14 @@
 
     $scope.tableParams = new ngTableParams({
         page: 1,            // show first page
-        count: 4          // count per page
+        count: 10          // count per page
     }, {
         total: 0,           // length of data
         groupBy: 'RoleName',
         getData: function ($defer, params) {
             if ($scope.isLoggedIn()) {
                 if (data == null) {
-                    userService.getUsers()
+                    userService.getUsers($scope.getUserToken())
                          .success(function (response, status, headers) {
                              params.total(response.length);
                              data = response;
