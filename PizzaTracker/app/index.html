@@ -39,11 +39,11 @@
                     <li><a href="#">Some Link here?</a></li>
                 </ul>-->
             <ul class="right">
-                <li class="has-form" ng-hide="authentication.isAuth"><a class="radius button" href="#/login">Login</a></li>
-                <li ng-show="authentication.isAuth"><a href="#">Welcome {{ authentication.user.Name }}!</a></li>
-                <li ng-show="authentication.isAuth && authentication.user.Role == 'Admin'"><a href="#/users">Users</a></li>
-                <li ng-show="authentication.isAuth && authentication.user.Role == 'Admin'"><a href="#/queue">Queue</a></li>
-                <li ng-show="authentication.isAuth"><a ng-click="logout()">Logout</a></li>
+                <li class="has-form" ng-hide="isLoggedIn()"><a class="radius button" href="#/login">Login</a></li>
+                <li ng-show="isLoggedIn()"><a href="#">Welcome {{ getUser().Name }}!</a></li>
+                <li ng-show="isAdmin()"><a href="#/users">Users</a></li>
+                <li ng-show="isEmployee()"><a href="#/queue">Queue</a></li>
+                <li ng-show="isLoggedIn()"><a ng-click="logout()">Logout</a></li>
                 <!--<li class="has-dropdown">
                         <a href="#">Username</a>
                         <ul class="dropdown">
@@ -55,17 +55,6 @@
             </ul>
         </section>
     </nav>
-    <!--</div>-->
-    <!--</div>-->
-    <!--<nav ng-show="authentication.user.Role == 'Admin'" class="top-bar-admin">
-        Admin
-    </nav>
-    <nav ng-show="authentication.user.Role == 'Employee'" class="top-bar-employee">
-        Employee
-    </nav>
-    <nav ng-show="authentication.user.Role == 'Customer'" class="top-bar-customer">
-        Customer
-    </nav>-->
     
     <div ng-view class="maincontent"></div>
     <!--<div class="maincontent" ng-show="isLoading">

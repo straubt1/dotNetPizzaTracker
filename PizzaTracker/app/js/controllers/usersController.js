@@ -76,9 +76,9 @@
         count: 4          // count per page
     }, {
         total: 0,           // length of data
-       groupBy: 'RoleName',
+        groupBy: 'RoleName',
         getData: function ($defer, params) {
-            if ($scope.authentication.isAuth) {
+            if ($scope.isLoggedIn()) {
                 if (data == null) {
                     userService.getUsers()
                          .success(function (response, status, headers) {
@@ -86,12 +86,12 @@
                              data = response;
                              var orderedData = $filter('orderBy')(data, $scope.tableParams.orderBy());
                              $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                        })
+                         })
                          .error(function (response, status, headers) {
-                            // $scope.error = data;
+                             // $scope.error = data;
                          });
 
-                    //orderService.getOrders($scope.authentication.user.Token)
+                    //orderService.getOrders($scope.getUserToken())
                     //    .then(function (response) {
                     //        params.total(response.length);
                     //        data = response;

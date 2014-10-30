@@ -1,16 +1,15 @@
-﻿<div class="row" ng-hide="authentication.isAuth">
+﻿<div class="row" ng-hide="isEmployee()">
     <div class="large-12 columns">
         Not authorized
     </div>
 </div>
-<div class="row" ng-show="authentication.isAuth">
+<div class="row" ng-show="isEmployee()">
     <div class="large-12 columns">
-        <h4>Pizza Queue <span ng-show="authentication.isAuth">({{tableParams.total()}})</span></h4>
+        <h4>Pizza Queue <span ng-show="isLoggedIn()">({{tableParams.total()}})</span></h4>
         <table ng-table="tableParams" class="table-full" template-pagination="custom/pager" id="queued-orders">
             <tbody>
                 <!--style="background-color:  {{ q.color }};"-->
                 <tr ng-repeat="q in $data"
-                    style="background-color:  {{ q.color }};"
                     ng-class="{'pizza-takingtoolong222': q.HowLong.totalhours > 11 }">
                     <td data-title="'Date'">
                         <strong>{{ q.Order.Date | date:'MM/dd/yyyy' }}</strong>
@@ -44,9 +43,9 @@
                     </td>
                     <td data-title="''">
                         <!--<span data-tooltip aria-haspopup="true" class="has-tip action-container" title="Edit this user"
-                      ng-click='updateQueue(q)'>
-                    <a><i class="fi-page-edit icon-size-30"></i></a>
-                </span>-->
+                              ng-click='updateQueue(q)'>
+                            <a><i class="fi-page-edit icon-size-30"></i></a>
+                        </span>-->
                         <span class="hint--bottom" data-hint="Remove this pizza from the queue"
                               ng-click='deleteQueue(q.Id)'>
                             <a><i class="fi-x icon-size-30"></i></a>

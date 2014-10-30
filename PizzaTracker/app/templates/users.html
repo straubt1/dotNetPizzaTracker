@@ -1,9 +1,9 @@
-﻿<div class="row" ng-hide="authentication.isAuth">
+﻿<div class="row" ng-hide="isAdmin()">
     <div class="large-12 columns">
         Not authorized
     </div>
 </div>
-<div class="row" ng-show="authentication.isAuth">
+<div class="row" ng-show="isAdmin()">
     <div class="large-12 columns pizza-users">
         <div class="row pizza-users-header">
             <div class="large-6 columns">

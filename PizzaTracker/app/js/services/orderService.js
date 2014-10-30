@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('orderService', ['$http', '$q', 'localStorageService', 'authService', 'pushService', function ($http, $q, localStorageService, authService, pushService) {
+app.factory('orderService', ['pizzaAppConfig', '$http', '$q', 'localStorageService', 'authService', 'pushService', function (pizzaAppConfig, $http, $q, localStorageService, authService, pushService) {
 
     var orderServiceFactory = {};
 
@@ -13,7 +13,7 @@ app.factory('orderService', ['$http', '$q', 'localStorageService', 'authService'
         $http({
             method: 'POST',
             data: pizza,
-            url: '/api/order'
+            url: pizzaAppConfig.apiBaseUrl + '/order'
         }).success(function (response) {
             //orderServiceFactory = response;
             //localStorageService.set('resources', response);
@@ -34,7 +34,7 @@ app.factory('orderService', ['$http', '$q', 'localStorageService', 'authService'
         $http({
             method: 'POST',
             data: pizza,
-            url: '/api/order'
+            url: pizzaAppConfig.apiBaseUrl + '/order'
         }).success(function (response) {
             authService.setAuth(response.AnonUser, true);
             pushService.UserToken = response.AnonUser.Token;
@@ -52,7 +52,7 @@ app.factory('orderService', ['$http', '$q', 'localStorageService', 'authService'
 
         $http({
             method: 'GET',
-            url: '/api/order?id=' + encodeURIComponent(userId)
+            url: pizzaAppConfig.apiBaseUrl + '/order?id=' + encodeURIComponent(userId)
         }).success(function (response) {
             //orderServiceFactory = response;
             //localStorageService.set('resources', response);
@@ -68,7 +68,7 @@ app.factory('orderService', ['$http', '$q', 'localStorageService', 'authService'
 
         $http({
             method: 'DELETE',
-            url: '/api/order/' + orderId 
+            url: pizzaAppConfig.apiBaseUrl + '/order/' + orderId
         }).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {

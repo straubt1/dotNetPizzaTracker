@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('pizzaService', ['$http', '$q', function ($http, $q) {
+app.factory('pizzaService', ['pizzaAppConfig', '$http', '$q', '$templateCache', function (pizzaAppConfig, $http, $q, $templateCache) {
 
     var pizzaServiceFactory = {};
 
@@ -7,12 +7,21 @@ app.factory('pizzaService', ['$http', '$q', function ($http, $q) {
         var deferred = $q.defer();
         $http({
             method: 'GET',
-            url: '/api/pizza/' + id
+            url: pizzaAppConfig.apiBaseUrl + '/pizza/' + id,
         }).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
         });
+        //$http.jsonp('http://pizzatracker.azurewebsites.net/api' + '/pizza/' + id + '?callback=JSON_CALLBACK', {
+        //    //method: 'GET',
+        //    //url: 'http://pizzatracker.azurewebsites.net/api' + '/pizza/' + id,
+        //    //cache: $templateCache
+        //}).success(function (response) {
+        //    deferred.resolve(response);
+        //}).error(function (err, status) {
+        //    deferred.reject(err);
+        //});
         return deferred.promise;
     };
     pizzaServiceFactory.getPizza = _getPizza;

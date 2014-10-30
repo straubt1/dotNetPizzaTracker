@@ -16,7 +16,7 @@
     $scope.tableParams = {};
 
     $scope.shareOrder = function () {
-        var subject = $scope.authentication.user.Name + " wants to share a Pizza with you - Pizza Tracker";
+        var subject = $scope.getUser().Name + " wants to share a Pizza with you - Pizza Tracker";
         var message = "<html>Hey!<br/>Check out this pizza <a href='" + $scope.shareModel.order.ShareLink + "'>My Awesome Pizza</a><br/><br/>" +
             $scope.shareModel.message + "</html>";
 
@@ -41,8 +41,8 @@
     };
 
     $scope.getOrders = function () {
-        if ($scope.authentication.isAuth) {
-            orderService.getOrders($scope.authentication.user.Token)
+        if ($scope.isLoggedIn()) {
+            orderService.getOrders($scope.getUserToken())
                 .then(function (response) {
                     console.log("Orders gotten");
                     $scope.orders = response;
@@ -81,9 +81,10 @@
     }, {
         total: 0,           // length of data
         getData: function ($defer, params) {
-            if ($scope.authentication.isAuth) {
+            if ($scope.isLoggedIn()) {
                 if (data == null) {
-                    orderService.getOrders($scope.authentication.user.Token)
+                    var tok = $scope.getUserToken();
+                    orderService.getOrders(tok)
                         .then(function (response) {
                             params.total(response.length);
                             data = response;

@@ -51,8 +51,8 @@
              });
 
         $scope.createOrder = function () {
-            if ($scope.authentication.isAuth) {
-                orderService.sendOrder($scope.selectedPizza, $scope.orderNotifications, $scope.authentication.user.Token)
+            if ($scope.isLoggedIn()) {
+                orderService.sendOrder($scope.selectedPizza, $scope.orderNotifications, $scope.getUserToken())
                     .then(function (response) {
                         console.log("order placed success " + response);
                         $scope.confirmModalShown = false;

@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('queueService', ['$http', '$q', function ($http, $q) {
+app.factory('queueService', ['pizzaAppConfig', '$http', '$q', function (pizzaAppConfig, $http, $q) {
 
     var queueServiceFactory = {};
 
@@ -27,7 +27,7 @@ app.factory('queueService', ['$http', '$q', function ($http, $q) {
 
         $http({
             method: 'GET',
-            url: '/api/pizzaqueue'
+            url: pizzaAppConfig.apiBaseUrl + '/pizzaqueue'
         }).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
@@ -41,7 +41,7 @@ app.factory('queueService', ['$http', '$q', function ($http, $q) {
 
         $http({
             method: 'POST',
-            url: '/api/pizzaqueue',
+            url: pizzaAppConfig.apiBaseUrl + '/pizzaqueue',
             data: JSON.stringify({ Id: id, StatusId: statusId })
         }).success(function (response) {
             deferred.resolve(response);
@@ -56,7 +56,7 @@ app.factory('queueService', ['$http', '$q', function ($http, $q) {
 
         $http({
             method: 'DELETE',
-            url: '/api/pizzaqueue/' + id
+            url: pizzaAppConfig.apiBaseUrl + '/pizzaqueue/' + id
         }).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {

@@ -130,7 +130,7 @@
                         </div>
                     </fieldset>
                 </div>
-                <div class="large-6 columns" ng-if="!authentication.isAuth">
+                <div class="large-6 columns" ng-if="!isLoggedIn()">
                     <fieldset>
                         <legend>Information Required</legend>
                         <div>
@@ -201,7 +201,7 @@
                 </div>
                 <div class="small-6 columns">
                     <button type="submit"
-                            ng-disabled="!authentication.isAuth && neworderform.$invalid"
+                            ng-disabled="!isLoggedIn() && neworderform.$invalid"
                             class="button radius right hint--bottom hint--bounce"
                             data-hint="All systems go, let's get this party started!">
                         Send Order

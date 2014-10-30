@@ -4,6 +4,8 @@ var app = angular.module("pizzaApp", ['ngRoute', 'ngAnimate', 'ngCookies', 'angu
 
 app.constant('pizzaAppConfig',
 {
+    //apiBaseUrl: 'http://pizzatracker.azurewebsites.net/api',
+    apiBaseUrl: 'http://localhost:60027/api',
     notificationInterval: 1000,//time between polling
     notificationIsListening: true//are we listening
 });

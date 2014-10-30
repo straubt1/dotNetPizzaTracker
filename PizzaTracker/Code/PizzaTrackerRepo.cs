@@ -217,7 +217,8 @@ namespace PizzaTracker.Code
             _context.Entry(pizzaQ).State = EntityState.Modified;
             _context.SaveChanges();
 
-            AddMessageQueue(pizzaQ.OrderId, "Pizza was removed", "Your pizza was removed from queue");
+            new MessageCenter(this).PushMessage("Pizza was removed", "Your pizza was removed from queue", pizzaQ.OrderId);
+            //AddMessageQueue(pizzaQ.OrderId, "Pizza was removed", "Your pizza was removed from queue");
             return pizzaQ;
         }
 
@@ -293,8 +294,8 @@ namespace PizzaTracker.Code
             _context.Entry(order).State = EntityState.Modified;
 
             _context.SaveChanges();
-
-            AddMessageQueue(pizzaQ.OrderId, msgTitle, msgBody);
+            new MessageCenter(this).PushMessage(msgTitle, msgBody, pizzaQ.OrderId);
+            //AddMessageQueue(pizzaQ.OrderId, msgTitle, msgBody);
             return pizzaQ;
         }
     }

@@ -1,15 +1,16 @@
-﻿angular.module('pizzaApp').service('userService', function ($http) {
+﻿app.factory('userService', ['pizzaAppConfig', '$http', function (pizzaAppConfig, $http) {
+    
     var getUsers = function () {
         return $http({
             method: 'GET',
-            url: '/api/users'
+            url: pizzaAppConfig.apiBaseUrl + '/users'
         });
     };
 
     var removeUser = function (user) {
         return $http({
             method: 'DELETE',
-            url: '/api/users/' + user.Id
+            url: pizzaAppConfig.apiBaseUrl + '/users/' + user.Id
         });
     };
 
@@ -17,7 +18,7 @@
         return $http({
             method: 'POST',
             data: user,
-            url: '/api/users'
+            url: pizzaAppConfig.apiBaseUrl + '/users'
         });
     };
 
@@ -26,4 +27,4 @@
         removeUser: removeUser,
         editUser: editUser
     };
-});
+}]);

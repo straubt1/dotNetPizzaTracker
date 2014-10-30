@@ -81,7 +81,7 @@ namespace PizzaTracker.Migrations
 
         protected override void Seed(PizzaContext context)
         {
-            System.Diagnostics.Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch();
 
             PopulateRoles(context);
             PopulateUsers(context);

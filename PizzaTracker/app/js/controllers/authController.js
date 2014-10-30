@@ -7,17 +7,16 @@ angular.module('pizzaApp').controller('authController', ['$scope', '$location', 
         UserName: "tstraub",
         Password: "Test@123"
     };
+
     $scope.error = null;
-    //$scope.isLoading = false;
 
     $scope.login = function (user) {
         authService.login(user)
         .then(function (response) {
             console.log("success logged in user" + response);
             $scope.error = null;
-            $scope.authentication = authService.authentication;
             $location.path('#/');
-            pushService.UserToken = $scope.authentication.user.Token;
+            pushService.UserToken = $scope.getUserToken();
             pushService.start();
         },
          function (err) {
@@ -32,22 +31,56 @@ angular.module('pizzaApp').controller('authController', ['$scope', '$location', 
         pushService.UserToken = null;
         pushService.stop();
         $location.path('#/');
-        $scope.authentication = authService.authentication;
     };
-   
+
     pushService.callback = function (data) {
         var d = new Date(data.Date);
         alertify.success(d.toLocaleTimeString() + "<br/>" + data.MessageTitle + "<br/>" + data.MessageBody,
             null,
-            function() {
+            function () {
                 $location.path('neworder');
             });
         console.log(data);
     };
 
-    $scope.authentication = authService.authentication;
-    if ($scope.authentication.isAuth) {
-        pushService.UserToken = $scope.authentication.user.Token;
+    if (authService.authentication.isAuth) {
+        pushService.UserToken = authService.authentication.user.Token;
         pushService.start();
+    }
+
+    $scope.isAdmin = function () {
+        if (authService.authentication == null || !authService.authentication.isAuth) {
+            return false;
+        }
+
+        return authService.authentication.user.Role == 'Admin';
+    };
+    $scope.isEmployee = function () {
+        if (authService.authentication == null || !authService.authentication.isAuth) {
+            return false;
+        }
+
+        return authService.authentication.user.Role == 'Employee' || authService.authentication.user.Role == 'Admin';
+    };
+
+    $scope.isLoggedIn = function() {
+        if (authService.authentication == null) {
+            return false;
+        }
+        return authService.authentication.isAuth == true;
+    }
+
+    $scope.getUserToken= function() {
+        if (authService.authentication == null || !authService.authentication.isAuth || authService.authentication.user == null) {
+            return null;
+        }
+        return authService.authentication.user.Token;
+    }
+
+    $scope.getUser = function () {
+        if (authService.authentication == null || !authService.authentication.isAuth || authService.authentication.user == null) {
+            return null;
+        }
+        return authService.authentication.user;
     }
 }]);

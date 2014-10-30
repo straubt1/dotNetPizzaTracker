@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('resourceService', ['$http', '$q', 'localStorageService', function ($http, $q, localStorageService) {
+app.factory('resourceService', ['pizzaAppConfig', '$http', '$q', 'localStorageService', function (pizzaAppConfig,$http, $q, localStorageService) {
 
     var resourceServiceFactory = {};
 
@@ -11,7 +11,7 @@ app.factory('resourceService', ['$http', '$q', 'localStorageService', function (
             console.log("going to get resources");
             $http({
                 method: 'GET',
-                url: '/api/resource'
+                url: pizzaAppConfig.apiBaseUrl + '/resource'
             }).success(function (response) {
                 resourceServiceFactory = response;
                 localStorageService.set('resources', response);

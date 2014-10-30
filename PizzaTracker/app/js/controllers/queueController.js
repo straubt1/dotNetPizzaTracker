@@ -63,7 +63,7 @@
         total: 0,           // length of data
         //groupBy: '',
         getData: function ($defer, params) {
-            if ($scope.authentication.isAuth) {
+            if ($scope.isLoggedIn()) {
 
                 if (data == null) {
                     queueService.getQueue()
